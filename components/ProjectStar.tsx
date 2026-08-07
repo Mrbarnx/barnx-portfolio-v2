@@ -1,0 +1,3 @@
+'use client';
+import { useEffect,useState } from 'react';
+export function ProjectStar({id}:{id:string}){const [starred,setStarred]=useState(false);useEffect(()=>{setStarred(localStorage.getItem(`barnx-star-${id}`)==='1')},[id]);const toggle=(e:React.MouseEvent)=>{e.preventDefault();e.stopPropagation();const next=!starred;setStarred(next);localStorage.setItem(`barnx-star-${id}`,next?'1':'0')};return <button type="button" className={`projectStar ${starred?'starred':''}`} onClick={toggle} aria-pressed={starred} aria-label={starred?'Remove star':'Star this project'}><span>★</span>{starred?'Starred':'Star'}</button>}
