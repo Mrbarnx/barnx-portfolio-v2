@@ -20,6 +20,16 @@ const techCards = [
   { key: 'frontend', title: 'Frontend Engineering', subtitle: 'Pixel Perfect · Performant', className: 'f7', icon: 'code' }
 ];
 
+const techMarqueeItems = [
+  { label: 'React', iconSrc: 'https://cdn.simpleicons.org/react/000000' },
+  { label: 'Vue 3', iconSrc: 'https://cdn.simpleicons.org/vuedotjs/000000' },
+  { label: 'Next.js', iconSrc: 'https://cdn.simpleicons.org/nextdotjs/000000' },
+  { label: 'TypeScript', iconSrc: 'https://cdn.simpleicons.org/typescript/000000' },
+  { label: 'Node.js', iconSrc: 'https://cdn.simpleicons.org/nodedotjs/000000' },
+  { label: 'Tailwind CSS', iconSrc: 'https://cdn.simpleicons.org/tailwindcss/000000' },
+  { label: 'n8n', iconSrc: 'https://cdn.simpleicons.org/n8n/000000' }
+];
+
 const stories = [
   ['01', 'The beginning', 'I started with the frontend — learning how strong interfaces turn ideas into experiences people can actually use.'],
   ['02', 'From screens to products', 'I moved from isolated pages into reusable systems, complete product flows and production-ready applications.'],
@@ -48,12 +58,24 @@ export function HomeClient() {
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
     if (!about.current) return;
-    const triggers: ScrollTrigger[] = [];
-    about.current.querySelectorAll('[data-story]').forEach((element, index) => {
-      triggers.push(ScrollTrigger.create({ trigger: element, start: 'top 55%', end: 'bottom 45%', onEnter: () => setActive(index), onEnterBack: () => setActive(index) }));
+
+    const media = gsap.matchMedia();
+    media.add('(min-width: 768px)', () => {
+      const triggers: ScrollTrigger[] = [];
+      about.current?.querySelectorAll('[data-story]').forEach((element, index) => {
+        triggers.push(ScrollTrigger.create({ trigger: element, start: 'top 55%', end: 'bottom 45%', onEnter: () => setActive(index), onEnterBack: () => setActive(index) }));
+      });
+      return () => triggers.forEach((trigger) => trigger.kill());
     });
-    return () => triggers.forEach((trigger) => trigger.kill());
+
+    return () => media.revert();
   }, []);
+
+  const advanceMobileStory = () => {
+    if (typeof window !== 'undefined' && window.matchMedia('(max-width: 767px)').matches) {
+      setActive((current) => (current + 1) % stories.length);
+    }
+  };
 
   return <main>
     <section className="hero heroReference">
@@ -79,8 +101,22 @@ export function HomeClient() {
       </div>
     </section>
 
-    <section className="techStrip"><span>React</span><span>Vue 3</span><span>Next.js</span><span>TypeScript</span><span>Node.js</span><span>Tailwind CSS</span><span>n8n</span></section>
-    <section className="aboutSection" ref={about}><div className="aboutVisual"><div className={`aboutImage state${active}`}><Image src="/photos/hero-exact.svg" fill alt="Barnabas Mikel — engineering story" sizes="45vw"/></div><div className="progress">{stories.map((_,i)=><i className={i===active?'active':''} key={i}/>)}</div></div><div className="aboutStories"><span className="eyebrow">ABOUT / STORY</span><h2>Building one layer deeper<br/>with every project.</h2>{stories.map((s,i)=><article data-story className={active===i?'active':''} key={s[0]}><span>{s[0]}</span><div><h3>{s[1]}</h3><p>{s[2]}</p></div></article>)}</div></section>
+    <section className="techStrip techMarquee" aria-label="Technology stack">
+      <div className="techMarqueeTrack">
+        {[0,1].map((copyIndex)=><div className="techMarqueeGroup" aria-hidden={copyIndex === 1} key={copyIndex}>
+          {techMarqueeItems.map((item)=><span className="techMarqueeItem" key={`${copyIndex}-${item.label}`}><img src={item.iconSrc} alt="" aria-hidden="true"/><b>{item.label}</b></span>)}
+        </div>)}
+      </div>
+    </section>
+
+    <section className="aboutSection" ref={about}>
+      <div className="aboutVisual mobileStoryTap" onClick={advanceMobileStory}>
+        <div className={`aboutImage state${active}`}><Image src="/photos/hero-exact.svg" fill alt="Barnabas Mikel — engineering story" sizes="45vw"/></div>
+        <div className="progress">{stories.map((_,i)=><i className={i===active?'active':''} key={i}/>)}</div>
+      </div>
+      <div className="aboutStories"><span className="eyebrow">ABOUT / STORY</span><h2>Building one layer deeper<br/>with every project.</h2>{stories.map((s,i)=><article data-story className={active===i?'active':''} key={s[0]}><span>{s[0]}</span><div><h3>{s[1]}</h3><p>{s[2]}</p></div></article>)}</div>
+    </section>
+
     <section className="featured"><div className="sectionHead"><div><span className="eyebrow">FEATURED WORK</span><h2>Selected Projects</h2><p>Real builds showing frontend craft, product thinking and growing full-stack capability.</p></div><Link className="button" href="/projects">View all projects <ArrowRight/></Link></div><div className="projectGrid">{projects.slice(0,3).map(p=><Link className="projectCard" href={`/projects/${p.slug}`} key={p.slug}><div className={`projectVisual ${p.tone}`}><div className="browser"><i/><i/><i/></div><strong>{p.display}</strong><small>{p.visualSubtitle}</small></div><div className="projectBody"><span>{p.category}</span><h3>{p.title}</h3><p>{p.short}</p><div className="tags">{p.tech.slice(0,4).map(t=><b key={t}>{t}</b>)}</div><em>Case study →</em></div></Link>)}</div></section>
     <section className="experience"><span className="eyebrow">EXPERIENCE</span><h2>Professional progression.</h2>{experience.map(x=><article key={x.company}><time>{x.date}</time><div><h3>{x.role} · {x.company}</h3><p>{x.description}</p></div></article>)}</section>
     <section className="focus"><div><span className="eyebrow light">CURRENT FOCUS</span><h2>Frontend first.<br/>Full product next.</h2></div><div className="focusCards"><article><Code2/><h3>Strongest now</h3><p>React, Vue, Next.js, TypeScript, responsive UI, accessibility, component architecture and polished product interfaces.</p></article><article><Zap/><h3>Growing deeper</h3><p>Node.js, PostgreSQL, AI API integrations, workflow automation, n8n and cloud deployment.</p></article></div></section>
@@ -92,10 +128,12 @@ export function HomeClient() {
       .heroReference{width:min(1340px,100%);max-width:1340px;height:754px;min-height:754px;margin:0 auto;padding:0;display:block;border:0;border-radius:0;background:#fff;position:relative;overflow:hidden}.heroReference .heroGrid{position:absolute;inset:88px 40px 0;background-image:linear-gradient(rgba(0,0,0,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(0,0,0,.025) 1px,transparent 1px);background-size:64px 64px;mask-image:linear-gradient(to bottom,transparent 0,#000 12%,#000 90%,transparent 100%);pointer-events:none}.heroReference .heroCopy{position:absolute;z-index:8;left:106px;top:194px;width:520px;padding:0}.heroReference .availability{height:40px;min-width:220px;padding:0 14px;gap:10px;border:1px solid rgba(0,0,0,.08);border-radius:999px;background:#fff;box-shadow:0 6px 20px rgba(0,0,0,.04);font-size:13px;font-weight:500}.heroReference .availability i{width:8px;height:8px;flex:0 0 8px;border-radius:999px;background:#090909}.heroReference h1{width:510px;margin:34px 0 24px;font-size:clamp(56px,4.7vw,68px);line-height:1.08;letter-spacing:-.04em;font-weight:700;color:#090909}.heroReference h1 strong{font-weight:700;white-space:nowrap}.heroReference .heroCopy>p{width:510px;max-width:510px;margin:0;color:#34383d;font-size:18px;line-height:1.55;font-weight:500}.heroReference .heroActions{display:flex;gap:24px;margin-top:38px;flex-wrap:nowrap}.heroReference .button{height:52px;min-height:52px;padding:0 22px;border-radius:13px;font-size:14px;font-weight:700;box-shadow:0 7px 20px rgba(0,0,0,.055)}.heroReference .button.black{width:166px}.heroReference .heroActions .button:not(.black){width:220px}.heroReference .button svg{width:17px;height:17px}.heroReference .heroStats{width:445px;display:grid;grid-template-columns:repeat(3,max-content);justify-content:space-between;align-items:start;gap:0;margin-top:62px}.heroReference .heroStats>div{display:grid;grid-template-columns:32px auto;grid-template-areas:"icon title" "icon sub";column-gap:9px;row-gap:1px;align-items:center}.heroReference .heroStats svg{grid-area:icon;width:27px;height:27px;stroke-width:2;color:#0b0b0b}.heroReference .heroStats b{grid-area:title;font-size:14px;line-height:1.1;font-weight:750;white-space:nowrap}.heroReference .heroStats span{grid-area:sub;color:#5d6268;font-size:12px;line-height:1.2;white-space:nowrap}
       .heroReference .heroVisual{position:absolute;inset:0;z-index:2;height:754px;pointer-events:none}.heroReference .heroPhotoCutout{position:absolute;z-index:2;left:68.4%;bottom:-2px;width:650px;height:auto;max-width:none;transform:translateX(-50%);object-fit:contain;filter:saturate(.94) contrast(1.01)}.heroReference .heroVisual::after{content:"";position:absolute;z-index:3;left:47%;right:2%;bottom:-1px;height:68px;background:linear-gradient(to bottom,transparent,rgba(255,255,255,.99));pointer-events:none}
       .heroReference .floatCard{position:absolute;z-index:5;display:flex;align-items:center;gap:14px;min-width:0;padding:14px 18px;border:1px solid rgba(10,10,10,.075);border-radius:16px;background:rgba(255,255,255,.97);box-shadow:0 10px 30px rgba(0,0,0,.045)}.heroReference .floatCard .techIcon{width:42px;height:42px;flex:0 0 42px;display:grid;place-items:center;border-radius:11px;background:transparent;color:#090909}.heroReference .floatCard .techIcon img,.heroReference .floatCard .techIcon svg{width:31px;height:31px;object-fit:contain;color:#090909}.heroReference .floatCard div{display:flex;flex-direction:column;gap:2px}.heroReference .floatCard b{color:#090909;font-size:14px;line-height:1.2;font-weight:700;white-space:nowrap}.heroReference .floatCard small{color:#5c6269;font-size:11px;line-height:1.2;white-space:nowrap}.heroReference .f1{top:180px;left:45%;width:170px;height:80px}.heroReference .f2{top:170px;right:8%;width:176px;height:74px}.heroReference .f3{top:360px;left:46.5%;width:166px;height:76px}.heroReference .f4{top:292px;right:2.2%;width:210px;height:76px}.heroReference .f5{top:430px;right:2.3%;width:190px;height:70px}.heroReference .f6{left:42%;bottom:80px;width:230px;height:73px}.heroReference .f7{right:8%;bottom:45px;width:265px;height:80px}.heroReference+.techStrip{margin-top:18px}
+      .techMarquee{display:block!important;overflow:hidden!important;padding:0!important;position:relative;white-space:nowrap}.techMarqueeTrack{display:flex;width:max-content;will-change:transform;animation:techMarqueeScroll 28s linear infinite}.techMarqueeGroup{display:flex;align-items:center;flex-shrink:0;gap:68px;padding:17px 68px 17px 0}.techMarqueeItem{display:inline-flex;align-items:center;gap:10px;color:#606060;font-size:13px;font-weight:700;line-height:1}.techMarqueeItem img{width:22px;height:22px;object-fit:contain;display:block}.techMarqueeItem b{font:inherit;color:inherit;white-space:nowrap}@keyframes techMarqueeScroll{from{transform:translate3d(0,0,0)}to{transform:translate3d(-50%,0,0)}}
       @media(max-width:1100px){.heroReference{height:auto;min-height:760px}.heroReference .heroCopy{left:54px;top:175px;width:46%}.heroReference h1{width:auto;font-size:clamp(50px,5.5vw,62px)}.heroReference .heroCopy>p{width:100%}.heroReference .heroPhotoCutout{left:73%;width:580px}.heroReference .f4,.heroReference .f5{display:none}.heroReference .f1{left:50%}.heroReference .f3{left:51%}.heroReference .f6{left:48%}.heroReference .f7{right:3%}}
-      @media(max-width:900px){.heroReference{min-height:1120px;padding:130px 24px 40px}.heroReference .heroGrid{inset:90px 18px 220px}.heroReference .heroCopy{position:relative;left:auto;top:auto;width:min(100%,600px)}.heroReference h1{width:100%;margin-top:26px}.heroReference .heroCopy>p{width:100%;max-width:580px}.heroDesktopBreak{display:none}.heroReference .heroStats{width:min(100%,445px)}.heroReference .heroVisual{position:absolute;inset:auto 0 0;height:650px}.heroReference .heroPhotoCutout{left:58%;width:560px}.heroReference .f1{left:5%;top:70px}.heroReference .f3{left:7%;top:230px}.heroReference .f6{left:3%;bottom:80px}.heroReference .f2{right:3%;top:85px}.heroReference .f7{right:2%;bottom:58px}}
+      @media(max-width:900px){.heroReference{min-height:1120px;padding:130px 24px 40px}.heroReference .heroGrid{inset:90px 18px 220px}.heroReference .heroCopy{position:relative;left:auto;top:auto;width:min(100%,600px)}.heroReference h1{width:100%;margin-top:26px}.heroReference .heroCopy>p{width:100%;max-width:580px}.heroDesktopBreak{display:none}.heroReference .heroStats{width:min(100%,445px)}.heroReference .heroVisual{position:absolute;inset:auto 0 0;height:650px}.heroReference .heroPhotoCutout{left:58%;width:560px}.heroReference .f1{left:5%;top:70px}.heroReference .f3{left:7%;top:230px}.heroReference .f6{left:3%;bottom:80px}.heroReference .f2{right:3%;top:85px}.heroReference .f7{right:2%;bottom:58px}.techMarqueeTrack{animation-duration:24s}.techMarqueeGroup{gap:54px;padding-right:54px}}
+      @media(max-width:767px){.mobileStoryTap{cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}.mobileStoryTap .aboutImage{transition:filter .45s ease,transform .45s ease}.techMarqueeTrack{animation-duration:20s}.techMarqueeGroup{gap:38px;padding:14px 38px 14px 0}.techMarqueeItem{gap:8px;font-size:12px}.techMarqueeItem img{width:20px;height:20px}}
       @media(max-width:620px){.navWrap{padding:18px 18px 0}.nav{width:100%}.logo{font-size:24px}.logo .logoMark{width:30px;height:36px}body::before{display:none}.heroReference{min-height:auto;padding:118px 18px 32px;overflow:hidden}.heroReference .heroGrid{inset:80px 0 210px}.heroReference .heroCopy{width:100%}.heroReference .availability{min-width:0;height:38px;font-size:12px}.heroReference h1{font-size:clamp(46px,13vw,58px);line-height:1.03;white-space:normal}.heroReference h1 strong{white-space:normal}.heroReference .heroCopy>p{font-size:16px;line-height:1.6}.heroReference .heroActions{gap:10px;flex-direction:column}.heroReference .heroActions .button,.heroReference .button.black{width:100%}.heroReference .heroStats{grid-template-columns:1fr;gap:18px;margin-top:38px}.heroReference .heroVisual{position:relative;height:600px;margin:18px -18px 0}.heroReference .heroPhotoCutout{left:50%;width:540px}.heroReference .floatCard{height:65px;padding:10px 12px;transform:scale(.88)}.heroReference .f1{left:0;top:90px}.heroReference .f2{right:-18px;top:165px}.heroReference .f3{left:-12px;top:260px}.heroReference .f4,.heroReference .f5{display:none}.heroReference .f6{left:-10px;bottom:76px}.heroReference .f7{right:-36px;bottom:18px;width:240px}.heroReference+.techStrip{margin-top:0}}
-      @media(prefers-reduced-motion:reduce){.heroReference .floatCard,.heroReference .heroPhotoCutout{animation:none!important;transition:none!important}}
+      @media(prefers-reduced-motion:reduce){.heroReference .floatCard,.heroReference .heroPhotoCutout{animation:none!important;transition:none!important}.techMarqueeTrack{animation:none!important;transform:none!important}}
     `}</style>
   </main>;
 }
