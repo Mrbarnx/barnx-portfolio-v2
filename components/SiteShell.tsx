@@ -45,5 +45,35 @@ export function SiteShell({children}:{children:React.ReactNode}){
       </div>
       <div className="copyright">© 2026 Barnx. Built with Next.js.</div>
     </footer>
+    <style jsx global>{`
+      @media (max-width: 767px) {
+        .navWrap .navLinks {
+          display: none !important;
+        }
+
+        .navWrap .navRight .resume {
+          display: none !important;
+        }
+
+        .navWrap .mobileButton {
+          display: grid !important;
+          place-items: center;
+        }
+
+        .navWrap .nav {
+          justify-content: space-between !important;
+        }
+
+        .heroReference .heroPhotoCutout {
+          left: 50% !important;
+          right: auto !important;
+          bottom: 0 !important;
+          transform: none !important;
+          translate: -50% 0 !important;
+          object-fit: contain !important;
+          object-position: center bottom !important;
+        }
+      }
+    `}</style>
   </>;
 }
