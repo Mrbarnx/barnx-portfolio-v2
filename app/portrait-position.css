@@ -1,0 +1,4 @@
+.heroReference .heroPhotoCutout {
+  transform: none !important;
+  translate: -50% 0 !important;
+}
