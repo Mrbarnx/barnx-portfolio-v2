@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 import './portrait-position.css';
 import './portrait-position-restore.css';
+import './mobile-only-fix.css';
 import { SiteShell } from '@/components/SiteShell';
 
 export const metadata: Metadata = {
