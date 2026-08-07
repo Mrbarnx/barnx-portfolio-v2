@@ -1,0 +1,1 @@
+{"name":"Barnx Lead Follow-up Blueprint","steps":["Webhook receives lead","Validate name/email/source","Normalize fields","Route by lead type","Create follow-up task","Send confirmation","Log outcome"],"note":"Starter architecture — map nodes to your preferred CRM and email provider."}

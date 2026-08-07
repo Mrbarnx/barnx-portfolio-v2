@@ -1,0 +1,1 @@
+import type { MetadataRoute } from 'next'; import {projects,resources} from '@/data/content'; export default function sitemap():MetadataRoute.Sitemap{const b='https://barnx.dev';return [{url:b},{url:`${b}/projects`},{url:`${b}/barnx-studio`},...projects.map(p=>({url:`${b}/projects/${p.slug}`})),...resources.map(r=>({url:`${b}/barnx-studio/${r.slug}`}))]}

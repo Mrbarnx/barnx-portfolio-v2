@@ -1,0 +1,4 @@
+import Link from 'next/link';
+import { projects } from '@/data/content';
+export const metadata = { title: 'Projects' };
+export default function ProjectsPage(){return <main className="page"><section className="pageHero"><span className="eyebrow">PROJECT ARCHIVE</span><h1>Products, interfaces<br/>and intelligent systems.</h1><p>Selected work across frontend engineering, product UI, full-stack builds and practical AI integrations.</p></section><section className="projectGrid">{projects.map(p=><Link className="projectCard" href={`/projects/${p.slug}`} key={p.slug}><div className={`projectVisual ${p.tone}`}><div className="browser"><i/><i/><i/></div><strong>{p.display}</strong><small>{p.visualSubtitle}</small></div><div className="projectBody"><span>{p.category}</span><h2>{p.title}</h2><p>{p.short}</p><div className="tags">{p.tech.slice(0,4).map(t=><b key={t}>{t}</b>)}</div><em>Read case study →</em></div></Link>)}</section></main>}
