@@ -1,0 +1,30 @@
+@media (max-width: 767px) {
+  /* Mobile nav: keep only the Barnx logo and the existing hamburger trigger. */
+  .navWrap .navLinks {
+    display: none !important;
+  }
+
+  .navWrap .navRight .resume {
+    display: none !important;
+  }
+
+  .navWrap .mobileButton {
+    display: grid !important;
+    place-items: center;
+  }
+
+  .navWrap .nav {
+    justify-content: space-between !important;
+  }
+
+  /* Mobile portrait only: keep its existing scale, but center it correctly. */
+  .heroReference .heroPhotoCutout {
+    left: 50% !important;
+    right: auto !important;
+    bottom: 0 !important;
+    transform: none !important;
+    translate: -50% 0 !important;
+    object-fit: contain !important;
+    object-position: center bottom !important;
+  }
+}
