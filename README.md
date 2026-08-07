@@ -1,19 +1,31 @@
 # Barnx Portfolio V2
 
-Premium personal engineering platform for Barnabas Mikel.
+Production portfolio for Barnabas Mikel.
 
-## Live structure
+This repository deploys a real **Next.js App Router** application using TypeScript, Tailwind CSS, Framer Motion, GSAP/ScrollTrigger, Lenis, Lucide icons and Zod.
 
-- Home
-- Projects
-- Barnx Studio
+## Experiences
 
-This first published repository contains a dependency-free static production build so it can deploy instantly on Vercel. The full Next.js/CMS-ready source can replace the static build as the next implementation step without touching the old portfolio repository.
+- Home — premium hero, floating technology cards, scroll-story About section, experience and featured work
+- Projects — full project library and dynamic `/projects/[slug]` case studies
+- Barnx Studio — resources, downloads, workflow/templates and dynamic resource details
+- Résumé — downloadable PDF from `/resume`
 
-## Positioning
+## Source payload
 
-Frontend-Focused Full-Stack Engineer building modern web applications while integrating AI-powered features and intelligent automations.
+The generated application source and optimized assets are stored in `.barnx-v2/chunk-*.txt`. `bootstrap.mjs` expands the source automatically before install/build. This keeps the deployment commit compact while still producing the full Next.js project in the build workspace.
+
+## Run locally
+
+```bash
+npm install
+npm run dev
+```
 
 ## Deploy
 
-Import this repository into Vercel. No build command is required for the static version.
+Import this repository into Vercel. Framework preset: **Next.js**. No environment variables are required in this phase.
+
+## Future phase
+
+PostgreSQL, Prisma, authentication, admin CMS, newsletter backend, analytics and AI-assisted publishing are intentionally deferred.
