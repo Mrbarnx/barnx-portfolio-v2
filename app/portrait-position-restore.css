@@ -1,0 +1,8 @@
+@media (min-width: 1200px) {
+  .heroReference .heroPhotoCutout {
+    left: 68% !important;
+    bottom: 0 !important;
+    transform: none !important;
+    translate: -50% 0 !important;
+  }
+}
