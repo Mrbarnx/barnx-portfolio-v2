@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 import './layout-repair.css';
 import { SiteShell } from '@/components/SiteShell';
+import { DesktopStorySync } from '@/components/DesktopStorySync';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://barnx.dev'),
@@ -12,5 +13,5 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: Readonly<{children: React.ReactNode}>) {
-  return <html lang="en"><body><SiteShell>{children}</SiteShell></body></html>;
+  return <html lang="en"><body><SiteShell>{children}</SiteShell><DesktopStorySync/></body></html>;
 }
