@@ -1,0 +1,187 @@
+/* UI recovery: restore structural styles that were lost from globals.css and harden responsive behavior. */
+
+/* Brand + shared shell */
+.logo{display:inline-flex!important;align-items:center!important;gap:9px!important;color:#090909!important;font-size:28px!important;font-weight:800!important;letter-spacing:-.04em!important}
+.logo .logoMark{width:34px!important;height:42px!important;max-width:34px!important;object-fit:contain!important;display:block!important}
+.logo span{display:block!important;color:#090909!important}
+
+/* Home body sections */
+.aboutSection{max-width:1220px;margin:110px auto;padding:0 30px;display:grid;grid-template-columns:.95fr 1fr;gap:80px;align-items:start;position:relative}
+.aboutVisual{position:sticky;top:120px;height:610px;border-radius:30px;overflow:hidden;background:#efefed;border:1px solid #e7e7e3;isolation:isolate}
+.aboutImage{position:absolute!important;inset:0!important;overflow:hidden;transition:filter .6s ease,transform .6s ease}
+.aboutImage img{object-fit:cover!important;object-position:center top!important;transition:.6s ease}
+.aboutImage.state0{filter:grayscale(.15)}
+.aboutImage.state1{filter:grayscale(.5);transform:scale(1.015)}
+.aboutImage.state2{filter:grayscale(.9) contrast(1.05);transform:scale(1.03)}
+.aboutImage.state3{filter:grayscale(.25) contrast(1.08);transform:scale(1.01)}
+.progress{position:absolute;right:22px;bottom:24px;display:flex;gap:6px;z-index:4}
+.progress i{width:22px;height:3px;background:#ffffff88;border-radius:5px;transition:.3s}
+.progress i.active{width:44px;background:#fff}
+.aboutStories>h2,.experience>h2,.focus h2{font-size:clamp(40px,5vw,70px);line-height:1.02;letter-spacing:-.05em;margin:18px 0 30px}
+.aboutStories article{min-height:52vh;display:grid;grid-template-columns:55px 1fr;align-content:center;opacity:.32;transition:.4s}
+.aboutStories article.active{opacity:1}
+.aboutStories article>span{font-size:13px;color:#777}
+.aboutStories article h3{font-size:28px;letter-spacing:-.03em;margin:0 0 12px}
+.aboutStories article p{color:#666;font-size:17px;max-width:520px}
+
+.featured,.experience{max-width:1220px;margin:110px auto;padding:0 30px}
+.sectionHead{display:flex;justify-content:space-between;gap:35px;align-items:end;margin-bottom:40px}
+.sectionHead h2{font-size:52px;margin:12px 0;letter-spacing:-.04em}
+.sectionHead p{color:#666;max-width:560px}
+
+.experience>h2{font-size:52px}
+.experience article{display:grid;grid-template-columns:240px 1fr;gap:40px;padding:35px 0;border-top:1px solid #dededa}
+.experience time{font-size:11px;color:#777;letter-spacing:.1em}
+.experience h3{margin:0 0 8px;font-size:22px}
+.experience p{color:#666;max-width:720px}
+
+.focus{max-width:1220px;margin:110px auto;padding:70px;border-radius:32px;background:#0a0a0a;color:#fff;display:grid;grid-template-columns:1fr 1.2fr;gap:70px}
+.focus h2{margin-bottom:0}
+.focusCards{display:grid;grid-template-columns:1fr 1fr;gap:15px}
+.focusCards article{border:1px solid #2a2a2a;border-radius:24px;padding:28px;background:#111}
+.focusCards svg{width:22px!important;height:22px!important}
+.focusCards p{color:#aaa}
+
+.newsletter{max-width:1220px;margin:100px auto;display:grid;grid-template-columns:90px 1fr 1fr;gap:28px;align-items:center;border:1px solid #e3e3df;background:#fff;border-radius:28px;padding:35px}
+.mailIcon{width:70px;height:70px;border-radius:20px;background:#0c0c0c;color:#fff;display:grid;place-items:center;font-size:25px}
+.newsletter h2{font-size:25px;margin:7px 0}
+.newsletter p{color:#777;margin:0}
+.newsletter form>div{display:flex;border:1px solid #e2e2df;border-radius:999px;padding:4px}
+.newsletter input{border:0;outline:0;background:transparent;min-width:0;flex:1;padding:10px 14px}
+.newsletter button{border:0;background:#111;color:#fff;border-radius:999px;padding:11px 18px;font-weight:700}
+.newsletter small{display:block;margin-top:8px;color:#888}
+
+/* Seamless technology marquee: each duplicate group is always wider than its viewport. */
+.techMarquee{overflow:hidden!important;white-space:nowrap!important;padding:0!important}
+.techMarqueeTrack{display:flex!important;width:max-content!important;will-change:transform!important;animation:barnxTechMarquee 26s linear infinite!important}
+.techMarqueeGroup{display:flex!important;align-items:center!important;justify-content:space-around!important;flex:0 0 1220px!important;width:1220px!important;min-width:1220px!important;gap:28px!important;padding:17px 30px!important}
+.techMarqueeItem{display:inline-flex!important;align-items:center!important;gap:9px!important;flex:0 0 auto!important}
+.techMarqueeItem img{width:21px!important;height:21px!important;max-width:21px!important;object-fit:contain!important;display:block!important}
+@keyframes barnxTechMarquee{from{transform:translate3d(0,0,0)}to{transform:translate3d(-50%,0,0)}}
+
+/* Project / Studio cards */
+.projectCardWrap{position:relative;min-width:0}
+.projectCardWrap>.projectCard{display:block;height:100%}
+.projectStar{position:absolute;right:14px;bottom:14px;z-index:4;border:1px solid #dededb;background:#fff;border-radius:999px;padding:7px 10px;display:flex;align-items:center;gap:5px;font-size:11px;font-weight:750;cursor:pointer;box-shadow:0 5px 15px rgba(0,0,0,.05)}
+.projectStar span{font-size:14px;color:#aaa}
+.projectStar.starred span{color:#111}
+.resourceCard{min-width:0}
+.resourceCard>div:last-child{min-width:0}
+.resourceCard h3,.resourceCard p,.resourceCard em{overflow-wrap:anywhere}
+.resourceIcon{flex:0 0 auto}
+
+/* Footer restored across every route */
+footer{border-top:1px solid #e2e2df;margin-top:110px;padding:55px 4vw 25px;background:#fff;overflow:hidden}
+.footerGrid{max-width:1220px;margin:auto;display:grid;grid-template-columns:2fr repeat(3,1fr);gap:55px}
+.footerGrid>div{display:flex;flex-direction:column;align-items:flex-start;gap:9px;min-width:0}
+.footerGrid p{max-width:300px;color:#777}
+.footerGrid b{font-size:10px;text-transform:uppercase;letter-spacing:.12em;margin-bottom:8px}
+.footerGrid a,.footerGrid span{font-size:13px;color:#666;overflow-wrap:anywhere}
+.socials{display:flex!important;flex-direction:row!important;align-items:center!important;gap:10px!important;flex-wrap:wrap!important}
+.socials a{width:36px!important;height:36px!important;display:grid!important;place-items:center!important;border:1px solid #e5e5e2!important;border-radius:999px!important;background:#fff!important;flex:0 0 36px!important}
+.socials svg{width:18px!important;height:18px!important;max-width:18px!important;max-height:18px!important;display:block!important}
+.copyright{max-width:1220px;margin:40px auto 0;border-top:1px solid #eee;padding-top:20px;text-align:center;color:#888;font-size:11px}
+
+/* Case/resource details that were lost from globals */
+.caseStudy,.resourceDetail{max-width:1080px}
+.caseHero,.resourceHero{padding:60px 0 35px}
+.caseLinks{display:flex;gap:12px;margin-top:24px;flex-wrap:wrap}
+.caseLinks a{border-bottom:1px solid #111;font-weight:700}
+.caseMock{height:520px;border-radius:30px;margin:25px 0 90px}
+.caseMock strong{font-size:70px}
+.caseColumns{display:grid;grid-template-columns:1fr 1fr;gap:90px;padding:70px 0;border-top:1px solid #dfdfdc}
+.caseColumns h2{font-size:32px;line-height:1.2;letter-spacing:-.035em}
+.caseColumns p,.caseColumns li{font-size:17px;color:#666}
+.caseColumns ul{padding-left:20px}
+.caseSection{padding:70px 0;border-top:1px solid #dfdfdc}
+.featureGrid{display:grid;grid-template-columns:repeat(2,1fr);gap:15px;margin-top:25px}
+.featureGrid article{border:1px solid #e3e3df;border-radius:18px;padding:22px;background:#fff}
+.nextCase{border-top:1px solid #ddd;padding:45px 0 100px;display:flex;justify-content:space-between;gap:20px}
+
+@media(max-width:900px){
+  .techMarqueeGroup{flex-basis:900px!important;width:900px!important;min-width:900px!important}
+  .aboutSection{grid-template-columns:1fr;gap:35px;margin-top:70px}
+  .aboutVisual{position:relative;top:0;height:520px}
+  .aboutStories article{min-height:auto;padding:35px 0;border-top:1px solid #e2e2df;opacity:1}
+  .projectGrid{grid-template-columns:1fr 1fr}
+  .resourceGrid{grid-template-columns:1fr!important}
+  .resourceCard{grid-template-columns:62px minmax(0,1fr)!important}
+  .focus{grid-template-columns:1fr;padding:45px}
+  .newsletter{grid-template-columns:70px 1fr}
+  .newsletter form{grid-column:1/-1}
+  .experience article{grid-template-columns:1fr;gap:10px}
+  .caseColumns{grid-template-columns:1fr;gap:30px}
+  .featureGrid{grid-template-columns:1fr}
+  .footerGrid{grid-template-columns:1fr 1fr}
+  .automationGateway{grid-template-columns:1fr!important}
+  .caseOutcomeGrid{grid-template-columns:1fr!important}
+  .outcomeStrip{grid-template-columns:1fr 1fr!important}
+  .demoGrid{grid-template-columns:1fr!important}
+}
+
+@media(max-width:767px){
+  .logo{font-size:24px!important}
+  .logo .logoMark{width:30px!important;height:36px!important;max-width:30px!important}
+  .techMarqueeGroup{flex-basis:760px!important;width:760px!important;min-width:760px!important;gap:18px!important;padding:14px 24px!important}
+  .techMarqueeTrack{animation-duration:20s!important}
+  .techMarqueeItem{font-size:12px!important}
+  .techMarqueeItem img{width:19px!important;height:19px!important;max-width:19px!important}
+  .mobileStoryTap{cursor:pointer;touch-action:manipulation}
+  .heroReference .heroCopy{width:100%!important;max-width:100%!important}
+  .heroReference h1{max-width:100%!important}
+  .heroReference .heroCopy>p{max-width:100%!important}
+}
+
+@media(max-width:620px){
+  body{overflow-x:hidden}
+  .aboutSection,.featured,.experience,.page,.studioLibrary{padding-left:18px;padding-right:18px;margin-top:75px}
+  .aboutVisual{height:430px;border-radius:22px}
+  .aboutStories>h2,.experience>h2,.focus h2{font-size:clamp(36px,11vw,48px)}
+  .aboutStories article{grid-template-columns:38px 1fr;padding:28px 0}
+  .aboutStories article h3{font-size:23px}
+  .aboutStories article p{font-size:15px}
+  .sectionHead{display:block}
+  .sectionHead h2{font-size:42px}
+  .sectionHead .button{margin-top:15px}
+  .projectGrid{grid-template-columns:1fr!important}
+  .projectVisual{min-height:230px}
+  .projectVisual strong{font-size:31px}
+  .projectBody{padding:20px 20px 58px}
+  .focus{margin:75px 0;border-radius:0;padding:40px 20px}
+  .focusCards{grid-template-columns:1fr}
+  .newsletter{margin:70px 18px;grid-template-columns:1fr;padding:24px}
+  .newsletter form>div{flex-direction:column;border:0;gap:8px}
+  .newsletter input{border:1px solid #ddd;border-radius:999px;width:100%}
+  .resourceGrid{grid-template-columns:1fr!important;gap:14px!important}
+  .resourceCard{grid-template-columns:56px minmax(0,1fr)!important;gap:14px!important;padding:18px!important;width:100%!important}
+  .resourceIcon{width:52px!important;height:52px!important;font-size:20px!important;border-radius:14px!important}
+  .resourceCard h3{font-size:20px!important;line-height:1.15!important}
+  .resourceCard p{font-size:14px!important;line-height:1.5!important}
+  .studioHero{padding:55px 22px!important}
+  .studioHero h1{font-size:clamp(48px,15vw,58px)!important}
+  .automationGateway{padding:0!important;margin-top:55px!important}
+  .automationGateway>div,.automationGatewayCard{padding:24px!important}
+  .automationGateway h2{font-size:40px!important}
+  .automationHero{padding-top:45px!important}
+  .automationHero h1{font-size:clamp(48px,14vw,58px)!important}
+  .automationLead,.problemSection p,.sectionIntro,.automationReviews>p{font-size:16px!important}
+  .outcomeStrip{grid-template-columns:1fr!important}
+  .outcomeStrip span{border-right:0!important;border-bottom:1px solid #ddd}
+  .systemsGrid{grid-template-columns:1fr!important}
+  .systemsGrid article:nth-child(odd){border-right:0!important}
+  .problemSection,.buildSection,.demoSection,.automationReviews{padding:65px 0!important}
+  .demoWindow{height:210px!important;padding:20px!important}
+  .demoWindow strong{font-size:25px!important}
+  .automationCases{margin:65px -18px 0!important;padding:45px 20px!important;border-radius:0!important}
+  .consultation{margin:70px 0;border-radius:0;padding:40px 20px;display:block}
+  .consultation>a{display:inline-block;margin-top:20px;white-space:normal;text-align:center}
+  footer{margin-top:80px;padding:42px 18px 24px}
+  .footerGrid{grid-template-columns:1fr;gap:32px}
+  .footerGrid p{max-width:100%}
+  .copyright{text-align:left;margin-top:30px}
+  .caseMock{height:340px}
+  .caseMock strong{font-size:44px}
+  .nextCase{flex-direction:column}
+}
+
+@media(prefers-reduced-motion:reduce){.techMarqueeTrack{animation:none!important;transform:none!important}}
