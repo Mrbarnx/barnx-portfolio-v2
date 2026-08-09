@@ -3,6 +3,15 @@ html,body{max-width:100%;overflow-x:hidden}
 .logo{display:inline-flex;align-items:center;gap:9px;color:#090909;font-size:28px;font-weight:800;letter-spacing:-.04em;white-space:nowrap}
 .logo .logoMark{display:block;width:34px!important;height:42px!important;max-width:34px;object-fit:contain;flex:0 0 34px}
 
+/* Hero + seamless technology marquee */
+.heroReference .heroPhotoCutout{left:68.4%;bottom:0;max-width:none}
+.techMarquee{overflow:hidden!important;max-width:1220px!important;width:calc(100% - 36px)!important;margin-left:auto!important;margin-right:auto!important}
+.techMarqueeTrack{display:flex!important;width:max-content!important;will-change:transform;animation:techMarqueeScroll 28s linear infinite!important}
+.techMarqueeGroup{display:flex!important;align-items:center!important;justify-content:space-around!important;gap:0!important;width:1220px!important;min-width:1220px!important;flex:0 0 1220px!important;padding:17px 0!important}
+.techMarqueeItem{flex:0 0 auto;display:inline-flex!important;align-items:center!important;gap:10px!important;white-space:nowrap}
+.techMarqueeItem img{display:block!important;width:22px!important;height:22px!important;max-width:22px!important;object-fit:contain!important}
+@keyframes techMarqueeScroll{from{transform:translate3d(0,0,0)}to{transform:translate3d(-50%,0,0)}}
+
 /* Home sections */
 .aboutSection{max-width:1220px;margin:110px auto;padding:0 30px;display:grid;grid-template-columns:.95fr 1fr;gap:80px;align-items:start}
 .aboutVisual{position:sticky;top:120px;height:610px;border-radius:30px;overflow:hidden;background:#efefed;border:1px solid #e7e7e3}
@@ -92,6 +101,8 @@ footer{border-top:1px solid #e2e2df;margin-top:110px;padding:55px 4vw 25px;backg
 /* Tablet */
 @media(max-width:900px){
   .logo{font-size:25px}.logo .logoMark{width:31px!important;height:38px!important;max-width:31px;flex-basis:31px}
+  .techMarquee{width:100%!important;border-left:0!important;border-right:0!important;border-radius:0!important}
+  .techMarqueeGroup{width:100vw!important;min-width:100vw!important;flex-basis:100vw!important}
   .aboutSection{grid-template-columns:1fr;gap:35px;margin-top:70px}
   .aboutVisual{position:relative;top:0;height:520px}
   .aboutStories article{min-height:auto;padding:35px 0;border-top:1px solid #e2e2df;opacity:1}
@@ -112,6 +123,11 @@ footer{border-top:1px solid #e2e2df;margin-top:110px;padding:55px 4vw 25px;backg
 /* Mobile */
 @media(max-width:620px){
   .logo{font-size:23px;gap:8px}.logo .logoMark{width:29px!important;height:35px!important;max-width:29px;flex-basis:29px}
+  .heroReference .heroPhotoCutout{width:500px!important;left:39%!important;right:auto!important;bottom:0!important;transform:none!important;translate:-50% 0!important;object-fit:contain!important}
+  .techMarqueeTrack{animation-duration:18s!important}
+  .techMarqueeGroup{justify-content:space-between!important;padding:14px 22px!important}
+  .techMarqueeItem{gap:8px!important;font-size:12px!important}
+  .techMarqueeItem img{width:19px!important;height:19px!important;max-width:19px!important}
   .aboutSection,.featured,.experience,.page,.studioLibrary{padding-left:18px;padding-right:18px;margin-top:75px}
   .aboutSection{display:block}
   .aboutVisual{height:430px;margin-bottom:35px;border-radius:22px}
@@ -157,3 +173,5 @@ footer{border-top:1px solid #e2e2df;margin-top:110px;padding:55px 4vw 25px;backg
   .footerGrid .logo{font-size:24px}.footerGrid .logo span{font-size:24px}
   .copyright{text-align:left;margin-top:30px}
 }
+
+@media(prefers-reduced-motion:reduce){.techMarqueeTrack{animation:none!important;transform:none!important}}
