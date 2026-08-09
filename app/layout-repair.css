@@ -1,0 +1,159 @@
+/* Barnx V2 layout repair: restores section styles lost from the base stylesheet. */
+html,body{max-width:100%;overflow-x:hidden}
+.logo{display:inline-flex;align-items:center;gap:9px;color:#090909;font-size:28px;font-weight:800;letter-spacing:-.04em;white-space:nowrap}
+.logo .logoMark{display:block;width:34px!important;height:42px!important;max-width:34px;object-fit:contain;flex:0 0 34px}
+
+/* Home sections */
+.aboutSection{max-width:1220px;margin:110px auto;padding:0 30px;display:grid;grid-template-columns:.95fr 1fr;gap:80px;align-items:start}
+.aboutVisual{position:sticky;top:120px;height:610px;border-radius:30px;overflow:hidden;background:#efefed;border:1px solid #e7e7e3}
+.aboutImage{position:absolute;inset:0;overflow:hidden;transition:filter .6s ease,transform .6s ease}
+.aboutImage img{object-fit:cover;object-position:center top;transition:.6s ease}
+.aboutImage.state0{filter:grayscale(.15)}
+.aboutImage.state1{filter:grayscale(.5);transform:scale(1.015)}
+.aboutImage.state2{filter:grayscale(.9) contrast(1.05);transform:scale(1.03)}
+.aboutImage.state3{filter:grayscale(.25) contrast(1.08);transform:scale(1.01)}
+.progress{position:absolute;right:22px;bottom:24px;display:flex;gap:6px;z-index:4}
+.progress i{width:22px;height:3px;background:#fff8;border-radius:5px;transition:.3s}
+.progress i.active{width:44px;background:#fff}
+.aboutStories>h2,.sectionHead h2,.experience>h2,.focus h2,.pageHero h1,.caseHero h1,.studioHero h1,.resourceHero h1{font-size:clamp(40px,5vw,70px);line-height:1.02;letter-spacing:-.05em;margin:18px 0 30px}
+.aboutStories article{min-height:52vh;display:grid;grid-template-columns:55px 1fr;align-content:center;opacity:.32;transition:.4s}
+.aboutStories article.active{opacity:1}
+.aboutStories article>span{font-size:13px;color:#777}
+.aboutStories article h3{font-size:28px;letter-spacing:-.03em;margin:0 0 12px}
+.aboutStories article p{color:#666;font-size:17px;max-width:520px}
+.featured,.experience{max-width:1220px;margin:110px auto;padding:0 30px}
+.sectionHead{display:flex;justify-content:space-between;gap:35px;align-items:end;margin-bottom:40px}
+.sectionHead h2{font-size:52px;margin:12px 0}
+.sectionHead p{color:#666;max-width:560px}
+.experience>h2{font-size:52px}
+.experience article{display:grid;grid-template-columns:240px 1fr;gap:40px;padding:35px 0;border-top:1px solid #dededa}
+.experience time{font-size:11px;color:#777;letter-spacing:.1em}
+.experience h3{margin:0 0 8px;font-size:22px}
+.experience p{color:#666;max-width:720px}
+.focus{max-width:1220px;margin:110px auto;padding:70px;border-radius:32px;background:#0a0a0a;color:#fff;display:grid;grid-template-columns:1fr 1.2fr;gap:70px}
+.focus h2{margin-bottom:0}
+.focusCards{display:grid;grid-template-columns:1fr 1fr;gap:15px}
+.focusCards article{min-width:0;border:1px solid #2a2a2a;border-radius:24px;padding:28px;background:#111}
+.focusCards svg{display:block;width:22px!important;height:22px!important}
+.focusCards p{color:#aaa}
+.newsletter{max-width:1220px;margin:100px auto;display:grid;grid-template-columns:90px 1fr 1fr;gap:28px;align-items:center;border:1px solid #e3e3df;background:#fff;border-radius:28px;padding:35px}
+.mailIcon{width:70px;height:70px;border-radius:20px;background:#0c0c0c;color:#fff;display:grid;place-items:center;font-size:25px}
+.newsletter h2{font-size:25px;margin:7px 0}
+.newsletter p{color:#777;margin:0}
+.newsletter form>div{display:flex;border:1px solid #e2e2df;border-radius:999px;padding:4px}
+.newsletter input{border:0;outline:0;background:transparent;min-width:0;flex:1;padding:10px 14px}
+.newsletter button{border:0;background:#111;color:#fff;border-radius:999px;padding:11px 18px;font-weight:700}
+.newsletter small{display:block;margin-top:8px;color:#888}
+
+/* Projects and detail pages */
+.projectGrid>*{min-width:0}
+.projectCard{display:block;height:100%}
+.caseStudy,.resourceDetail{max-width:1080px}
+.caseHero,.resourceHero{padding:60px 0 35px}
+.caseHero p,.resourceHero p{font-size:18px;color:#666;max-width:680px}
+.caseLinks{display:flex;gap:12px;margin-top:24px;flex-wrap:wrap}
+.caseLinks a{border-bottom:1px solid #111;font-weight:700}
+.caseMock{height:520px;border-radius:30px;margin:25px 0 90px;min-height:280px;padding:22px;display:flex;flex-direction:column;justify-content:center;align-items:center;position:relative;overflow:hidden}
+.caseMock strong{font-size:70px;letter-spacing:-.04em}
+.caseMock.light{background:#f4f4f1}.caseMock.black{background:#0b0b0b;color:#fff}.caseMock.gray{background:#e6e6e2}
+.caseColumns{display:grid;grid-template-columns:1fr 1fr;gap:90px;padding:70px 0;border-top:1px solid #dfdfdc}
+.caseColumns h2{font-size:32px;line-height:1.2;letter-spacing:-.035em}
+.caseColumns p,.caseColumns li{font-size:17px;color:#666}
+.caseColumns ul{padding-left:20px}
+.caseSection{padding:70px 0;border-top:1px solid #dfdfdc}
+.featureGrid{display:grid;grid-template-columns:repeat(2,1fr);gap:15px;margin-top:25px}
+.featureGrid article{border:1px solid #e3e3df;border-radius:18px;padding:22px;background:#fff}
+.featureGrid p{margin:8px 0;color:#555}
+.nextCase{border-top:1px solid #ddd;padding:45px 0 100px;display:flex;justify-content:space-between;gap:25px}
+.nextCase a{font-weight:800}
+.resourceHero{max-width:850px}.resourceHero .button{margin-top:25px}.resourceIcon.huge{width:92px;height:92px;border-radius:26px;font-size:34px;margin-bottom:28px}
+
+/* Barnx Studio */
+.resourceCard{min-width:0}
+.resourceCard>div{min-width:0}
+.resourceCard h3,.resourceCard p{overflow-wrap:anywhere}
+.resourceCard:hover{transform:translateY(-4px);box-shadow:0 15px 30px rgba(0,0,0,.06)}
+
+/* Footer: fixed dimensions for every icon, including custom X/TikTok SVGs. */
+footer{border-top:1px solid #e2e2df;margin-top:110px;padding:55px 4vw 25px;background:#fff}
+.footerGrid{max-width:1220px;margin:auto;display:grid;grid-template-columns:2fr repeat(3,1fr);gap:55px}
+.footerGrid>div{min-width:0;display:flex;flex-direction:column;align-items:flex-start;gap:9px}
+.footerGrid p{max-width:300px;color:#777}
+.footerGrid b{font-size:10px;text-transform:uppercase;letter-spacing:.12em;margin-bottom:8px}
+.footerGrid a,.footerGrid span{font-size:13px;color:#666;overflow-wrap:anywhere}
+.footerGrid .logo{font-size:25px;color:#090909}
+.footerGrid .logo span{font-size:25px;color:#090909}
+.footerGrid .logo .logoMark{width:30px!important;height:36px!important;max-width:30px;flex-basis:30px}
+.socials{display:flex!important;flex-direction:row!important;align-items:center!important;gap:10px!important;margin-top:6px}
+.socials a{width:34px;height:34px;border:1px solid #e7e7e4;border-radius:50%;display:grid;place-items:center;color:#111!important;background:#fff}
+.socials svg{display:block!important;width:17px!important;height:17px!important;max-width:17px!important;max-height:17px!important;flex:none!important}
+.copyright{max-width:1220px;margin:40px auto 0;border-top:1px solid #eee;padding-top:20px;text-align:center;color:#888;font-size:11px}
+
+/* Tablet */
+@media(max-width:900px){
+  .logo{font-size:25px}.logo .logoMark{width:31px!important;height:38px!important;max-width:31px;flex-basis:31px}
+  .aboutSection{grid-template-columns:1fr;gap:35px;margin-top:70px}
+  .aboutVisual{position:relative;top:0;height:520px}
+  .aboutStories article{min-height:auto;padding:35px 0;border-top:1px solid #e2e2df;opacity:1}
+  .projectGrid{grid-template-columns:1fr 1fr}
+  .focus{grid-template-columns:1fr;padding:45px}
+  .newsletter{grid-template-columns:70px 1fr}
+  .newsletter form{grid-column:1/-1}
+  .experience article{grid-template-columns:1fr;gap:10px}
+  .caseColumns{grid-template-columns:1fr;gap:30px}
+  .resourceGrid{grid-template-columns:1fr!important}
+  .resourceCard{grid-template-columns:64px minmax(0,1fr)}
+  .footerGrid{grid-template-columns:1fr 1fr}
+  .automationGateway{grid-template-columns:1fr!important}
+  .caseOutcomeGrid{grid-template-columns:1fr!important}
+  .demoGrid{grid-template-columns:1fr!important}
+}
+
+/* Mobile */
+@media(max-width:620px){
+  .logo{font-size:23px;gap:8px}.logo .logoMark{width:29px!important;height:35px!important;max-width:29px;flex-basis:29px}
+  .aboutSection,.featured,.experience,.page,.studioLibrary{padding-left:18px;padding-right:18px;margin-top:75px}
+  .aboutSection{display:block}
+  .aboutVisual{height:430px;margin-bottom:35px;border-radius:22px}
+  .aboutStories>h2{font-size:38px}
+  .aboutStories article{grid-template-columns:38px 1fr;padding:28px 0}
+  .aboutStories article h3{font-size:23px}
+  .aboutStories article p{font-size:15px}
+  .sectionHead{display:block;margin-bottom:28px}
+  .sectionHead h2,.experience>h2{font-size:40px}
+  .sectionHead .button{margin-top:15px}
+  .projectGrid{grid-template-columns:1fr!important}
+  .projectVisual{min-height:220px}
+  .projectVisual strong{font-size:30px;text-align:center}
+  .projectBody{padding:20px 20px 58px}
+  .focus{margin:75px 0;border-radius:0;padding:40px 20px;display:block}
+  .focus h2{font-size:42px;margin-bottom:28px}
+  .focusCards{grid-template-columns:1fr}
+  .newsletter{margin:70px 18px;grid-template-columns:1fr;padding:24px}
+  .newsletter form>div{flex-direction:column;border:0;gap:8px}
+  .newsletter input{border:1px solid #ddd;border-radius:999px;width:100%}
+  .newsletter button{width:100%}
+  .caseMock{height:340px;margin-bottom:60px}.caseMock strong{font-size:42px;text-align:center}
+  .featureGrid{grid-template-columns:1fr}.nextCase{flex-direction:column}
+  .resourceGrid{grid-template-columns:1fr!important;gap:14px}
+  .resourceCard{grid-template-columns:56px minmax(0,1fr);gap:14px;padding:18px;border-radius:18px}
+  .resourceIcon{width:52px;height:52px;border-radius:14px;font-size:20px}
+  .resourceCard h3{font-size:20px;line-height:1.2}
+  .resourceCard p{font-size:14px;line-height:1.55}
+  .studioHero{padding:52px 22px!important;min-height:auto!important}
+  .studioHero h1{font-size:clamp(46px,14vw,58px)!important}
+  .automationGateway{padding:0 18px!important;margin-top:55px!important}
+  .automationGateway>div,.automationGatewayCard{padding:24px!important}
+  .automationGateway h2{font-size:38px!important}
+  .automationGatewayCard h3{font-size:31px!important}
+  .automationHero{padding:45px 0 55px!important}.automationHero h1{font-size:clamp(47px,14vw,58px)!important}
+  .automationLead{font-size:17px!important}.problemSection p,.sectionIntro,.automationReviews>p{font-size:16px!important}
+  .systemsGrid{grid-template-columns:1fr!important}.systemsGrid article{grid-template-columns:38px 1fr!important;padding:20px 8px!important}.systemsGrid article:nth-child(odd){border-right:0!important}
+  .demoWindow{height:190px!important}.demoWindow strong{font-size:24px!important}
+  .automationCases{margin:70px -18px 0!important;padding:48px 20px!important;border-radius:0!important}
+  .consultation{margin:70px 0;border-radius:0;padding:40px 20px;display:block}.consultation>a{display:inline-block;margin-top:20px;white-space:normal}
+  footer{margin-top:75px;padding:42px 18px 22px}
+  .footerGrid{grid-template-columns:1fr;gap:32px}
+  .footerGrid .logo{font-size:24px}.footerGrid .logo span{font-size:24px}
+  .copyright{text-align:left;margin-top:30px}
+}
