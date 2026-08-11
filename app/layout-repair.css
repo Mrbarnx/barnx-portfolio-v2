@@ -1,5 +1,5 @@
 /* Barnx V2 layout repair: restores section styles lost from the base stylesheet. */
-html,body{max-width:100%;overflow-x:hidden}
+html,body{max-width:100%;overflow-x:clip}
 .logo{display:inline-flex;align-items:center;gap:9px;color:#090909;font-size:28px;font-weight:800;letter-spacing:-.04em;white-space:nowrap}
 .logo .logoMark{display:block;width:34px!important;height:42px!important;max-width:34px;object-fit:contain;flex:0 0 34px}
 
