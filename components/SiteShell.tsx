@@ -46,6 +46,9 @@ export function SiteShell({children}:{children:React.ReactNode}){
       <div className="copyright">© 2026 Barnx. Built with Next.js.</div>
     </footer>
     <style jsx global>{`
+      @media (min-width: 768px) {
+        .navWrap .navRight .resume { display: inline-flex !important; }
+      }
       @media (max-width: 767px) {
         .navWrap .navLinks { display: none !important; }
         .navWrap .navRight .resume { display: none !important; }
