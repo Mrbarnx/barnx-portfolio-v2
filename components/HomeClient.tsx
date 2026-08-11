@@ -54,7 +54,7 @@ export function HomeClient() {
   }, []);
 
   useEffect(() => {
-    const desktop = window.matchMedia('(min-width: 768px)');
+    const desktop = window.matchMedia('(min-width: 901px)');
     let raf = 0;
     let currentIndex = -1;
 
