@@ -6,8 +6,6 @@ import { motion } from 'framer-motion';
 import { ArrowRight, Code2, Rocket, Sparkles, Zap } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import Lenis from 'lenis';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { projects, experience } from '@/data/content';
 
 const techCards = [
@@ -56,19 +54,51 @@ export function HomeClient() {
   }, []);
 
   useEffect(() => {
-    gsap.registerPlugin(ScrollTrigger);
-    if (!about.current) return;
+    const desktop = window.matchMedia('(min-width: 768px)');
+    let raf = 0;
+    let currentIndex = -1;
 
-    const media = gsap.matchMedia();
-    media.add('(min-width: 768px)', () => {
-      const triggers: ScrollTrigger[] = [];
-      about.current?.querySelectorAll('[data-story]').forEach((element, index) => {
-        triggers.push(ScrollTrigger.create({ trigger: element, start: 'top 55%', end: 'bottom 45%', onEnter: () => setActive(index), onEnterBack: () => setActive(index) }));
-      });
-      return () => triggers.forEach((trigger) => trigger.kill());
-    });
+    const updateActiveStory = () => {
+      if (desktop.matches && about.current) {
+        const items = Array.from(about.current.querySelectorAll<HTMLElement>('[data-story]'));
 
-    return () => media.revert();
+        if (items.length) {
+          const targetY = window.innerHeight * 0.52;
+          let nextIndex = 0;
+          let nearest = Number.POSITIVE_INFINITY;
+
+          items.forEach((item, index) => {
+            const rect = item.getBoundingClientRect();
+            const center = rect.top + rect.height / 2;
+            const distance = Math.abs(center - targetY);
+
+            if (distance < nearest) {
+              nearest = distance;
+              nextIndex = index;
+            }
+          });
+
+          if (nextIndex !== currentIndex) {
+            currentIndex = nextIndex;
+            setActive(nextIndex);
+          }
+        }
+      }
+
+      raf = requestAnimationFrame(updateActiveStory);
+    };
+
+    const handleBreakpointChange = () => {
+      currentIndex = -1;
+    };
+
+    desktop.addEventListener('change', handleBreakpointChange);
+    raf = requestAnimationFrame(updateActiveStory);
+
+    return () => {
+      cancelAnimationFrame(raf);
+      desktop.removeEventListener('change', handleBreakpointChange);
+    };
   }, []);
 
   const advanceMobileStory = () => {
