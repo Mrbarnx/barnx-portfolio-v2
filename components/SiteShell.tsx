@@ -46,6 +46,17 @@ export function SiteShell({children}:{children:React.ReactNode}){
       <div className="copyright">© 2026 Barnx. Built with Next.js.</div>
     </footer>
     <style jsx global>{`
+      .techMarquee::before {
+        content: 'SKILLS / TOOLS I WORK WITH';
+        display: block;
+        width: 100%;
+        padding: 0 0 10px 4px;
+        color: #777;
+        font-size: 10px;
+        font-weight: 800;
+        letter-spacing: .12em;
+        line-height: 1.2;
+      }
       @media (min-width: 768px) {
         .navWrap .navRight .resume { display: inline-flex !important; }
       }
