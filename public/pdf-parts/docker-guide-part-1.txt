@@ -1,0 +1,803 @@
+%PDF-1.4
+%ABCD ReportLab Generated PDF document (opensource)
+1 0 obj
+<<
+/F1 2 0 R /F2 3 0 R /F3 6 0 R
+>>
+endobj
+2 0 obj
+<<
+/BaseFont /Helvetica /Encoding /WinAnsiEncoding /Name /F1 /Subtype /Type1 /Type /Font
+>>
+endobj
+3 0 obj
+<<
+/BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding /Name /F2 /Subtype /Type1 /Type /Font
+>>
+endobj
+4 0 obj
+<<
+/A <<
+/S /URI /Type /Action /URI (https://github.com/Mrbarnx/docker-student-api)
+>> /Border [ 0 0 0 ] /Rect [ 254.745 534.88 402.6025 545.08 ] /Subtype /Link /Type /Annot
+>>
+endobj
+5 0 obj
+<<
+/Annots [ 4 0 R ] /Contents 30 0 R /MediaBox [ 0 0 612 792 ] /Parent 29 0 R /Resources <<
+/Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
+>> /Rotate 0 
+  /Trans <<
+
+>> /Type /Page
+>>
+endobj
+6 0 obj
+<<
+/BaseFont /Courier /Encoding /WinAnsiEncoding /Name /F3 /Subtype /Type1 /Type /Font
+>>
+endobj
+7 0 obj
+<<
+/Contents 31 0 R /MediaBox [ 0 0 612 792 ] /Parent 29 0 R /Resources <<
+/Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
+>> /Rotate 0 /Trans <<
+
+>> 
+  /Type /Page
+>>
+endobj
+8 0 obj
+<<
+/Contents 32 0 R /MediaBox [ 0 0 612 792 ] /Parent 29 0 R /Resources <<
+/Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
+>> /Rotate 0 /Trans <<
+
+>> 
+  /Type /Page
+>>
+endobj
+9 0 obj
+<<
+/Contents 33 0 R /MediaBox [ 0 0 612 792 ] /Parent 29 0 R /Resources <<
+/Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
+>> /Rotate 0 /Trans <<
+
+>> 
+  /Type /Page
+>>
+endobj
+10 0 obj
+<<
+/Contents 34 0 R /MediaBox [ 0 0 612 792 ] /Parent 29 0 R /Resources <<
+/Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
+>> /Rotate 0 /Trans <<
+
+>> 
+  /Type /Page
+>>
+endobj
+11 0 obj
+<<
+/Contents 35 0 R /MediaBox [ 0 0 612 792 ] /Parent 29 0 R /Resources <<
+/Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
+>> /Rotate 0 /Trans <<
+
+>> 
+  /Type /Page
+>>
+endobj
+12 0 obj
+<<
+/Contents 36 0 R /MediaBox [ 0 0 612 792 ] /Parent 29 0 R /Resources <<
+/Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
+>> /Rotate 0 /Trans <<
+
+>> 
+  /Type /Page
+>>
+endobj
+13 0 obj
+<<
+/Contents 37 0 R /MediaBox [ 0 0 612 792 ] /Parent 29 0 R /Resources <<
+/Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
+>> /Rotate 0 /Trans <<
+
+>> 
+  /Type /Page
+>>
+endobj
+14 0 obj
+<<
+/Contents 38 0 R /MediaBox [ 0 0 612 792 ] /Parent 29 0 R /Resources <<
+/Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
+>> /Rotate 0 /Trans <<
+
+>> 
+  /Type /Page
+>>
+endobj
+15 0 obj
+<<
+/Contents 39 0 R /MediaBox [ 0 0 612 792 ] /Parent 29 0 R /Resources <<
+/Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
+>> /Rotate 0 /Trans <<
+
+>> 
+  /Type /Page
+>>
+endobj
+16 0 obj
+<<
+/Contents 40 0 R /MediaBox [ 0 0 612 792 ] /Parent 29 0 R /Resources <<
+/Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
+>> /Rotate 0 /Trans <<
+
+>> 
+  /Type /Page
+>>
+endobj
+17 0 obj
+<<
+/Contents 41 0 R /MediaBox [ 0 0 612 792 ] /Parent 29 0 R /Resources <<
+/Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
+>> /Rotate 0 /Trans <<
+
+>> 
+  /Type /Page
+>>
+endobj
+18 0 obj
+<<
+/Contents 42 0 R /MediaBox [ 0 0 612 792 ] /Parent 29 0 R /Resources <<
+/Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
+>> /Rotate 0 /Trans <<
+
+>> 
+  /Type /Page
+>>
+endobj
+19 0 obj
+<<
+/Contents 43 0 R /MediaBox [ 0 0 612 792 ] /Parent 29 0 R /Resources <<
+/Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
+>> /Rotate 0 /Trans <<
+
+>> 
+  /Type /Page
+>>
+endobj
+20 0 obj
+<<
+/A <<
+/S /URI /Type /Action /URI (https://github.com/Mrbarnx/docker-student-api)
+>> /Border [ 0 0 0 ] /Rect [ 101.587 731.52 244.226 741.36 ] /Subtype /Link /Type /Annot
+>>
+endobj
+21 0 obj
+<<
+/Annots [ 20 0 R ] /Contents 44 0 R /MediaBox [ 0 0 612 792 ] /Parent 29 0 R /Resources <<
+/Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
+>> /Rotate 0 
+  /Trans <<
+
+>> /Type /Page
+>>
+endobj
+22 0 obj
+<<
+/Contents 45 0 R /MediaBox [ 0 0 612 792 ] /Parent 29 0 R /Resources <<
+/Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
+>> /Rotate 0 /Trans <<
+
+>> 
+  /Type /Page
+>>
+endobj
+23 0 obj
+<<
+/Contents 46 0 R /MediaBox [ 0 0 612 792 ] /Parent 29 0 R /Resources <<
+/Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
+>> /Rotate 0 /Trans <<
+
+>> 
+  /Type /Page
+>>
+endobj
+24 0 obj
+<<
+/Contents 47 0 R /MediaBox [ 0 0 612 792 ] /Parent 29 0 R /Resources <<
+/Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
+>> /Rotate 0 /Trans <<
+
+>> 
+  /Type /Page
+>>
+endobj
+25 0 obj
+<<
+/Contents 48 0 R /MediaBox [ 0 0 612 792 ] /Parent 29 0 R /Resources <<
+/Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
+>> /Rotate 0 /Trans <<
+
+>> 
+  /Type /Page
+>>
+endobj
+26 0 obj
+<<
+/Contents 49 0 R /MediaBox [ 0 0 612 792 ] /Parent 29 0 R /Resources <<
+/Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
+>> /Rotate 0 /Trans <<
+
+>> 
+  /Type /Page
+>>
+endobj
+27 0 obj
+<<
+/PageMode /UseNone /Pages 29 0 R /Type /Catalog
+>>
+endobj
+28 0 obj
+<<
+/Author (Barnabas Mikel) /CreationDate (D:20260826045436+00'00') /Creator (\(unspecified\)) /Keywords () /ModDate (D:20260826045436+00'00') /Producer (ReportLab PDF Library - \(opensource\)) 
+  /Subject (\(unspecified\)) /Title (Docker Practical Guide - Node.js + PostgreSQL & Interview Prep) /Trapped /False
+>>
+endobj
+29 0 obj
+<<
+/Count 20 /Kids [ 5 0 R 7 0 R 8 0 R 9 0 R 10 0 R 11 0 R 12 0 R 13 0 R 14 0 R 15 0 R 
+  16 0 R 17 0 R 18 0 R 19 0 R 21 0 R 22 0 R 23 0 R 24 0 R 25 0 R 26 0 R ] /Type /Pages
+>>
+endobj
+30 0 obj
+<<
+/Length 1958
+>>
+stream
+1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
+q
+.85098 .886275 .94902 RG
+.4 w
+n 51.84 33.12 m 560.16 33.12 l S
+.372549 .403922 .447059 rg
+BT /F1 6.5 Tf 7.8 TL ET
+BT 1 0 0 1 51.84 22.32 Tm (Docker Practical Guide | Node.js + PostgreSQL) Tj T* ET
+BT 1 0 0 1 539.5615 22.32 Tm (Page 1) Tj T* ET
+Q
+q
+1 0 0 1 57.84 669.36 cm
+Q
+q
+1 0 0 1 57.84 641.36 cm
+q
+.082353 .105882 .137255 rg
+BT 1 0 0 1 0 4 Tm /F2 24 Tf 28 TL 16.164 0 Td (DOCKER PRACTICAL LEARNING GUIDE) Tj T* -16.164 0 Td ET
+Q
+Q
+q
+1 0 0 1 57.84 618.36 cm
+q
+.082353 .105882 .137255 rg
+BT 1 0 0 1 0 3 Tm /F2 12 Tf 15 TL 30.27 0 Td (From Beginner Fundamentals to a Dockerized Node.js + PostgreSQL Project) Tj T* -30.27 0 Td ET
+Q
+Q
+q
+1 0 0 1 57.84 598.36 cm
+q
+.372549 .403922 .447059 rg
+BT 1 0 0 1 0 3.5 Tm /F1 8.5 Tf 12 TL 105.0285 0 Td (5-Day Sprint - Commands Explained in Plain English - Interview Preparation) Tj T* -105.0285 0 Td ET
+Q
+Q
+q
+1 0 0 1 57.84 575.08 cm
+Q
+q
+1 0 0 1 57.84 551.08 cm
+q
+.372549 .403922 .447059 rg
+BT 1 0 0 1 0 15.5 Tm /F1 8.5 Tf 12 TL 4.635 0 Td (Built around the final project: Docker Student API - Node.js, Express, PostgreSQL, Docker, Docker Compose, volumes, networks,) Tj T* 143.1358 0 Td (health checks, environment variables and Git/GitHub.) Tj T* -147.7707 0 Td ET
+Q
+Q
+q
+1 0 0 1 57.84 533.08 cm
+q
+BT 1 0 0 1 0 3.5 Tm 151.5575 0 Td 12 TL /F1 8.5 Tf .372549 .403922 .447059 rg (Repository: ) Tj .043137 .341176 .815686 rg (github.com/Mrbarnx/docker-student-api) Tj T* -151.5575 0 Td ET
+Q
+Q
+q
+1 0 0 1 57.84 515.08 cm
+q
+.372549 .403922 .447059 rg
+BT 1 0 0 1 0 3.5 Tm /F1 8.5 Tf 12 TL 186.739 0 Td (Reference Edition - August 2026) Tj T* -186.739 0 Td ET
+Q
+Q
+q
+1 0 0 1 57.84 494.68 cm
+Q
+q
+1 0 0 1 57.84 470.68 cm
+q
+.372549 .403922 .447059 rg
+BT 1 0 0 1 0 15.5 Tm /F1 8.5 Tf 12 TL 2.14025 0 Td (A practical beginner-to-intermediate Docker reference built around real commands, debugging habits, and a Node.js + PostgreSQL) Tj T* 232.084 0 Td (project.) Tj T* -234.2242 0 Td ET
+Q
+Q
+ 
+endstream
+endobj
+31 0 obj
+<<
+/Length 8314
+>>
+stream
+1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
+q
+.85098 .886275 .94902 RG
+.4 w
+n 51.84 33.12 m 560.16 33.12 l S
+.372549 .403922 .447059 rg
+BT /F1 6.5 Tf 7.8 TL ET
+BT 1 0 0 1 51.84 22.32 Tm (Docker Practical Guide | Node.js + PostgreSQL) Tj T* ET
+BT 1 0 0 1 539.5615 22.32 Tm (Page 2) Tj T* ET
+Q
+q
+1 0 0 1 57.84 723.36 cm
+q
+.043137 .341176 .815686 rg
+BT 1 0 0 1 0 3 Tm /F2 15 Tf 18 TL (How to Use This Guide) Tj T* ET
+Q
+Q
+q
+1 0 0 1 57.84 694.96 cm
+q
+.082353 .105882 .137255 rg
+BT 1 0 0 1 0 14.2 Tm /F1 8.2 Tf 11.2 TL (This document is designed as a return-to guide: when you forget a Docker command or concept, find the relevant section, read the) Tj T* (plain-English meaning, then repeat the practical command.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 57.84 679.76 cm
+q
+.082353 .105882 .137255 rg
+BT 1 0 0 1 12 3 Tm /F1 8.2 Tf 11.2 TL -7 0 Td (- Read the concept first, then run the command.) Tj T* 7 0 Td ET
+Q
+Q
+q
+1 0 0 1 57.84 666.06 cm
+q
+.082353 .105882 .137255 rg
+BT 1 0 0 1 12 3 Tm /F1 8.2 Tf 11.2 TL -7 0 Td (- Commands are shown as they were used during the practical sprint.) Tj T* 7 0 Td ET
+Q
+Q
+q
+1 0 0 1 57.84 652.36 cm
+q
+.082353 .105882 .137255 rg
+BT 1 0 0 1 12 3 Tm /F1 8.2 Tf 11.2 TL -7 0 Td (- The Plain English box explains what the command is asking Docker, npm, Git, Windows or PostgreSQL to do.) Tj T* 7 0 Td ET
+Q
+Q
+q
+1 0 0 1 57.84 638.66 cm
+q
+.082353 .105882 .137255 rg
+BT 1 0 0 1 12 3 Tm /F1 8.2 Tf 11.2 TL -7 0 Td (- Do not memorize every flag at once. Focus on understanding the workflow.) Tj T* 7 0 Td ET
+Q
+Q
+q
+1 0 0 1 57.84 624.96 cm
+q
+.082353 .105882 .137255 rg
+BT 1 0 0 1 12 3 Tm /F1 8.2 Tf 11.2 TL -7 0 Td (- The interview section at the end is for revision after you can perform the practical tasks.) Tj T* 7 0 Td ET
+Q
+Q
+q
+1 0 0 1 57.84 603.96 cm
+q
+.082353 .105882 .137255 rg
+BT 1 0 0 1 0 2.5 Tm /F2 10.5 Tf 13 TL (Contents) Tj T* ET
+Q
+Q
+q
+1 0 0 1 57.84 588.76 cm
+q
+.082353 .105882 .137255 rg
+BT 1 0 0 1 14 3 Tm /F1 8.2 Tf 11.2 TL -10 0 Td (Docker in Plain English) Tj T* 10 0 Td ET
+Q
+Q
+q
+1 0 0 1 57.84 575.06 cm
+q
+.082353 .105882 .137255 rg
+BT 1 0 0 1 14 3 Tm /F1 8.2 Tf 11.2 TL -10 0 Td (Windows Setup and Docker Engine Troubleshooting) Tj T* 10 0 Td ET
+Q
+Q
+q
+1 0 0 1 57.84 561.36 cm
+q
+.082353 .105882 .137255 rg
+BT 1 0 0 1 14 3 Tm /F1 8.2 Tf 11.2 TL -10 0 Td (Day 1 - Docker Fundamentals and Basic Commands) Tj T* 10 0 Td ET
+Q
+Q
+q
+1 0 0 1 57.84 547.66 cm
+q
+.082353 .105882 .137255 rg
+BT 1 0 0 1 14 3 Tm /F1 8.2 Tf 11.2 TL -10 0 Td (Day 2 - Node.js, Dockerfile, Images, Tags and Build Cache) Tj T* 10 0 Td ET
+Q
+Q
+q
+1 0 0 1 57.84 533.96 cm
+q
+.082353 .105882 .137255 rg
+BT 1 0 0 1 14 3 Tm /F1 8.2 Tf 11.2 TL -10 0 Td (Day 3 - Docker Compose and Environment Variables) Tj T* 10 0 Td ET
+Q
+Q
+q
+1 0 0 1 57.84 520.26 cm
+q
+.082353 .105882 .137255 rg
+BT 1 0 0 1 14 3 Tm /F1 8.2 Tf 11.2 TL -10 0 Td (Day 4 - Volumes, Networks and PostgreSQL) Tj T* 10 0 Td ET
+Q
+Q
+q
+1 0 0 1 57.84 506.56 cm
+q
+.082353 .105882 .137255 rg
+BT 1 0 0 1 14 3 Tm /F1 8.2 Tf 11.2 TL -10 0 Td (Day 5 - Final Docker Student API Project) Tj T* 10 0 Td ET
+Q
+Q
+q
+1 0 0 1 57.84 492.86 cm
+q
+.082353 .105882 .137255 rg
+BT 1 0 0 1 14 3 Tm /F1 8.2 Tf 11.2 TL -10 0 Td (Git and GitHub Publishing Workflow) Tj T* 10 0 Td ET
+Q
+Q
+q
+1 0 0 1 57.84 479.16 cm
+q
+.082353 .105882 .137255 rg
+BT 1 0 0 1 14 3 Tm /F1 8.2 Tf 11.2 TL -10 0 Td (Common Docker Errors and How to Debug Them) Tj T* 10 0 Td ET
+Q
+Q
+q
+1 0 0 1 57.84 465.46 cm
+q
+.082353 .105882 .137255 rg
+BT 1 0 0 1 14 3 Tm /F1 8.2 Tf 11.2 TL -10 0 Td (Docker Command Reference) Tj T* 10 0 Td ET
+Q
+Q
+q
+1 0 0 1 57.84 451.76 cm
+q
+.082353 .105882 .137255 rg
+BT 1 0 0 1 14 3 Tm /F1 8.2 Tf 11.2 TL -10 0 Td (Interview Preparation - Questions and Answers) Tj T* 10 0 Td ET
+Q
+Q
+q
+1 0 0 1 57.84 438.06 cm
+q
+.082353 .105882 .137255 rg
+BT 1 0 0 1 14 3 Tm /F1 8.2 Tf 11.2 TL -10 0 Td (Skills You Can Honestly List) Tj T* 10 0 Td ET
+Q
+Q
+q
+1 0 0 1 57.84 424.36 cm
+q
+.082353 .105882 .137255 rg
+BT 1 0 0 1 14 3 Tm /F1 8.2 Tf 11.2 TL -10 0 Td (Portfolio Project Description) Tj T* 10 0 Td ET
+Q
+Q
+q
+1 0 0 1 57.84 410.66 cm
+q
+.082353 .105882 .137255 rg
+BT 1 0 0 1 14 3 Tm /F1 8.2 Tf 11.2 TL -10 0 Td (WhatsApp Update for Your Elder Brother) Tj T* 10 0 Td ET
+Q
+Q
+q
+1 0 0 1 57.84 396.96 cm
+q
+.082353 .105882 .137255 rg
+BT 1 0 0 1 14 3 Tm /F1 8.2 Tf 11.2 TL -10 0 Td (What to Learn Next: DevOps and Cloud Computing) Tj T* 10 0 Td ET
+Q
+Q
+q
+1 0 0 1 57.84 392.46 cm
+Q
+q
+1 0 0 1 57.84 363.46 cm
+q
+.043137 .341176 .815686 rg
+BT 1 0 0 1 0 3 Tm /F2 15 Tf 18 TL (1. Docker in Plain English) Tj T* ET
+Q
+Q
+q
+1 0 0 1 57.84 346.26 cm
+q
+.082353 .105882 .137255 rg
+BT 1 0 0 1 0 3 Tm /F1 8.2 Tf 11.2 TL (Docker packages an application together with the environment it needs and runs it inside an isolated container.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 57.84 325.26 cm
+q
+.082353 .105882 .137255 rg
+BT 1 0 0 1 0 2.5 Tm /F2 10.5 Tf 13 TL (Why Docker is useful) Tj T* ET
+Q
+Q
+q
+1 0 0 1 57.84 310.06 cm
+q
+.082353 .105882 .137255 rg
+BT 1 0 0 1 12 3 Tm /F1 8.2 Tf 11.2 TL -7 0 Td (- The application runs in a predictable environment instead of depending on whatever happens to be installed on a laptop or server.) Tj T* 7 0 Td ET
+Q
+Q
+q
+1 0 0 1 57.84 296.36 cm
+q
+.082353 .105882 .137255 rg
+BT 1 0 0 1 12 3 Tm /F1 8.2 Tf 11.2 TL -7 0 Td (- Different services such as Node.js, PostgreSQL, Redis and n8n can run independently without cluttering the host operating system.) Tj T* 7 0 Td ET
+Q
+Q
+q
+1 0 0 1 57.84 282.66 cm
+q
+.082353 .105882 .137255 rg
+BT 1 0 0 1 12 3 Tm /F1 8.2 Tf 11.2 TL -7 0 Td (- A Dockerized application is easier to move from your laptop to a teammate's laptop, VPS or cloud server.) Tj T* 7 0 Td ET
+Q
+Q
+q
+1 0 0 1 57.84 268.96 cm
+q
+.082353 .105882 .137255 rg
+BT 1 0 0 1 12 3 Tm /F1 8.2 Tf 11.2 TL -7 0 Td (- Docker Compose makes multi-service applications repeatable with one configuration file.) Tj T* 7 0 Td ET
+Q
+Q
+q
+1 0 0 1 57.84 255.26 cm
+q
+.082353 .105882 .137255 rg
+BT 1 0 0 1 12 3 Tm /F1 8.2 Tf 11.2 TL -7 0 Td (- Volumes allow important data to survive when containers are replaced.) Tj T* 7 0 Td ET
+Q
+Q
+q
+1 0 0 1 57.84 241.56 cm
+q
+.082353 .105882 .137255 rg
+BT 1 0 0 1 12 3 Tm /F1 8.2 Tf 11.2 TL -7 0 Td (- Networks let containers communicate by stable service names instead of changing IP addresses.) Tj T* 7 0 Td ET
+Q
+Q
+q
+1 0 0 1 57.84 220.56 cm
+q
+.082353 .105882 .137255 rg
+BT 1 0 0 1 0 2.5 Tm /F2 10.5 Tf 13 TL (Core mental model) Tj T* ET
+Q
+Q
+q
+1 0 0 1 57.84 152.16 cm
+%PreformattedPara
+.082353 .105882 .137255 rg
+BT 1 0 0 1 9 57.2 Tm /F3 7.2 Tf 9.2 TL (Dockerfile) Tj T* (   v docker build) Tj T* (Image) Tj T* (   v docker run) Tj T* (Container) Tj T* (   v) Tj T* (Running application) Tj T* ET
+Q
+q
+1 0 0 1 57.84 142.16 cm
+Q
+q
+1 0 0 1 57.84 60.16 cm
+q
+.933333 .952941 .980392 rg
+n 0 82 508.32 -16.4 re f*
+0 0 0 rg
+BT /F2 10 Tf 12 TL ET
+q
+1 0 0 1 5 69.6 cm
+q
+.082353 .105882 .137255 rg
+BT 1 0 0 1 0 1.4 Tm /F1 7 Tf 8.4 TL (Term) Tj T* ET
+Q
+Q
+q
+1 0 0 1 259.16 69.6 cm
+q
+.082353 .105882 .137255 rg
+BT 1 0 0 1 0 1.4 Tm /F1 7 Tf 8.4 TL (Simple meaning) Tj T* ET
+Q
+Q
+BT /F1 10 Tf 12 TL ET
+q
+1 0 0 1 5 53.2 cm
+q
+.082353 .105882 .137255 rg
+BT 1 0 0 1 0 1.4 Tm /F1 7 Tf 8.4 TL (Docker Engine) Tj T* ET
+Q
+Q
+q
+1 0 0 1 259.16 53.2 cm
+q
+.082353 .105882 .137255 rg
+BT 1 0 0 1 0 1.4 Tm /F1 7 Tf 8.4 TL (The background service that creates and runs containers.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 5 36.8 cm
+q
+.082353 .105882 .137255 rg
+BT 1 0 0 1 0 1.4 Tm /F1 7 Tf 8.4 TL (Docker CLI) Tj T* ET
+Q
+Q
+q
+1 0 0 1 259.16 36.8 cm
+q
+.082353 .105882 .137255 rg
+BT 1 0 0 1 0 1.4 Tm /F1 7 Tf 8.4 TL (The commands you type, such as docker ps and docker run.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 5 20.4 cm
+q
+.082353 .105882 .137255 rg
+BT 1 0 0 1 0 1.4 Tm /F1 7 Tf 8.4 TL (Image) Tj T* ET
+Q
+Q
+q
+1 0 0 1 259.16 20.4 cm
+q
+.082353 .105882 .137255 rg
+BT 1 0 0 1 0 1.4 Tm /F1 7 Tf 8.4 TL (A reusable package/blueprint used to create containers.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 5 4 cm
+q
+.082353 .105882 .137255 rg
+BT 1 0 0 1 0 1.4 Tm /F1 7 Tf 8.4 TL (Container) Tj T* ET
+Q
+Q
+q
+1 0 0 1 259.16 4 cm
+q
+.082353 .105882 .137255 rg
+BT 1 0 0 1 0 1.4 Tm /F1 7 Tf 8.4 TL (A running or stopped instance created from an image.) Tj T* ET
+Q
+Q
+q
+1 J
+1 j
+.803922 .831373 .870588 RG
+.4 w
+n 0 82 m 508.32 82 l S
+n 0 0 m 0 82 l S
+n 508.32 0 m 508.32 82 l S
+n 0 0 m 508.32 0 l S
+n 0 65.6 m 508.32 65.6 l S
+n 0 49.2 m 508.32 49.2 l S
+n 0 32.8 m 508.32 32.8 l S
+n 0 16.4 m 508.32 16.4 l S
+n 254.16 0 m 254.16 82 l S
+Q
+Q
+Q
+ 
+endstream
+endobj
+32 0 obj
+<<
+/Length 9262
+>>
+stream
+1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
+q
+.85098 .886275 .94902 RG
+.4 w
+n 51.84 33.12 m 560.16 33.12 l S
+.372549 .403922 .447059 rg
+BT /F1 6.5 Tf 7.8 TL ET
+BT 1 0 0 1 51.84 22.32 Tm (Docker Practical Guide | Node.js + PostgreSQL) Tj T* ET
+BT 1 0 0 1 539.5615 22.32 Tm (Page 3) Tj T* ET
+Q
+q
+1 0 0 1 57.84 634.56 cm
+q
+.933333 .952941 .980392 rg
+n 0 106.8 508.32 -16.4 re f*
+0 0 0 rg
+BT /F2 10 Tf 12 TL ET
+q
+1 0 0 1 5 94.4 cm
+q
+.082353 .105882 .137255 rg
+BT 1 0 0 1 0 1.4 Tm /F1 7 Tf 8.4 TL (Term) Tj T* ET
+Q
+Q
+q
+1 0 0 1 259.16 94.4 cm
+q
+.082353 .105882 .137255 rg
+BT 1 0 0 1 0 1.4 Tm /F1 7 Tf 8.4 TL (Simple meaning) Tj T* ET
+Q
+Q
+BT /F1 10 Tf 12 TL ET
+q
+1 0 0 1 5 78 cm
+q
+.082353 .105882 .137255 rg
+BT 1 0 0 1 0 1.4 Tm /F1 7 Tf 8.4 TL (Docker Hub) Tj T* ET
+Q
+Q
+q
+1 0 0 1 259.16 69.6 cm
+q
+.082353 .105882 .137255 rg
+BT 1 0 0 1 0 9.8 Tm /F1 7 Tf 8.4 TL (A registry where images such as nginx, node and postgres can be) Tj T* (downloaded.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 5 53.2 cm
+q
+.082353 .105882 .137255 rg
+BT 1 0 0 1 0 1.4 Tm /F1 7 Tf 8.4 TL (Dockerfile) Tj T* ET
+Q
+Q
+q
+1 0 0 1 259.16 53.2 cm
+q
+.082353 .105882 .137255 rg
+BT 1 0 0 1 0 1.4 Tm /F1 7 Tf 8.4 TL (Instructions Docker follows to build your own image.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 5 36.8 cm
+q
+.082353 .105882 .137255 rg
+BT 1 0 0 1 0 1.4 Tm /F1 7 Tf 8.4 TL (Docker Compose) Tj T* ET
+Q
+Q
+q
+1 0 0 1 259.16 36.8 cm
+q
+.082353 .105882 .137255 rg
+BT 1 0 0 1 0 1.4 Tm /F1 7 Tf 8.4 TL (A way to define and manage multiple containers/services in compose.yaml.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 5 20.4 cm
+q
+.082353 .105882 .137255 rg
+BT 1 0 0 1 0 1.4 Tm /F1 7 Tf 8.4 TL (Volume) Tj T* ET
+Q
+Q
+q
+1 0 0 1 259.16 20.4 cm
+q
+.082353 .105882 .137255 rg
+BT 1 0 0 1 0 1.4 Tm /F1 7 Tf 8.4 TL (Docker-managed persistent storage.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 5 4 cm
+q
+.082353 .105882 .137255 rg
+BT 1 0 0 1 0 1.4 Tm /F1 7 Tf 8.4 TL (Network) Tj T* ET
+Q
+Q
+q
+1 0 0 1 259.16 4 cm
+q
+.082353 .105882 .137255 rg
+BT 1 0 0 1 0 1.4 Tm /F1 7 Tf 8.4 TL (The private communication layer between containers.) Tj T* ET
+Q
+Q
+q
+1 J
+1 j
+.803922 .831373 .870588 RG
+.4 w
+n 0 106.8 m 508.32 106.8 l S
+n 0 90.4 m 0 106.8 l S
+n 0 0 m 0 90.4 l S
+n 508.32 90.4 m 508.32 106.8 l S
+n 508.32 0 m 508.32 90.4 l S
+n 0 0 m 508.32 0 l S
+n 0 90.4 
