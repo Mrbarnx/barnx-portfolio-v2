@@ -15,7 +15,7 @@ export default function LearningPathsPage(){return <main className="page resourc
     <div className="resourceGrid">
       <Link href="/barnx-studio/learning-paths/docker-fundamentals" className="resourceCard">
         <div className="resourceIcon">D</div>
-        <div><span>DevOps · ACTIVELY LEARNING</span><h3>Docker Fundamentals</h3><p>A practical path from containers and images to Dockerfiles, volumes, networking and Docker Compose.</p><em>Open learning path →</em></div>
+        <div><span>DevOps Fundamentals · BEGINNER</span><h3>Docker Fundamentals</h3><p>A simple 3-week hands-on roadmap from containers and images to Docker Compose, PostgreSQL and a real practice project.</p><em>Open learning path →</em></div>
       </Link>
     </div>
   </section>
