@@ -45,5 +45,20 @@ export function TechMarqueeEnhancer() {
     return () => observer.disconnect();
   }, []);
 
-  return null;
+  return <style jsx global>{`
+    @media (min-width: 621px) {
+      .techMarqueeGroup[data-skills-enhanced='true'] {
+        width: 1780px !important;
+        min-width: 1780px !important;
+        flex-basis: 1780px !important;
+      }
+    }
+    @media (max-width: 620px) {
+      .techMarqueeGroup[data-skills-enhanced='true'] {
+        width: max-content !important;
+        min-width: max-content !important;
+        flex: 0 0 auto !important;
+      }
+    }
+  `}</style>;
 }
