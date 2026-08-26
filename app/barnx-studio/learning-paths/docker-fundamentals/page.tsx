@@ -1,46 +1,80 @@
 import Link from 'next/link';
+import styles from './docker-learning.module.css';
 
 export const metadata={title:'Docker Fundamentals | Barnx Studio'};
 
-const steps=[
-  ['01','Containers & images','Understand the difference between an image and a running container, and why containers make development environments more predictable.'],
-  ['02','Dockerfiles','Learn how to describe an application image step by step and keep builds small, repeatable and understandable.'],
-  ['03','Volumes','Understand how to persist data and share files without losing important state when a container stops.'],
-  ['04','Networking','Learn how containers communicate with each other and how ports connect container services to your local machine.'],
-  ['05','Docker Compose','Run multiple services together — for example an app, API and database — from one clear configuration.'],
-  ['06','Practice','Containerize a small application, run it locally, add a database service and verify the setup can be recreated from scratch.']
+const tools=[
+  ['Docker','https://cdn.simpleicons.org/docker/000000'],
+  ['Node.js','https://cdn.simpleicons.org/nodedotjs/000000'],
+  ['Express','https://cdn.simpleicons.org/express/000000'],
+  ['PostgreSQL','https://cdn.simpleicons.org/postgresql/000000'],
+  ['Git','https://cdn.simpleicons.org/git/000000'],
+  ['GitHub','https://cdn.simpleicons.org/github/000000']
 ];
 
-export default function DockerFundamentalsPage(){return <main className="page resourceDetail">
+const weeks=[
+  {
+    id:'week-1',number:'01',label:'WEEK 1',title:'Understand Docker first',description:'Learn the mental model, run your first containers, map ports and inspect what Docker is doing.',
+    lessons:[
+      {index:'1.1',title:'Docker, images and containers',concept:'Docker packages an application with the environment it needs and runs it inside an isolated container.',code:'docker version\ndocker run hello-world',breakdown:['docker version → checks that the Docker CLI can communicate with the Docker Engine.','docker run → creates a new container from an image and starts it.','hello-world → a tiny image used to prove Docker works.'],plain:'Docker, show me that your client and engine work, then download and run the small hello-world test container.',why:'This gives you the basic mental model before you start memorizing commands.',task:'Run both commands. Your checkpoint is seeing the hello-world success message.'},
+      {index:'1.2',title:'See what is running',concept:'Images are reusable blueprints. Containers are instances created from those images.',code:'docker ps\ndocker ps -a\ndocker images',breakdown:['docker ps → shows containers currently running.','docker ps -a → also shows stopped containers.','docker images → shows images stored on your machine.'],plain:'Docker, show me my running containers, all containers, and the image blueprints stored locally.',why:'These are the first commands you use when you need to understand the current Docker state.',task:'Run the three commands and identify at least one image and one container.'},
+      {index:'1.3',title:'Run a real web container',concept:'Port mapping lets a service inside a container become reachable from your laptop.',code:'docker run -d --name my-nginx -p 8081:80 nginx',breakdown:['-d → detached/background mode.','--name my-nginx → gives the container a readable name.','-p 8081:80 → maps laptop port 8081 to port 80 inside the container.','nginx → the image Docker uses to create the container.'],plain:'Docker, create an Nginx container, call it my-nginx, run it in the background, and make it available through localhost:8081.',why:'Port mapping is one of the first concepts you need for APIs, databases and multi-service applications.',task:'Open http://localhost:8081. You should see the Nginx page.'},
+      {index:'1.4',title:'Logs, inspect and enter a container',concept:'When a container behaves unexpectedly, inspect evidence before changing things.',code:'docker logs my-nginx\ndocker inspect my-nginx\ndocker exec -it my-nginx sh',breakdown:['docker logs → shows application output from the container.','docker inspect → shows detailed container configuration.','docker exec -it ... sh → opens a shell inside an already-running container.'],plain:'Docker, show me what this container has been saying, show me its configuration, then let me inspect it from the inside.',why:'This is the beginning of debugging Docker instead of guessing.',task:'Enter the Nginx container, run pwd and ls, then exit.'}
+    ]
+  },
+  {
+    id:'week-2',number:'02',label:'WEEK 2',title:'Build your own container',description:'Move from using public images to packaging a small Node.js application yourself.',
+    lessons:[
+      {index:'2.1',title:'Write your first Dockerfile',concept:'A Dockerfile is the recipe Docker follows to build your application image.',code:'FROM node:22-slim\nWORKDIR /app\nCOPY package*.json ./\nRUN npm ci\nCOPY . .\nEXPOSE 3000\nCMD ["node", "server.js"]',breakdown:['FROM → choose the base image.','WORKDIR → choose the working folder inside the image.','COPY package*.json + RUN npm ci → install dependencies in a cache-friendly layer.','COPY . . → copy the application source.','CMD → start the app when the container starts.'],plain:'Docker, start with Node.js, create an app folder, install my exact dependencies, copy my code, document port 3000, and start server.js when a container runs.',why:'Dockerfiles make your application environment repeatable instead of depending on manual laptop setup.',task:'Create a small Node/Express app and place this Dockerfile beside package.json.'},
+      {index:'2.2',title:'Build and run your image',concept:'docker build turns a Dockerfile into an image. docker run creates a container from that image.',code:'docker build -t day2-node-app .\ndocker run -d --name day2-node-container -p 3000:3000 day2-node-app',breakdown:['-t day2-node-app → names/tags the image.','. → use the current directory as the build context.','-p 3000:3000 → map host port 3000 to container port 3000.'],plain:'Docker, build my app into an image from this folder, then create a background container from it and expose the app on port 3000.',why:'This is the core containerization workflow you will reuse on real backend applications.',task:'Build the image, run the container and verify your Node endpoint works in the browser or API client.'},
+      {index:'2.3',title:'Docker Compose',concept:'Compose moves long runtime settings into one reusable YAML file.',code:'services:\n  app:\n    build: .\n    ports:\n      - "3000:3000"\n\n# then run\ndocker compose up -d --build\ndocker compose ps',breakdown:['services → the containers/services in this project.','build: . → build the app from the local Dockerfile.','ports → map the host and container ports.','up -d --build → rebuild if needed and start in the background.'],plain:'Docker Compose, read my service configuration, build the app, start it in the background, and then show me whether it is running.',why:'Compose becomes especially useful when an application needs more than one service.',task:'Move your Node app from docker run commands into compose.yaml and start it with Compose.'},
+      {index:'2.4',title:'Environment configuration',concept:'Environment variables keep settings such as ports and database details outside source code.',code:'PORT=3000\nHOST_PORT=5000\n\n# compose.yaml\nports:\n  - "${HOST_PORT}:${PORT}"',breakdown:['PORT → the port used inside the application/container.','HOST_PORT → the port exposed on your laptop.','${...} → Compose substitutes values from the environment/.env file.'],plain:'Use configuration values from outside the source code so the same app can run with different settings without rewriting the application.',why:'This is how development, staging and production environments can use different configuration safely.',task:'Change HOST_PORT, recreate the service, and confirm the app moves to the new host port.'}
+    ]
+  },
+  {
+    id:'week-3',number:'03',label:'WEEK 3',title:'Connect real services',description:'Add PostgreSQL, persistence, Docker networking and finish with the real Docker Student API repository.',
+    lessons:[
+      {index:'3.1',title:'Networks and service names',concept:'Containers on the same Compose network can communicate using service names instead of changing IP addresses.',code:'DB_HOST=db\nDB_PORT=5432',breakdown:['db → the PostgreSQL service name in compose.yaml.','5432 → PostgreSQL port inside the Docker network.','localhost inside the Node container would point back to the Node container itself.'],plain:'Node, connect to the PostgreSQL container using the Docker service name db instead of trying to find it through localhost.',why:'Understanding container-to-container networking is essential for multi-service systems.',task:'Inspect the Compose network and confirm both app and database services are attached.'},
+      {index:'3.2',title:'Persistent PostgreSQL data',concept:'Containers are replaceable. Database data should live separately so it can survive container recreation.',code:'services:\n  db:\n    volumes:\n      - postgres_data:/var/lib/postgresql/data\n\nvolumes:\n  postgres_data:',breakdown:['postgres_data → a named Docker volume.','/var/lib/postgresql/data → PostgreSQL data directory inside the container.','top-level volumes → tells Compose to manage the named volume.'],plain:'Docker Compose, keep PostgreSQL data in a named storage area outside the disposable database container.',why:'Without persistence, recreating a database container could remove the data you need.',task:'Add one student, run docker compose down, start the project again and verify the record still exists.'},
+      {index:'3.3',title:'Health checks and safe startup',concept:'A running database process is not always ready to accept connections yet.',code:'healthcheck:\n  test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]\n  interval: 5s\n  timeout: 5s\n  retries: 5',breakdown:['pg_isready → asks PostgreSQL whether it is ready.','interval → how often Docker checks.','timeout → how long each check may take.','retries → how many failures before unhealthy.'],plain:'Docker, keep checking PostgreSQL until it is actually ready, not merely running as a process.',why:'This reduces startup races where the API starts before the database can accept connections.',task:'Run docker compose ps and confirm the PostgreSQL service reaches healthy status.'},
+      {index:'3.4',title:'Clone and run the final project',concept:'The final checkpoint is being able to run and explain a complete Node.js + PostgreSQL Docker Compose project.',code:'git clone https://github.com/Mrbarnx/docker-student-api.git\ncd docker-student-api\ndocker compose up -d --build\ndocker compose ps',breakdown:['git clone → copy the learning repository to your computer.','up -d --build → build/start the complete stack.','compose ps → verify student-api and student-db status.'],plain:'Download the Docker Student API project, enter it, build and start every service, then check that the application and database are running.',why:'Real understanding comes from reproducing the complete system, not only reading Docker definitions.',task:'Test GET /health, GET /students and POST /students, then explain the architecture in your own words.'}
+    ]
+  }
+];
+
+const skillOutcomes=['Docker','Docker Compose','Dockerfiles','Images & containers','Containerization','Port mapping','Docker networking','Named volumes','Database persistence','Environment variables','Health checks','Docker debugging','Node.js','Express.js','REST APIs','PostgreSQL','Git/GitHub'];
+
+export default function DockerFundamentalsPage(){return <main className={`page ${styles.learningPage}`}>
   <Link className="back" href="/barnx-studio/learning-paths">← Learning Paths</Link>
-  <section className="resourceHero">
-    <div className="resourceIcon huge">D</div>
-    <span className="eyebrow">DEVOPS · ACTIVELY LEARNING</span>
+
+  <section className={styles.hero}>
+    <div className={styles.heroTop}><div className={styles.dockerMark}><img src="https://cdn.simpleicons.org/docker/000000" alt="Docker"/></div><div className={styles.meta}><span>Beginner</span><span>3-week path</span><span>Free</span><span>Hands-on</span></div></div>
     <h1>Docker Fundamentals</h1>
-    <p>A practical beginner path for understanding containers, building images and running repeatable development environments. I’ll refine this page as I learn, test and publish more Barnx notes and tutorials.</p>
+    <p>Learn Docker in a simple order: understand the idea, run the command, break it down in plain English, practice it, then use everything in a real Node.js + PostgreSQL project.</p>
+    <div className={styles.actions}><a className={styles.primary} href="#week-1">Start Week 1 →</a><a className={styles.secondary} href="https://github.com/Mrbarnx/docker-student-api" target="_blank" rel="noreferrer">View practice repo ↗</a><a className={styles.secondary} href="/downloads/docker-practical-learning-guide.md" download>Download guide .md ↓</a></div>
   </section>
 
-  <section className="caseColumns">
-    <div><span className="eyebrow">WHAT IT IS</span><h2>A portable way to package and run software.</h2><p>Docker lets an application run with its required environment inside containers, which helps reduce differences between machines and makes local setup easier to reproduce.</p></div>
-    <div><span className="eyebrow">WHY LEARN IT</span><h2>Useful beyond local development.</h2><p>It helps with consistent environments, multi-service projects, CI/CD workflows and the foundations of modern deployment infrastructure.</p></div>
-  </section>
+  <section className={styles.skillsStrip}><span>TOOLS YOU'LL PRACTICE</span><div className={styles.skillLogos}>{tools.map(([name,src])=><div className={styles.skillLogo} key={name}><img src={src} alt="" aria-hidden="true"/><strong>{name}</strong></div>)}</div></section>
 
-  <section className="caseSection">
-    <span className="eyebrow">LEARNING ORDER</span>
-    <h2>Follow these steps.</h2>
-    <div className="featureGrid">{steps.map(step=><article key={step[0]}><span className="eyebrow">{step[0]}</span><h3>{step[1]}</h3><p>{step[2]}</p></article>)}</div>
-  </section>
+  <div className={styles.appLayout}>
+    <aside className={styles.sidebar}><span className={styles.sidebarTitle}>ROADMAP</span><a href="#week-1">Week 1 <span>Foundations</span></a><a href="#week-2">Week 2 <span>Build</span></a><a href="#week-3">Week 3 <span>Compose + DB</span></a><a href="#project">Project <span>Docker Student API</span></a><a href="#debugging">Debugging <span>Don't guess</span></a><a href="#skills">Skills <span>What you can claim</span></a><a href="#guide">Guide <span>Download .md</span></a></aside>
 
-  <section className="caseColumns">
-    <div><span className="eyebrow">STARTING RESOURCE</span><h2>Use the official Docker getting-started material first.</h2><p>Start with the official documentation, then return here as I add the specific videos, shorts, notes and exercises I find most useful.</p><div className="caseLinks"><a href="https://docs.docker.com/get-started/" target="_blank" rel="noreferrer">Docker Get Started ↗</a></div></div>
-    <div><span className="eyebrow">BARNX CONTENT</span><h2>Short explanations will live here.</h2><p>This section is ready for TikTok shorts, YouTube tutorials, Barnx notes and social posts as they are published. The goal is to keep each addition tied to the exact learning step it helps explain.</p></div>
-  </section>
+    <div className={styles.content}>
+      <section className={styles.introCard}><span className="eyebrow">HOW THIS PATH TEACHES</span><h2>Small explanations. Real commands. One checkpoint at a time.</h2><p>Every lesson follows the same pattern so beginners know exactly what to do next. Do not memorize commands blindly—understand what they are asking Docker to do.</p><div className={styles.learningPattern}>{['Concept','Simple explanation','Command / code','Breakdown','Plain English','Why it matters','Practice','Checkpoint'].map(x=><span key={x}>{x}</span>)}</div></section>
 
-  <section className="caseSection">
-    <span className="eyebrow">PRACTICE</span>
-    <h2>Build something small.</h2>
-    <p>Take a simple web application, create a Dockerfile, run it as a container, add persistent data if needed, then use Docker Compose when you introduce another service such as a database.</p>
-  </section>
+      {weeks.map(week=><section className={styles.week} id={week.id} key={week.id}><div className={styles.weekHeader}><div className={styles.weekNumber}>{week.number}</div><div><span>{week.label}</span><h2>{week.title}</h2><p>{week.description}</p></div></div><div className={styles.lessonList}>{week.lessons.map((lesson,i)=><details className={styles.lesson} key={lesson.index} open={i===0}><summary><span className={styles.lessonIndex}>{lesson.index}</span><span className={styles.lessonTitle}>{lesson.title}</span></summary><div className={styles.lessonBody}><h4>Concept</h4><p>{lesson.concept}</p><h4>Command / code</h4><pre className={styles.code}>{lesson.code}</pre><h4>Breakdown</h4><ul className={styles.breakdown}>{lesson.breakdown.map(item=><li key={item}>{item}</li>)}</ul><p className={styles.plain}><strong>Plain English:</strong> {lesson.plain}</p><h4>Why it matters</h4><p>{lesson.why}</p><p className={styles.checkpoint}><strong>Checkpoint:</strong> {lesson.task}</p><div className={styles.videoPlaceholder}><div><strong>Barnx video lesson</strong><span>Coming soon — a short TikTok / YouTube walkthrough will live here.</span></div></div></div></details>)}</div></section>)}
 
-  <section className="nextCase"><p>Learning path · Docker Fundamentals</p><Link href="/barnx-studio/learning-paths">Browse learning paths →</Link></section>
+      <section className={styles.project} id="project"><span className={styles.projectMeta}>FINAL PROJECT · GITHUB</span><h2>Docker Student API</h2><p>Clone a real Node.js/Express REST API that runs with PostgreSQL through Docker Compose. The project demonstrates container networking, persistent volumes, environment configuration, health checks, automatic database initialization and parameterized SQL queries.</p><pre className={styles.architecture}>{`Client / Browser\n      ↓\nlocalhost:5001\n      ↓\nNode.js + Express container\n      ↓\nDocker custom network\n      ↓\nPostgreSQL container\n      ↓\nNamed PostgreSQL volume`}</pre><div className={styles.projectActions}><a href="https://github.com/Mrbarnx/docker-student-api" target="_blank" rel="noreferrer">Open repository ↗</a><a href="https://github.com/Mrbarnx/docker-student-api#installation" target="_blank" rel="noreferrer">Clone & setup guide ↗</a></div></section>
+
+      <section className={styles.section} id="debugging"><div className={styles.sectionHead}><span>DEBUGGING</span><h2>Read the error. Then change one thing.</h2><p>The guide teaches an evidence-first debugging loop instead of randomly reinstalling Docker or changing unrelated configuration.</p></div><div className={styles.debugGrid}><article className={styles.miniCard}><strong>1 · Check state</strong><p>Run <code>docker compose ps</code> or <code>docker ps</code> to see what is actually running.</p></article><article className={styles.miniCard}><strong>2 · Read logs</strong><p>Use <code>docker compose logs app</code> or <code>docker logs</code> before guessing.</p></article><article className={styles.miniCard}><strong>3 · Validate config</strong><p>Use <code>docker compose config</code>, then verify ports, environment values and service names.</p></article><article className={styles.miniCard}><strong>4 · Retest narrowly</strong><p>Fix only what the evidence supports, run the failing step again, and confirm the result.</p></article></div></section>
+
+      <section className={styles.section} id="skills"><div className={styles.sectionHead}><span>SKILL OUTCOMES</span><h2>Skills you can honestly say you practiced.</h2><p>Only claim the ones you can explain and demonstrate. Docker knowledge alone does not make someone a DevOps Engineer.</p></div><div className={styles.skillOutcome}>{skillOutcomes.map(skill=><span key={skill}>{skill}</span>)}</div><div className={styles.warning}><strong>Fair positioning:</strong> “DevOps fundamentals” or “containerization with Docker / Docker Compose” while continuing into Linux, CI/CD, cloud, infrastructure and monitoring.</div></section>
+
+      <section className={styles.section}><div className={styles.sectionHead}><span>INTERVIEW CHECK</span><h2>Before you say you know Docker.</h2><p>You should be able to explain these without blindly reading from the guide.</p></div><div className={styles.outcomeGrid}><article className={styles.miniCard}><strong>Images vs containers</strong><p>Explain the reusable blueprint versus the running/stopped instance.</p></article><article className={styles.miniCard}><strong>Ports</strong><p>Explain host port vs container port and why conflicts happen on the host.</p></article><article className={styles.miniCard}><strong>Compose + PostgreSQL</strong><p>Explain why the API uses <code>db</code> instead of <code>localhost</code>.</p></article><article className={styles.miniCard}><strong>Persistence</strong><p>Demonstrate that database records survive container recreation because of a named volume.</p></article></div></section>
+
+      <section className={styles.downloadBox} id="guide"><div><span className="eyebrow">FULL REFERENCE</span><h2>Keep the detailed guide.</h2><p>The learning page is intentionally simplified. Download the Markdown reference for the deeper 5-day sprint notes, complete command reference, debugging examples and interview preparation.</p></div><a className={styles.primary} href="/downloads/docker-practical-learning-guide.md" download>Download .md ↓</a></section>
+
+      <div className={styles.footerNav}><Link href="/barnx-studio/learning-paths">← All learning paths</Link><a href="https://github.com/Mrbarnx/docker-student-api" target="_blank" rel="noreferrer">Practice on GitHub ↗</a></div>
+    </div>
+  </div>
 </main>}
