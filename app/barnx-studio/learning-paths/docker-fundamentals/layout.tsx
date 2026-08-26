@@ -1,10 +1,12 @@
 import styles from './extra-resource.module.css';
+import ExtraGuideRoadmapLink from './ExtraGuideRoadmapLink';
 
 const guideUrl='https://barnx-portfolio-v2.vercel.app/downloads/docker-practical-guide-node-postgresql-interview-prep.docx';
 const previewUrl=`https://view.officeapps.live.com/op/view.aspx?src=${encodeURIComponent(guideUrl)}`;
 
 export default function DockerFundamentalsLayout({children}:{children:React.ReactNode}){
   return <>
+    <ExtraGuideRoadmapLink/>
     <div className={styles.wrap} id="extra-guide">
       <section className={styles.card} aria-label="Extra Docker learning resource">
         <div>
