@@ -1,0 +1,42 @@
+name: Generate Docker guide PDF
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'public/downloads/docker-practical-guide-node-postgresql-interview-prep.docx'
+      - '.github/workflows/generate-docker-guide-pdf.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  convert:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install LibreOffice
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libreoffice-writer
+
+      - name: Convert DOCX to PDF
+        run: |
+          mkdir -p /tmp/docker-guide-pdf
+          libreoffice --headless --convert-to pdf --outdir /tmp/docker-guide-pdf public/downloads/docker-practical-guide-node-postgresql-interview-prep.docx
+          cp /tmp/docker-guide-pdf/docker-practical-guide-node-postgresql-interview-prep.pdf public/downloads/docker-practical-guide-node-postgresql-interview-prep.pdf
+
+      - name: Commit generated PDF
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add public/downloads/docker-practical-guide-node-postgresql-interview-prep.pdf
+          if git diff --cached --quiet; then
+            echo "PDF is already up to date."
+          else
+            git commit -m "chore: generate Docker practical guide PDF"
+            git push
+          fi
