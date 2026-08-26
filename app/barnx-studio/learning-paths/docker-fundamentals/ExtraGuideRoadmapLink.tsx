@@ -10,7 +10,7 @@ export default function ExtraGuideRoadmapLink(){
 
       const link=document.createElement('a');
       link.href='#extra-guide';
-      link.innerHTML='Extra Guide <span>Preview / DOCX</span>';
+      link.innerHTML='Extra Guide <span>Preview / PDF</span>';
       markdownGuide.parentElement?.insertBefore(link,markdownGuide);
     };
 
