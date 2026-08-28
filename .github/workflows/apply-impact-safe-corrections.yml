@@ -36,7 +36,7 @@ jobs:
           PY
       - name: Validate
         run: |
-          npm ci
+          npm install --no-audit --no-fund
           npm run typecheck
           npm run build
       - name: Commit scoped homepage patch
