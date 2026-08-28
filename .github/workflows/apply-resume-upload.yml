@@ -1,0 +1,44 @@
+name: Apply uploaded resume
+
+on:
+  push:
+    branches: [fix/replace-resume-uploaded]
+    paths:
+      - '.github/workflows/apply-resume-upload.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Rebuild and verify resume PDF
+        run: |
+          set -euo pipefail
+          sudo apt-get update
+          sudo apt-get install -y qpdf poppler-utils
+          cat .tmp/resume-upload/part{1,2,3,4,5,6}.txt > /tmp/resume.b64
+          base64 -d /tmp/resume.b64 > public/Barnabas-Mikel-Resume.pdf
+          test "$(sha256sum public/Barnabas-Mikel-Resume.pdf | awk '{print $1}')" = "78ca830a65aee895bb57758a9fc5cd2ee65cd984dc0a534e9308f707050bcfc0"
+          qpdf --check public/Barnabas-Mikel-Resume.pdf
+          pdfinfo public/Barnabas-Mikel-Resume.pdf | grep -q '^Pages:[[:space:]]*1$'
+          pdftotext public/Barnabas-Mikel-Resume.pdf /tmp/resume.txt
+          grep -q 'BARNABAS MIKEL' /tmp/resume.txt
+          grep -q 'VIN Startup Project' /tmp/resume.txt
+          grep -q 'BANX Automation Studio' /tmp/resume.txt
+          grep -q 'Bachelor of Science' /tmp/resume.txt
+
+      - name: Commit only the resume
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git rm -r .tmp/resume-upload
+          git rm .github/workflows/apply-resume-upload.yml
+          git add public/Barnabas-Mikel-Resume.pdf
+          git commit -m "chore: replace portfolio resume with uploaded ATS version"
+          git push
