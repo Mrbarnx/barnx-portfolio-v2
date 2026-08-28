@@ -1,7 +1,7 @@
 import styles from './extra-resource.module.css';
 import ExtraGuideRoadmapLink from './ExtraGuideRoadmapLink';
 
-const guideUrl='/downloads/docker-practical-guide-node-postgresql-interview-prep.pdf';
+const guideUrl='/downloads/docker-practical-guide-node-postgresql-interview-prep-v2.pdf';
 
 export default function DockerFundamentalsLayout({children}:{children:React.ReactNode}){
   return <>
