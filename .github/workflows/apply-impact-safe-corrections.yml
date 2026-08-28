@@ -1,0 +1,49 @@
+name: Apply Impact safe corrections
+
+on:
+  push:
+    branches: [feat/impact-and-safe-corrections]
+    paths:
+      - '.github/workflows/apply-impact-safe-corrections.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Patch homepage only
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p=Path('components/HomeClient.tsx')
+          s=p.read_text()
+          replacements={
+            "import { projects, experience } from '@/data/content';":"import { projects, experience } from '@/data/content';\nimport { ImpactTeaser } from '@/components/ImpactTeaser';",
+            "{ key: 'automation', title: 'Automation', subtitle: 'n8n · Zapier · Cron', iconSrc: 'https://cdn.simpleicons.org/n8n/000000', className: 'f5' },":"{ key: 'automation', title: 'Automation', subtitle: 'Growing: n8n · APIs', iconSrc: 'https://cdn.simpleicons.org/n8n/000000', className: 'f5' },",
+            "{ label: 'n8n', iconSrc: 'https://cdn.simpleicons.org/n8n/000000' }":"{ label: 'n8n · growing', iconSrc: 'https://cdn.simpleicons.org/n8n/000000' }",
+            "<div><Code2/><b>4+</b><span>Years Experience</span></div>\n          <div><Rocket/><b>20+</b><span>Projects Delivered</span></div>\n          <div><Sparkles/><b>AI-Powered</b><span>Solutions</span></div>":"<div><Code2/><b>42</b><span>Healthcare screens built</span></div>\n          <div><Rocket/><b>21</b><span>SocialFi screens designed & coded</span></div>\n          <div><Sparkles/><b>3+</b><span>Years building web products</span></div>",
+            "    </section>\n\n    <section className=\"aboutSection\" ref={about}>":"    </section>\n\n    <ImpactTeaser/>\n\n    <section className=\"aboutSection\" ref={about}>",
+            "<div className=\"projectBody\"><span>{p.category}</span><h3>{p.title}</h3>":"<div className=\"projectBody\"><span>{p.category} · {p.status}</span><h3>{p.title}</h3>",
+          }
+          for old,new in replacements.items():
+            if old not in s:
+              raise SystemExit(f'Missing expected homepage pattern: {old[:80]}')
+            s=s.replace(old,new,1)
+          p.write_text(s)
+          PY
+      - name: Validate
+        run: |
+          npm ci
+          npm run typecheck
+          npm run build
+      - name: Commit scoped homepage patch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git rm .github/workflows/apply-impact-safe-corrections.yml
+          git add components/HomeClient.tsx
+          git commit -m "fix: apply evidence-led homepage corrections"
+          git push
