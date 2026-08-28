@@ -7,13 +7,14 @@ import { ArrowRight, Code2, Rocket, Sparkles, Zap } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import Lenis from 'lenis';
 import { projects, experience } from '@/data/content';
+import { ImpactTeaser } from '@/components/ImpactTeaser';
 
 const techCards = [
   { key: 'react', title: 'React', subtitle: 'UI Libraries', iconSrc: 'https://cdn.simpleicons.org/react/000000', className: 'f1' },
   { key: 'next', title: 'Next.js', subtitle: 'Full-Stack React', iconSrc: 'https://cdn.simpleicons.org/nextdotjs/000000', className: 'f2' },
   { key: 'typescript', title: 'TypeScript', subtitle: 'Type Safety', iconSrc: 'https://cdn.simpleicons.org/typescript/000000', className: 'f3' },
   { key: 'vue', title: 'Vue', subtitle: 'Progressive Framework', iconSrc: 'https://cdn.simpleicons.org/vuedotjs/000000', className: 'f4' },
-  { key: 'automation', title: 'Automation', subtitle: 'n8n · Zapier · Cron', iconSrc: 'https://cdn.simpleicons.org/n8n/000000', className: 'f5' },
+  { key: 'automation', title: 'Automation', subtitle: 'Growing: n8n · APIs', iconSrc: 'https://cdn.simpleicons.org/n8n/000000', className: 'f5' },
   { key: 'ai', title: 'AI Integrations', subtitle: 'OpenAI · Claude · Gemini', className: 'f6', icon: 'sparkles' },
   { key: 'frontend', title: 'Frontend Engineering', subtitle: 'Pixel Perfect · Performant', className: 'f7', icon: 'code' }
 ];
@@ -25,7 +26,7 @@ const techMarqueeItems = [
   { label: 'TypeScript', iconSrc: 'https://cdn.simpleicons.org/typescript/000000' },
   { label: 'Node.js', iconSrc: 'https://cdn.simpleicons.org/nodedotjs/000000' },
   { label: 'Tailwind CSS', iconSrc: 'https://cdn.simpleicons.org/tailwindcss/000000' },
-  { label: 'n8n', iconSrc: 'https://cdn.simpleicons.org/n8n/000000' }
+  { label: 'n8n · growing', iconSrc: 'https://cdn.simpleicons.org/n8n/000000' }
 ];
 
 const stories = [
@@ -119,9 +120,9 @@ export function HomeClient() {
           <Link className="button" href="/barnx-studio">Explore Barnx Studio <ArrowRight/></Link>
         </div>
         <div className="heroStats">
-          <div><Code2/><b>4+</b><span>Years Experience</span></div>
-          <div><Rocket/><b>20+</b><span>Projects Delivered</span></div>
-          <div><Sparkles/><b>AI-Powered</b><span>Solutions</span></div>
+          <div><Code2/><b>42</b><span>Healthcare screens built</span></div>
+          <div><Rocket/><b>21</b><span>SocialFi screens designed & coded</span></div>
+          <div><Sparkles/><b>3+</b><span>Years building web products</span></div>
         </div>
       </motion.div>
 
@@ -139,6 +140,8 @@ export function HomeClient() {
       </div>
     </section>
 
+    <ImpactTeaser/>
+
     <section className="aboutSection" ref={about}>
       <div className="aboutVisual mobileStoryTap" onClick={advanceMobileStory}>
         <div className={`aboutImage state${active}`}><Image src="/photos/hero-exact.svg" fill alt="Barnabas Mikel — engineering story" sizes="45vw"/></div>
@@ -147,7 +150,7 @@ export function HomeClient() {
       <div className="aboutStories"><span className="eyebrow">ABOUT / STORY</span><h2>Building one layer deeper<br/>with every project.</h2>{stories.map((s,i)=><article data-story className={active===i?'active':''} key={s[0]}><span>{s[0]}</span><div><h3>{s[1]}</h3><p>{s[2]}</p></div></article>)}</div>
     </section>
 
-    <section className="featured"><div className="sectionHead"><div><span className="eyebrow">FEATURED WORK</span><h2>Selected Projects</h2><p>Real builds showing frontend craft, product thinking and growing full-stack capability.</p></div><Link className="button" href="/projects">View all projects <ArrowRight/></Link></div><div className="projectGrid">{projects.slice(0,3).map(p=><Link className="projectCard" href={`/projects/${p.slug}`} key={p.slug}><div className={`projectVisual ${p.tone}`}><div className="browser"><i/><i/><i/></div><strong>{p.display}</strong><small>{p.visualSubtitle}</small></div><div className="projectBody"><span>{p.category}</span><h3>{p.title}</h3><p>{p.short}</p><div className="tags">{p.tech.slice(0,4).map(t=><b key={t}>{t}</b>)}</div><em>Case study →</em></div></Link>)}</div></section>
+    <section className="featured"><div className="sectionHead"><div><span className="eyebrow">FEATURED WORK</span><h2>Selected Projects</h2><p>Real builds showing frontend craft, product thinking and growing full-stack capability.</p></div><Link className="button" href="/projects">View all projects <ArrowRight/></Link></div><div className="projectGrid">{projects.slice(0,3).map(p=><Link className="projectCard" href={`/projects/${p.slug}`} key={p.slug}><div className={`projectVisual ${p.tone}`}><div className="browser"><i/><i/><i/></div><strong>{p.display}</strong><small>{p.visualSubtitle}</small></div><div className="projectBody"><span>{p.category} · {p.status}</span><h3>{p.title}</h3><p>{p.short}</p><div className="tags">{p.tech.slice(0,4).map(t=><b key={t}>{t}</b>)}</div><em>Case study →</em></div></Link>)}</div></section>
     <section className="experience"><span className="eyebrow">EXPERIENCE</span><h2>Professional progression.</h2>{experience.map(x=><article key={x.company}><time>{x.date}</time><div><h3>{x.role} · {x.company}</h3><p>{x.description}</p></div></article>)}</section>
     <section className="focus"><div><span className="eyebrow light">CURRENT FOCUS</span><h2>Frontend first.<br/>Full product next.</h2></div><div className="focusCards"><article><Code2/><h3>Strongest now</h3><p>React, Vue, Next.js, TypeScript, responsive UI, accessibility, component architecture and polished product interfaces.</p></article><article><Zap/><h3>Growing deeper</h3><p>Node.js, PostgreSQL, AI API integrations, workflow automation, n8n and cloud deployment.</p></article></div></section>
     <Newsletter/>
