@@ -3,8 +3,14 @@ import { ImpactArchive } from './ImpactArchive';
 import styles from './impact.module.css';
 
 export const metadata: Metadata = {
-  title: 'Impact Stories | Barnx',
+  title: 'Impact Stories',
   description: 'How Barnabas Mikel investigates business problems, chooses the right technical response and documents the evidence behind the work.',
+  alternates: { canonical: '/impact' },
+  openGraph: {
+    title: 'Impact Stories — Barnx',
+    description: 'Problem, decision, system and evidence — documented without fabricated outcomes.',
+    url: '/impact',
+  },
 };
 
 export default function ImpactPage() {

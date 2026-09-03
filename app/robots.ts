@@ -1,1 +1,10 @@
-import type { MetadataRoute } from 'next'; export default function robots():MetadataRoute.Robots{return {rules:{userAgent:'*',allow:'/'},sitemap:'https://barnx.dev/sitemap.xml'}}
+import type { MetadataRoute } from 'next';
+import { site } from '@/data/site';
+
+export default function robots(): MetadataRoute.Robots {
+  return {
+    rules: { userAgent: '*', allow: '/' },
+    sitemap: `${site.url}/sitemap.xml`,
+    host: site.url,
+  };
+}
