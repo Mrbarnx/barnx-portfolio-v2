@@ -6,6 +6,11 @@ const migrationPath = new URL(
   import.meta.url,
 );
 const sql = readFileSync(migrationPath, 'utf8');
+const permissionsPath = new URL(
+  '../supabase/migrations/202609030002_cms_api_permissions.sql',
+  import.meta.url,
+);
+const permissionsSql = readFileSync(permissionsPath, 'utf8');
 
 const tables = [
   'cms_admin_users',
@@ -55,4 +60,24 @@ assert.match(sql, /not published or visibility <> 'confidential'/);
 assert.match(sql, /approved_for_public/);
 assert.match(sql, /create or replace function public\.set_published_at\(\)/);
 
-console.log(`CMS schema validation passed for ${tables.length} tables.`);
+assert.match(permissionsSql, /^-- Barnx CMS explicit Data API permissions/m);
+assert.match(permissionsSql, /\bbegin;[\s\S]*\bcommit;\s*$/);
+assert.match(permissionsSql, /grant usage on schema public to anon, authenticated;/);
+assert.match(permissionsSql, /grant select on table[\s\S]*to anon;/);
+assert.match(permissionsSql, /grant select on table public\.cms_admin_users to authenticated;/);
+assert.match(permissionsSql, /grant select, insert, update, delete on table[\s\S]*to authenticated;/);
+assert.doesNotMatch(
+  permissionsSql,
+  /grant\s+(insert|update|delete|all)[\s\S]{0,160}\bto anon\b/i,
+  'Anonymous users must never receive mutation privileges.',
+);
+
+for (const table of tables.filter((table) => table !== 'cms_admin_users')) {
+  assert.match(
+    permissionsSql,
+    new RegExp(`public\\.${table}`),
+    `Missing explicit API permission for: ${table}`,
+  );
+}
+
+console.log(`CMS schema and API permission validation passed for ${tables.length} tables.`);
