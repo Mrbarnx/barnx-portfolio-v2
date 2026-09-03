@@ -1,8 +1,18 @@
+import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Linkedin } from 'lucide-react';
 import styles from './studio-socials.module.css';
 
-export const metadata={title:'Barnx Studio'};
+export const metadata: Metadata = {
+  title: 'Barnx Studio',
+  description: 'Practical developer resources, learning paths, prompts, UI assets and automation blueprints from Barnx.',
+  alternates: { canonical: '/barnx-studio' },
+  openGraph: {
+    title: 'Barnx Studio',
+    description: 'Build faster. Learn smarter. Ship better with practical developer resources and lessons from real builds.',
+    url: '/barnx-studio',
+  },
+};
 
 function ExternalArrow(){return <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>}
 
