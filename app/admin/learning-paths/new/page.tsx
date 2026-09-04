@@ -1,0 +1,2 @@
+import Link from 'next/link';import {requireCmsAdmin} from '@/lib/admin/requireCmsAdmin';import {PathForm} from '../PathForm';import styles from '../../content.module.css';
+export default async function NewPath(){await requireCmsAdmin();return <main className={styles.page}><div className={styles.wrap}><Link className={styles.back} href="/admin/learning-paths">← Learning paths</Link><header className={styles.header}><div><p className={styles.eyebrow}>New path</p><h1>Add learning path</h1></div></header><PathForm/></div></main>}

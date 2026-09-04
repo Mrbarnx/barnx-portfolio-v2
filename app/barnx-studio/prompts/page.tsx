@@ -1,10 +1,12 @@
 import Link from 'next/link';
-import { promptLibrary } from '@/data/prompts';
+import { getPublishedPrompts } from '@/lib/cms/publicStudio';
 import styles from './prompts.module.css';
 
 export const metadata={title:'AI Prompt Library | Barnx Studio'};
 
-export default function PromptLibraryPage(){return <main className="page resourceDetail">
+export const dynamic = 'force-dynamic';
+
+export default async function PromptLibraryPage(){const promptLibrary=await getPublishedPrompts();return <main className="page resourceDetail">
   <Link className="back" href="/barnx-studio">← Barnx Studio</Link>
   <section className={`resourceHero ${styles.hero}`}>
     <div className="resourceIcon huge">✦</div>

@@ -1,5 +1,19 @@
 export const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://barnx-portfolio-v2.vercel.app';
 
+export type PublicSiteSettings = {
+  headline: string;
+  availability: string;
+  email: string;
+  github: string;
+  linkedin: string;
+  x: string;
+  tiktok: string;
+  location: string;
+  resumeUrl: string;
+  seoTitle: string;
+  seoDescription: string;
+};
+
 export const site = {
   name: 'Barnx',
   person: 'Barnabas Mikel',

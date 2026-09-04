@@ -3,6 +3,7 @@ import Link from 'next/link';
 import {usePathname} from 'next/navigation';
 import {useEffect,useState} from 'react';
 import {Github,Linkedin,Mail,Menu,X as Close} from 'lucide-react';
+import type { PublicSiteSettings } from '@/data/site';
 
 const nav=[['Home','/'],['Projects','/projects'],['Impact','/impact'],['Barnx Studio','/barnx-studio']];
 
@@ -11,7 +12,7 @@ function TikTokSocial(){return <svg viewBox="0 0 24 24" aria-hidden="true"><path
 
 export function Logo(){return <Link href="/" className="logo"><img className="logoMark" src="/brand/barnx-mark-exact.svg" alt="" aria-hidden="true"/><span>Barnx</span></Link>}
 
-export function SiteShell({children}:{children:React.ReactNode}){
+export function SiteShell({children,settings}:{children:React.ReactNode;settings:PublicSiteSettings}){
   const path=usePathname();
   const[open,setOpen]=useState(false);
   const[scrolled,setScrolled]=useState(false);
@@ -22,9 +23,9 @@ export function SiteShell({children}:{children:React.ReactNode}){
       <nav className="nav">
         <Logo/>
         <div className="navLinks">{nav.map(([n,h])=><Link className={(h==='/'?path===h:path.startsWith(h))?'active':''} href={h} key={h}>{n}</Link>)}</div>
-        <div className="navRight"><a className="resume" href="/Barnabas-Mikel-Resume.pdf" download>Résumé ↓</a><button className="mobileButton" onClick={()=>setOpen(!open)} aria-label="Toggle navigation">{open?<Close/>:<Menu/>}</button></div>
+        <div className="navRight"><a className="resume" href={settings.resumeUrl} download>Résumé ↓</a><button className="mobileButton" onClick={()=>setOpen(!open)} aria-label="Toggle navigation">{open?<Close/>:<Menu/>}</button></div>
       </nav>
-      {open&&<div className="mobileMenu">{nav.map(([n,h])=><Link onClick={()=>setOpen(false)} href={h} key={h}>{n}</Link>)}<a href="/Barnabas-Mikel-Resume.pdf" download>Download résumé ↓</a></div>}
+      {open&&<div className="mobileMenu">{nav.map(([n,h])=><Link onClick={()=>setOpen(false)} href={h} key={h}>{n}</Link>)}<a href={settings.resumeUrl} download>Download résumé ↓</a></div>}
     </header>
     {children}
     <footer>
@@ -33,16 +34,16 @@ export function SiteShell({children}:{children:React.ReactNode}){
           <Logo/>
           <p>Frontend-focused product engineering, thoughtful interfaces and practical AI integrations.</p>
           <div className="socials">
-            <a href="https://github.com/Mrbarnx" target="_blank" rel="noreferrer" aria-label="GitHub"><Github/></a>
-            <a href="https://www.linkedin.com/in/mrbarns?utm_source=share_via&utm_content=profile&utm_medium=member_android" target="_blank" rel="noreferrer" aria-label="LinkedIn"><Linkedin/></a>
-            <a href="https://x.com/MRBARNX" target="_blank" rel="noreferrer" aria-label="X"><XSocial/></a>
-            <a href="https://tiktok.com/@mrbarnx" target="_blank" rel="noreferrer" aria-label="TikTok"><TikTokSocial/></a>
-            <a href="mailto:mrbarnx@gmail.com" aria-label="Email"><Mail/></a>
+            <a href={settings.github} target="_blank" rel="noreferrer" aria-label="GitHub"><Github/></a>
+            <a href={settings.linkedin} target="_blank" rel="noreferrer" aria-label="LinkedIn"><Linkedin/></a>
+            <a href={settings.x} target="_blank" rel="noreferrer" aria-label="X"><XSocial/></a>
+            <a href={settings.tiktok} target="_blank" rel="noreferrer" aria-label="TikTok"><TikTokSocial/></a>
+            <a href={`mailto:${settings.email}`} aria-label="Email"><Mail/></a>
           </div>
         </div>
         <div><b>Navigation</b><Link href="/">Home</Link><Link href="/projects">Projects</Link><Link href="/impact">Impact</Link><Link href="/barnx-studio">Barnx Studio</Link></div>
-        <div><b>Resources</b><a href="/Barnabas-Mikel-Resume.pdf" download>Résumé</a><Link href="/barnx-studio">Free resources</Link><a href="mailto:mrbarnx@gmail.com">Consultation</a></div>
-        <div><b>Let's connect</b><a href="mailto:mrbarnx@gmail.com">mrbarnx@gmail.com</a><span>Remote · Nigeria</span></div>
+        <div><b>Resources</b><a href={settings.resumeUrl} download>Résumé</a><Link href="/barnx-studio">Free resources</Link><a href={`mailto:${settings.email}`}>Consultation</a></div>
+        <div><b>Let's connect</b><a href={`mailto:${settings.email}`}>{settings.email}</a><span>{settings.location}</span></div>
       </div>
       <div className="copyright">© 2026 Barnx. Built with Next.js.</div>
     </footer>

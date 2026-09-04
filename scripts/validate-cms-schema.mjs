@@ -21,6 +21,10 @@ const projectMediaPath = new URL(
   import.meta.url,
 );
 const projectMediaSql = readFileSync(projectMediaPath, 'utf8');
+const studioContentPath = new URL('../supabase/migrations/202609040003_studio_prompt_content.sql', import.meta.url);
+const studioContentSql = readFileSync(studioContentPath, 'utf8');
+const analyticsPath = new URL('../supabase/migrations/202609040004_cms_analytics.sql', import.meta.url);
+const analyticsSql = readFileSync(analyticsPath, 'utf8');
 
 const tables = [
   'cms_admin_users',
@@ -115,4 +119,14 @@ assert.doesNotMatch(
   'Anonymous users must never receive access to private project demo links.',
 );
 
-console.log(`CMS schema, API permissions, media storage and private demo validation passed for ${tables.length} foundation tables.`);
+assert.match(studioContentSql, /^-- Barnx Studio CMS prompt content/m);
+assert.match(studioContentSql, /add column if not exists prompt_text/);
+assert.match(analyticsSql, /^-- Barnx CMS privacy-conscious first-party analytics/m);
+assert.match(analyticsSql, /create table if not exists public\.analytics_events/);
+assert.match(analyticsSql, /alter table public\.analytics_events enable row level security/);
+assert.match(analyticsSql, /create or replace function public\.record_analytics_event/);
+assert.match(analyticsSql, /security definer/);
+assert.match(analyticsSql, /public\.is_cms_admin\(\)/);
+assert.doesNotMatch(analyticsSql, /\b(ip|ip_address|email|full_name)\b/i, 'Analytics must not store direct personal identifiers.');
+
+console.log(`CMS schema, API permissions, media storage, private demos and phases 6-9 validation passed for ${tables.length} foundation tables.`);

@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { BookOpen, FolderKanban, Gauge, Images, LogOut, Sparkles } from 'lucide-react';
+import { BarChart3, BookOpen, FolderKanban, Gauge, Images, LogOut, Settings, Sparkles } from 'lucide-react';
 import { requireCmsAdmin } from '@/lib/admin/requireCmsAdmin';
 import { signOut } from './actions';
 import styles from './admin.module.css';
@@ -12,10 +12,12 @@ export const metadata: Metadata = {
 
 const dashboardItems = [
   { label: 'Projects', description: 'Create, edit and publish portfolio projects.', icon: FolderKanban, href: '/admin/projects' },
-  { label: 'Impact Stories', description: 'Prepare evidence-led stories before publishing.', icon: Gauge },
-  { label: 'Studio Resources', description: 'Manage guides, prompts and reusable assets.', icon: Sparkles },
-  { label: 'Learning Paths', description: 'Organize modules, lessons and downloads.', icon: BookOpen },
+  { label: 'Impact Stories', description: 'Prepare evidence-led stories before publishing.', icon: Gauge, href: '/admin/impact' },
+  { label: 'Studio Resources', description: 'Manage guides, prompts and reusable assets.', icon: Sparkles, href: '/admin/studio' },
+  { label: 'Learning Paths', description: 'Organize modules, lessons and downloads.', icon: BookOpen, href: '/admin/learning-paths' },
   { label: 'Media Library', description: 'Upload reusable project and content images.', icon: Images, href: '/admin/media' },
+  { label: 'Analytics', description: 'Review anonymous visits, pages and useful actions.', icon: BarChart3, href: '/admin/analytics' },
+  { label: 'Site Settings', description: 'Update public identity, links and SEO defaults.', icon: Settings, href: '/admin/settings' },
 ];
 
 export default async function AdminPage() {
@@ -27,7 +29,7 @@ export default async function AdminPage() {
         <div>
           <p className={styles.eyebrow}>Content management</p>
           <h1>Barnx Admin</h1>
-          <p className={styles.muted}>The secure publishing workspace is ready for the Projects CMS.</p>
+          <p className={styles.muted}>Manage projects, Studio content, Impact stories, learning paths, analytics and public settings.</p>
         </div>
         <form action={signOut}>
           <button className={styles.signOut} type="submit"><LogOut /> Sign out</button>

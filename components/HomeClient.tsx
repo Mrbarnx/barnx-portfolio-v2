@@ -8,6 +8,7 @@ import { useEffect, useRef, useState } from 'react';
 import Lenis from 'lenis';
 import { experience, type Project } from '@/data/content';
 import { ImpactTeaser } from '@/components/ImpactTeaser';
+import type { PublicSiteSettings } from '@/data/site';
 
 const techCards = [
   { key: 'react', title: 'React', subtitle: 'UI Libraries', iconSrc: 'https://cdn.simpleicons.org/react/000000', className: 'f1' },
@@ -42,7 +43,7 @@ function TechIcon({ card }: { card: (typeof techCards)[number] }) {
   return <Code2 aria-hidden="true" />;
 }
 
-export function HomeClient({ projects }: { projects: Project[] }) {
+export function HomeClient({ projects, settings }: { projects: Project[]; settings: PublicSiteSettings }) {
   const about = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(0);
 
@@ -112,9 +113,9 @@ export function HomeClient({ projects }: { projects: Project[] }) {
     <section className="hero heroReference">
       <div className="heroGrid" />
       <motion.div className="heroCopy" initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: .55, ease: [0.22, 1, 0.36, 1] }}>
-        <span className="availability"><i aria-hidden="true" />Available for new opportunities</span>
+        <span className="availability"><i aria-hidden="true" />{settings.availability}</span>
         <h1>Hi, I’m<br/><strong>Barnabas Mikel.</strong></h1>
-        <p>Frontend-Focused Full-Stack Engineer building<br className="heroDesktopBreak"/>modern web applications while integrating AI-powered<br className="heroDesktopBreak"/>features and intelligent automations.</p>
+        <p>{settings.headline}</p>
         <div className="heroActions">
           <Link className="button black" href="/projects">View Projects <ArrowRight/></Link>
           <Link className="button" href="/barnx-studio">Explore Barnx Studio <ArrowRight/></Link>

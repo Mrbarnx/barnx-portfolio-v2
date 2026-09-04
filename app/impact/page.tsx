@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { ImpactArchive } from './ImpactArchive';
+import { getPublishedImpactStories } from '@/lib/cms/publicImpact';
 import styles from './impact.module.css';
 
 export const metadata: Metadata = {
@@ -13,7 +14,10 @@ export const metadata: Metadata = {
   },
 };
 
-export default function ImpactPage() {
+export const dynamic = 'force-dynamic';
+
+export default async function ImpactPage() {
+  const stories = await getPublishedImpactStories();
   return (
     <main className={styles.page}>
       <section className={styles.hero}>
@@ -30,7 +34,7 @@ export default function ImpactPage() {
           <h2>Business context before technology.</h2>
           <p>Each published story will separate the problem, the decision, the system and the evidence instead of treating a tech stack as the outcome.</p>
         </div>
-        <ImpactArchive />
+        <ImpactArchive initialStories={stories} />
       </section>
     </main>
   );
