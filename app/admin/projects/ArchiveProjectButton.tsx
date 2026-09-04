@@ -1,9 +1,18 @@
 'use client';
 
-import { archiveProject } from './actions';
+import { archiveProject, restoreProject } from './actions';
 import styles from './projects.module.css';
 
-export function ArchiveProjectButton({ id }: { id: string }) {
+export function ArchiveProjectButton({ id, isArchived }: { id: string; isArchived: boolean }) {
+  if (isArchived) {
+    return (
+      <form action={restoreProject}>
+        <input type="hidden" name="id" value={id} />
+        <button className={styles.restoreButton} type="submit">Restore project</button>
+      </form>
+    );
+  }
+
   return (
     <form
       action={archiveProject}

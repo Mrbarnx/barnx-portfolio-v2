@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { ArrowLeft, ExternalLink, FilePlus2, Pencil, Upload } from 'lucide-react';
 import { requireCmsAdmin } from '@/lib/admin/requireCmsAdmin';
 import { statusLabel, type ProjectRow } from '@/lib/admin/projects';
-import { importCurrentProjects, setProjectPublished } from './actions';
+import { importCurrentProjects, restoreProject, setProjectPublished } from './actions';
 import styles from './projects.module.css';
 
 export const metadata: Metadata = { title: 'Projects | Barnx Admin', robots: { index: false, follow: false } };
@@ -84,7 +84,12 @@ export default async function AdminProjectsPage({ searchParams }: { searchParams
                 <div className={styles.cardActions}>
                   <Link className={styles.editButton} href={`/admin/projects/${project.id}/edit`}><Pencil /> Edit</Link>
                   {project.live_url ? <a className={styles.iconButton} href={project.live_url} target="_blank" rel="noreferrer" aria-label={`Open ${project.title} live URL`}><ExternalLink /></a> : null}
-                  {project.status === 'archived' ? <span className={styles.archivedText}>Edit to restore</span> : (
+                  {project.status === 'archived' ? (
+                    <form action={restoreProject}>
+                      <input type="hidden" name="id" value={project.id} />
+                      <button className={styles.restoreTextButton} type="submit">Restore</button>
+                    </form>
+                  ) : (
                     <form action={setProjectPublished}>
                       <input type="hidden" name="id" value={project.id} />
                       <input type="hidden" name="published" value={String(!project.published)} />

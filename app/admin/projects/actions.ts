@@ -124,6 +124,25 @@ export async function archiveProject(formData: FormData) {
   redirect('/admin/projects?archived=true');
 }
 
+export async function restoreProject(formData: FormData) {
+  const id = String(formData.get('id') ?? '');
+  if (!id) return;
+
+  const { supabase } = await requireCmsAdmin();
+  const { data: project } = await supabase.from('projects').select('slug').eq('id', id).maybeSingle();
+  const { error } = await supabase
+    .from('projects')
+    .update({ status: 'public_build', published: false })
+    .eq('id', id)
+    .eq('status', 'archived');
+
+  revalidatePath('/admin');
+  revalidatePath('/admin/projects');
+  revalidatePath(`/admin/projects/${id}/edit`);
+  revalidatePublicProjects(project?.slug);
+  redirect(`/admin/projects/${id}/edit?restored=${error ? 'failed' : 'true'}`);
+}
+
 export async function importCurrentProjects() {
   const { supabase, user } = await requireCmsAdmin();
   const { data: existing, error: readError } = await supabase.from('projects').select('slug');
