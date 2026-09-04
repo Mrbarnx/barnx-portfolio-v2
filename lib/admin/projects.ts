@@ -47,7 +47,7 @@ export const projectFormSchema = z.object({
 
 export type ProjectFormValues = z.infer<typeof projectFormSchema>;
 
-export type ProjectRow = ProjectFormValues & {
+export type ProjectRow = Omit<ProjectFormValues, 'features' | 'technologies'> & {
   id: string;
   features: string[];
   technologies: string[];

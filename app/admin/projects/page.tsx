@@ -44,8 +44,8 @@ export default async function AdminProjectsPage({ searchParams }: { searchParams
       </header>
 
       <section className={styles.safetyNote}>
-        <strong>Safe verification mode</strong>
-        <p>The public portfolio still reads its original project file. Changes here affect only the CMS database until we deliberately connect it in a later step.</p>
+        <strong>Live publishing mode</strong>
+        <p>Published changes appear on the public portfolio. Draft and archived projects stay private inside Admin.</p>
       </section>
 
       {notice ? <p className={styles.notice} role="status">{notice}</p> : null}

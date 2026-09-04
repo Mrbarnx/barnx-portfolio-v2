@@ -24,6 +24,14 @@ function databaseMessage(message: string) {
   return 'The project could not be saved. Please try again.';
 }
 
+function revalidatePublicProjects(slug?: string, previousSlug?: string) {
+  revalidatePath('/');
+  revalidatePath('/projects');
+  revalidatePath('/sitemap.xml');
+  if (slug) revalidatePath(`/projects/${slug}`);
+  if (previousSlug && previousSlug !== slug) revalidatePath(`/projects/${previousSlug}`);
+}
+
 function toPayload(values: ReturnType<typeof projectFormSchema.parse>, userId?: string) {
   return {
     ...values,
@@ -54,6 +62,7 @@ export async function createProject(
 
   revalidatePath('/admin');
   revalidatePath('/admin/projects');
+  revalidatePublicProjects(parsed.data.slug);
   redirect(`/admin/projects?created=${published ? 'published' : 'draft'}`);
 }
 
@@ -67,6 +76,7 @@ export async function updateProject(
   if (invalid || !parsed.success) return invalid!;
 
   const { supabase } = await requireCmsAdmin();
+  const { data: current } = await supabase.from('projects').select('slug').eq('id', id).maybeSingle();
   const published = formData.get('intent') === 'publish' && parsed.data.status !== 'archived';
   const { error } = await supabase
     .from('projects')
@@ -78,6 +88,7 @@ export async function updateProject(
   revalidatePath('/admin');
   revalidatePath('/admin/projects');
   revalidatePath(`/admin/projects/${id}/edit`);
+  revalidatePublicProjects(parsed.data.slug, current?.slug);
   redirect(`/admin/projects/${id}/edit?saved=${published ? 'published' : 'draft'}`);
 }
 
@@ -87,10 +98,12 @@ export async function setProjectPublished(formData: FormData) {
   if (!id) return;
 
   const { supabase } = await requireCmsAdmin();
+  const { data: project } = await supabase.from('projects').select('slug').eq('id', id).maybeSingle();
   let query = supabase.from('projects').update({ published }).eq('id', id);
   if (published) query = query.neq('status', 'archived');
   const { error } = await query;
   revalidatePath('/admin/projects');
+  revalidatePublicProjects(project?.slug);
   redirect(`/admin/projects?visibility=${error ? 'failed' : published ? 'published' : 'draft'}`);
 }
 
@@ -99,6 +112,7 @@ export async function archiveProject(formData: FormData) {
   if (!id) return;
 
   const { supabase } = await requireCmsAdmin();
+  const { data: project } = await supabase.from('projects').select('slug').eq('id', id).maybeSingle();
   await supabase
     .from('projects')
     .update({ status: 'archived', published: false, featured: false })
@@ -106,6 +120,7 @@ export async function archiveProject(formData: FormData) {
 
   revalidatePath('/admin');
   revalidatePath('/admin/projects');
+  revalidatePublicProjects(project?.slug);
   redirect('/admin/projects?archived=true');
 }
 
@@ -149,5 +164,6 @@ export async function importCurrentProjects() {
 
   revalidatePath('/admin');
   revalidatePath('/admin/projects');
+  revalidatePublicProjects();
   redirect(`/admin/projects?import=${rows.length}`);
 }

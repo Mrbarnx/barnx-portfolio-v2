@@ -1,8 +1,9 @@
 import type { MetadataRoute } from 'next';
-import { projects } from '@/data/content';
+import { getPublishedProjects } from '@/lib/cms/publicProjects';
 import { site } from '@/data/site';
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const projects = await getPublishedProjects();
   const staticRoutes = [
     '',
     '/projects',
