@@ -16,6 +16,7 @@ export function SiteShell({children}:{children:React.ReactNode}){
   const[open,setOpen]=useState(false);
   const[scrolled,setScrolled]=useState(false);
   useEffect(()=>{const f=()=>setScrolled(scrollY>20);addEventListener('scroll',f);f();return()=>removeEventListener('scroll',f)},[]);
+  if(path.startsWith('/admin')) return <>{children}</>;
   return <>
     <header className={`navWrap ${scrolled?'scrolled':''}`}>
       <nav className="nav">

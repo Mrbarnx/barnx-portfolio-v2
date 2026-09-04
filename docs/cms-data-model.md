@@ -59,6 +59,7 @@ Impact Stories add one more gate: confidential work is never publicly readable, 
 
 - Create the Supabase project.
 - Run the migration.
+- Run the explicit Data API permissions migration. Automatic table exposure stays disabled.
 - Configure the two public Supabase environment variables.
 - Add the owner's Auth user to `cms_admin_users` through the Supabase SQL editor.
 - Build `/admin/login` and a protected `/admin` shell.
