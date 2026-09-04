@@ -15,7 +15,7 @@ const dashboardItems = [
   { label: 'Impact Stories', description: 'Prepare evidence-led stories before publishing.', icon: Gauge },
   { label: 'Studio Resources', description: 'Manage guides, prompts and reusable assets.', icon: Sparkles },
   { label: 'Learning Paths', description: 'Organize modules, lessons and downloads.', icon: BookOpen },
-  { label: 'Media Library', description: 'Media uploads arrive in the next CMS phase.', icon: Images },
+  { label: 'Media Library', description: 'Upload reusable project and content images.', icon: Images, href: '/admin/media' },
 ];
 
 export default async function AdminPage() {
@@ -45,7 +45,7 @@ export default async function AdminPage() {
             <Icon aria-hidden="true" />
             <h2>{label}</h2>
             <p>{description}</p>
-            <span>{href ? 'Open project manager' : 'Coming in a later build phase'}</span>
+            <span>{href ? `Open ${label.toLowerCase()}` : 'Coming in a later build phase'}</span>
           </>;
 
           return href ? <Link className={`${styles.adminCard} ${styles.adminCardLink}`} href={href} key={label}>{content}</Link> : <article className={styles.adminCard} key={label}>{content}</article>;

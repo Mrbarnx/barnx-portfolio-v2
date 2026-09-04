@@ -11,6 +11,11 @@ const permissionsPath = new URL(
   import.meta.url,
 );
 const permissionsSql = readFileSync(permissionsPath, 'utf8');
+const mediaStoragePath = new URL(
+  '../supabase/migrations/202609040001_cms_media_storage.sql',
+  import.meta.url,
+);
+const mediaStorageSql = readFileSync(mediaStoragePath, 'utf8');
 
 const tables = [
   'cms_admin_users',
@@ -80,4 +85,17 @@ for (const table of tables.filter((table) => table !== 'cms_admin_users')) {
   );
 }
 
-console.log(`CMS schema and API permission validation passed for ${tables.length} tables.`);
+assert.match(mediaStorageSql, /^-- Barnx CMS media storage/m);
+assert.match(mediaStorageSql, /\bbegin;[\s\S]*\bcommit;\s*$/);
+assert.match(mediaStorageSql, /'cms-media',[\s\S]*true,[\s\S]*8388608/);
+assert.match(mediaStorageSql, /allowed_mime_types/);
+assert.match(mediaStorageSql, /on storage\.objects for insert[\s\S]*public\.is_cms_admin\(\)/);
+assert.match(mediaStorageSql, /on storage\.objects for update[\s\S]*public\.is_cms_admin\(\)/);
+assert.match(mediaStorageSql, /on storage\.objects for delete[\s\S]*public\.is_cms_admin\(\)/);
+assert.doesNotMatch(
+  mediaStorageSql,
+  /on storage\.objects for (insert|update|delete)[\s\S]{0,160}\bto anon\b/i,
+  'Anonymous users must never receive Storage mutation privileges.',
+);
+
+console.log(`CMS schema, API permissions and media storage validation passed for ${tables.length} tables.`);
