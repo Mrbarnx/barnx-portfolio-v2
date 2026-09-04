@@ -4,6 +4,10 @@ import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { z } from 'zod';
 import { requireCmsAdmin } from '@/lib/admin/requireCmsAdmin';
+import fs from 'node:fs';
+import path from 'node:path';
+import { resources as fileResources } from '@/data/content';
+import { promptLibrary as filePrompts } from '@/data/prompts';
 
 const slug = z.string().trim().min(2).regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/);
 const url = z.string().trim().refine((value) => !value || z.string().url().safeParse(value).success);
@@ -94,4 +98,45 @@ export async function saveSiteSettings(data: FormData) {
   if(!schema.safeParse(settings).success) redirect('/admin/settings?error=validation');
   const {supabase,user}=await requireCmsAdmin(); const {error}=await supabase.from('site_settings').upsert({key:'site.profile',value:settings,description:'Public portfolio identity, links and metadata.',is_public:true,updated_by:user.id});
   revalidatePath('/');revalidatePath('/admin/settings');revalidatePath('/sitemap.xml');redirect(`/admin/settings?saved=${error?'failed':'true'}`);
+}
+
+export async function importCurrentStudioResources() {
+  const { supabase, user } = await requireCmsAdmin();
+  const { data: existing, error: readError } = await supabase.from('studio_resources').select('slug');
+  if (readError) redirect('/admin/studio?import=failed');
+  const existingSlugs = new Set((existing ?? []).map((item) => item.slug));
+  const typeMap: Record<string, string> = {
+    Guide: 'guide', Component: 'component', Workflow: 'workflow',
+    'Prompt Library': 'prompt_library', Template: 'template',
+  };
+  const rows = fileResources.filter((item) => !existingSlugs.has(item.slug)).map((item, index) => ({
+    slug: item.slug, title: item.title, resource_type: typeMap[item.type] ?? 'other', icon: item.icon,
+    short_summary: item.short, description: item.description, includes: item.includes,
+    best_for: item.bestFor, technologies: item.tech, is_free: item.free,
+    download_path: item.download ?? null, featured: index < 3, published: true,
+    published_at: new Date().toISOString(), sort_order: index, created_by: user.id,
+  }));
+  if (!rows.length) redirect('/admin/studio?import=unchanged');
+  const { error } = await supabase.from('studio_resources').insert(rows);
+  revalidatePath('/admin/studio'); revalidatePath('/barnx-studio');
+  redirect(`/admin/studio?import=${error ? 'failed' : 'resources'}`);
+}
+
+export async function importCurrentPrompts() {
+  const { supabase, user } = await requireCmsAdmin();
+  const { data: existing, error: readError } = await supabase.from('prompt_resources').select('slug');
+  if (readError) redirect('/admin/studio?import=failed');
+  const existingSlugs = new Set((existing ?? []).map((item) => item.slug));
+  const rows = filePrompts.filter((item) => !existingSlugs.has(item.slug)).map((item, index) => ({
+    number_label: item.number, slug: item.slug, title: item.title, category: item.category,
+    short_summary: item.short, description: item.description, best_for: item.bestFor,
+    tools: item.tools, tutorial_steps: item.tutorial, download_path: item.download,
+    source_path: item.sourceFile, prompt_text: fs.readFileSync(path.join(process.cwd(), item.sourceFile), 'utf8'),
+    featured: index === 0, published: true, published_at: new Date().toISOString(),
+    sort_order: index, created_by: user.id,
+  }));
+  if (!rows.length) redirect('/admin/studio?import=unchanged');
+  const { error } = await supabase.from('prompt_resources').insert(rows);
+  revalidatePath('/admin/studio'); revalidatePath('/barnx-studio/prompts');
+  redirect(`/admin/studio?import=${error ? 'failed' : 'prompts'}`);
 }
