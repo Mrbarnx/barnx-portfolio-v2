@@ -19,6 +19,14 @@ const optionalUrl = z.string().trim().refine(
   'Enter a complete URL beginning with https://',
 );
 
+const optionalHttpsUrl = z.string().trim().refine((value) => {
+  if (!value) return true;
+  const parsed = z.string().url().safeParse(value);
+  return parsed.success && new URL(value).protocol === 'https:';
+}, 'Enter a secure URL beginning with https://');
+
+const mediaId = z.string().uuid('Choose a valid Media Library image.');
+
 export const projectFormSchema = z.object({
   title: z.string().trim().min(2, 'Enter a project title.'),
   display_title: z.string().trim().min(1, 'Enter the short display title.'),
@@ -43,15 +51,22 @@ export const projectFormSchema = z.object({
   github_url: optionalUrl,
   sort_order: z.coerce.number().int().min(0).max(9999),
   featured: z.boolean(),
-  cover_media_id: z.string().trim().refine(
-    (value) => !value || z.string().uuid().safeParse(value).success,
-    'Choose a valid Media Library image.',
-  ),
+  cover_media_id: z.union([z.literal(''), mediaId]),
+  gallery_media_ids: z.array(mediaId).max(24, 'Choose no more than 24 gallery images.'),
+  video_poster_media_id: z.union([z.literal(''), mediaId]),
+  demo_visibility: z.enum(['none', 'public', 'unlisted', 'private']),
+  demo_video_url: optionalHttpsUrl,
+  private_video_url: optionalHttpsUrl,
+  demo_video_title: z.string().trim().max(100, 'Keep the video title under 100 characters.'),
+}).superRefine((values, context) => {
+  if (['public', 'unlisted'].includes(values.demo_visibility) && !values.demo_video_url) {
+    context.addIssue({ code: z.ZodIssueCode.custom, path: ['demo_video_url'], message: 'Add the external video URL.' });
+  }
 });
 
 export type ProjectFormValues = z.infer<typeof projectFormSchema>;
 
-export type ProjectRow = Omit<ProjectFormValues, 'features' | 'technologies' | 'cover_media_id'> & {
+export type ProjectRow = Omit<ProjectFormValues, 'features' | 'technologies' | 'cover_media_id' | 'gallery_media_ids' | 'video_poster_media_id' | 'private_video_url'> & {
   id: string;
   features: string[];
   technologies: string[];
@@ -72,6 +87,14 @@ export const initialProjectActionState: ProjectActionState = {
 };
 
 export function projectFormData(formData: FormData) {
+  let galleryMediaIds: string[] = [];
+  try {
+    const parsed = JSON.parse(String(formData.get('gallery_media_ids') ?? '[]'));
+    if (Array.isArray(parsed)) galleryMediaIds = [...new Set(parsed.map(String))];
+  } catch {
+    galleryMediaIds = [];
+  }
+
   return {
     title: formData.get('title'),
     display_title: formData.get('display_title'),
@@ -93,7 +116,13 @@ export function projectFormData(formData: FormData) {
     github_url: formData.get('github_url'),
     sort_order: formData.get('sort_order'),
     featured: formData.get('featured') === 'on',
-    cover_media_id: formData.get('cover_media_id'),
+    cover_media_id: String(formData.get('cover_media_id') ?? ''),
+    gallery_media_ids: galleryMediaIds,
+    video_poster_media_id: String(formData.get('video_poster_media_id') ?? ''),
+    demo_visibility: formData.get('demo_visibility'),
+    demo_video_url: String(formData.get('demo_video_url') ?? ''),
+    private_video_url: String(formData.get('private_video_url') ?? ''),
+    demo_video_title: String(formData.get('demo_video_title') ?? ''),
   };
 }
 

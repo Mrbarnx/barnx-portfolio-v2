@@ -9,8 +9,8 @@ That boundary is intentional: the production portfolio stays stable until authen
 | Area | Tables | Purpose |
 |---|---|---|
 | Admin access | `cms_admin_users` | Explicit allowlist linked to Supabase Auth users |
-| Media library | `media_assets` | Reusable metadata for images, videos, PDFs and downloads |
-| Projects | `projects`, `project_media` | Draft/published projects, links, features, technologies and media |
+| Media library | `media_assets` | Reusable metadata for public portfolio images and future downloadable files |
+| Projects | `projects`, `project_media`, `project_private_demos` | Draft/published projects, ordered image galleries, external demos and private access records |
 | Impact Stories | `impact_stories`, `impact_evidence` | Evidence-first stories with visibility and publication controls |
 | Barnx Studio | `studio_resources`, `prompt_resources` | Guides, individual prompts, components, workflows, templates and assets |
 | Learning | `learning_paths`, `learning_modules`, `learning_lessons`, `learning_path_resources` | Ordered learning content and related downloads |
@@ -27,6 +27,8 @@ That boundary is intentional: the production portfolio stays stable until authen
 - Admin allowlist changes stay in the Supabase SQL editor/service role; the browser admin cannot promote another account.
 - API keys, service-role keys and other secrets must stay in environment variables, never `site_settings`.
 - Storage-object upload policies are deliberately deferred to the Media Library phase.
+- External private-demo URLs live only in `project_private_demos`, which has no anonymous table privilege or public read policy.
+- Public and unlisted external demos may be embedded only after the visitor actively chooses the video view.
 
 ## Existing content mapping
 
@@ -85,6 +87,15 @@ values ('OWNER_AUTH_USER_UUID', 'Barnabas Mikel');
 - Add Storage Row Level Security policies.
 - Connect reusable uploaded media to projects and resources.
 
-## Why the live site is still file-backed
+### Phase 5B — Project media presentation
 
-The SQL migration is a foundation, not a runtime dependency yet. Deploying this phase cannot cause empty project pages if Supabase is unavailable or unconfigured. The public read switch happens only after the admin, database and content migration are ready together.
+- Keep a dedicated card cover separate from the ordered project gallery.
+- Show full gallery images without cropping on project detail pages.
+- Use a controlled wide crop for responsive project cards.
+- Accept external YouTube, Vimeo, Loom or secure fallback links instead of uploading video files.
+- Keep Images as the default view and mount a video player only after the visitor chooses Watch video.
+- Represent confidential work with Request private demo; never expose its stored URL through the public API.
+
+## Runtime fallback
+
+Published project pages now read from Supabase. The original TypeScript project data remains a controlled availability fallback if Supabase is temporarily unavailable or unconfigured.
