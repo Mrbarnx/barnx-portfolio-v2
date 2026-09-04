@@ -1,0 +1,134 @@
+.projectsPage {
+  min-height: 100vh;
+  padding: 48px clamp(20px, 5vw, 72px) 96px;
+  color: #f5f5f2;
+  background: radial-gradient(circle at 12% 8%, rgba(138, 92, 246, .16), transparent 30rem), #090909;
+}
+
+.pageHeader,
+.formPageHeader,
+.projectForm,
+.safetyNote,
+.notice,
+.errorNotice,
+.emptyState,
+.listToolbar,
+.projectList { max-width: 1120px; margin-right: auto; margin-left: auto; }
+
+.pageHeader { display: flex; margin-bottom: 28px; align-items: flex-end; justify-content: space-between; gap: 24px; }
+.pageHeader h1,
+.formPageHeader h1 { margin: 7px 0 8px; font-size: clamp(38px, 6vw, 64px); letter-spacing: -.06em; }
+.pageHeader p,
+.formPageHeader > p:last-child { margin: 0; color: #aaa9a4; line-height: 1.6; }
+.eyebrow { color: #9e85f7 !important; font-size: 11px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; }
+.backLink { display: inline-flex; margin-bottom: 30px; align-items: center; gap: 8px; color: #aaa9a4; font-size: 13px; font-weight: 700; text-decoration: none; }
+.backLink:hover { color: #fff; }
+.backLink svg { width: 16px; }
+.formPageHeader { margin-bottom: 28px; }
+.formPageHeader > p:last-child { max-width: 680px; }
+
+.primaryButton,
+.secondaryButton,
+.editButton,
+.dangerButton,
+.restoreButton,
+.textButton,
+.restoreTextButton,
+.iconButton {
+  display: inline-flex;
+  min-height: 42px;
+  padding: 0 16px;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 0;
+  border-radius: 11px;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 800;
+  text-decoration: none;
+  cursor: pointer;
+}
+.primaryButton { color: #0a0a0a; background: #f4f1ff; }
+.primaryButton svg,
+.editButton svg { width: 17px; }
+.secondaryButton,
+.editButton { border: 1px solid rgba(255, 255, 255, .13); color: #f5f5f2; background: #191919; }
+.textButton { min-height: auto; padding: 6px; color: #b9a9ff; background: transparent; }
+.dangerButton { border: 1px solid rgba(255, 113, 113, .28); color: #ffaaaa; background: rgba(255, 80, 80, .07); }
+.restoreButton { border: 1px solid rgba(71, 196, 163, .3); color: #d9fff5; background: rgba(71, 196, 163, .1); }
+.restoreTextButton { min-height: auto; padding: 6px; color: #84dec6; background: transparent; }
+.iconButton { width: 42px; padding: 0; border: 1px solid rgba(255, 255, 255, .11); color: #aaa9a4; background: transparent; }
+.iconButton svg { width: 16px; }
+.projectForm button:disabled { cursor: wait; opacity: .6; }
+
+.safetyNote { margin-bottom: 22px; padding: 18px 20px; border: 1px solid rgba(71, 196, 163, .25); border-radius: 15px; background: rgba(71, 196, 163, .07); }
+.safetyNote strong { color: #d9fff5; font-size: 14px; }
+.safetyNote p { margin: 6px 0 0; color: #aaa9a4; font-size: 13px; line-height: 1.55; }
+.notice,
+.errorNotice { margin-bottom: 20px; padding: 14px 17px; border-radius: 12px; font-size: 13px; }
+.notice { border: 1px solid rgba(158, 133, 247, .26); color: #ddd5ff; background: rgba(158, 133, 247, .09); }
+.errorNotice,
+.formError { border: 1px solid rgba(255, 113, 113, .25); color: #ffb0b0; background: rgba(255, 80, 80, .07); }
+
+.emptyState { display: grid; min-height: 360px; padding: 54px 24px; place-items: center; align-content: center; text-align: center; border: 1px solid rgba(255, 255, 255, .1); border-radius: 22px; background: rgba(255, 255, 255, .03); }
+.emptyState > svg { width: 34px; height: 34px; margin-bottom: 16px; color: #9e85f7; }
+.emptyState h2 { margin: 0 0 9px; font-size: 25px; }
+.emptyState p { max-width: 610px; margin: 0 0 22px; color: #aaa9a4; line-height: 1.6; }
+.emptyState span { margin: 13px 0 5px; color: #706f6b; font-size: 11px; text-transform: uppercase; }
+.emptyState > a { color: #c3b4ff; font-size: 13px; }
+
+.listToolbar { display: flex; margin-top: 28px; margin-bottom: 12px; align-items: center; justify-content: space-between; gap: 16px; color: #8f8e89; font-size: 13px; }
+.listToolbar p { margin: 0; }
+.projectList { display: grid; gap: 12px; }
+.projectCard { display: flex; padding: 22px; align-items: center; justify-content: space-between; gap: 24px; border: 1px solid rgba(255, 255, 255, .1); border-radius: 17px; background: rgba(255, 255, 255, .035); }
+.projectMain { min-width: 0; }
+.projectMain h2 { margin: 13px 0 5px; font-size: 21px; letter-spacing: -.03em; }
+.projectMain p { max-width: 680px; margin: 0 0 9px; color: #aaa9a4; font-size: 14px; line-height: 1.55; }
+.projectMain small { color: #706f6b; }
+.badges { display: flex; flex-wrap: wrap; gap: 7px; }
+.badges span { padding: 5px 8px; border: 1px solid rgba(255, 255, 255, .1); border-radius: 999px; color: #aaa9a4; font-size: 10px; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; }
+.badges .publishedBadge { border-color: rgba(71, 196, 163, .28); color: #84dec6; background: rgba(71, 196, 163, .08); }
+.badges .draftBadge { color: #b7b6b0; background: rgba(255, 255, 255, .04); }
+.cardActions { display: flex; flex-shrink: 0; align-items: center; gap: 8px; }
+
+.projectForm { display: grid; gap: 18px; }
+.formSection { padding: clamp(22px, 4vw, 34px); border: 1px solid rgba(255, 255, 255, .1); border-radius: 20px; background: rgba(255, 255, 255, .035); }
+.sectionHeading { display: flex; margin-bottom: 28px; gap: 15px; }
+.sectionHeading > span { display: grid; width: 34px; height: 34px; flex: 0 0 34px; place-items: center; border: 1px solid rgba(158, 133, 247, .3); border-radius: 10px; color: #a993ff; font-size: 11px; font-weight: 900; }
+.sectionHeading h2 { margin: 0 0 5px; font-size: 20px; }
+.sectionHeading p { margin: 0; color: #8f8e89; font-size: 13px; }
+.fieldGrid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+.stackFields { display: grid; gap: 20px; }
+.projectForm label { display: grid; align-content: start; gap: 8px; color: #d8d8d3; font-size: 12px; font-weight: 800; }
+.projectForm input,
+.projectForm textarea,
+.projectForm select { width: 100%; padding: 12px 14px; border: 1px solid rgba(255, 255, 255, .13); border-radius: 11px; outline: none; color: #f5f5f2; background: #111; font: inherit; font-size: 14px; }
+.projectForm textarea { resize: vertical; line-height: 1.55; }
+.projectForm input:focus,
+.projectForm textarea:focus,
+.projectForm select:focus { border-color: #9e85f7; box-shadow: 0 0 0 3px rgba(158, 133, 247, .13); }
+.checkboxLabel { display: flex !important; min-height: 70px; padding: 13px; align-items: center !important; grid-template-columns: auto 1fr; border: 1px solid rgba(255, 255, 255, .1); border-radius: 11px; background: #111; }
+.checkboxLabel input { width: 18px; margin: 0 5px 0 0; accent-color: #9e85f7; }
+.checkboxLabel span { display: grid; gap: 4px; }
+.checkboxLabel small { color: #7e7d78; font-weight: 500; line-height: 1.4; }
+.fieldError { color: #ff9c9c; font-size: 11px; font-weight: 600; }
+.formError { padding: 14px 17px; border-radius: 12px; font-size: 13px; }
+.formActions { position: sticky; bottom: 14px; z-index: 2; display: flex; padding: 16px; align-items: center; justify-content: space-between; gap: 18px; border: 1px solid rgba(255, 255, 255, .13); border-radius: 16px; background: rgba(16, 16, 16, .92); box-shadow: 0 20px 50px rgba(0, 0, 0, .35); backdrop-filter: blur(18px); }
+.formActions p { margin: 0; color: #8f8e89; font-size: 12px; }
+.formActions > div { display: flex; flex-shrink: 0; gap: 9px; }
+.editTitleRow { display: flex; align-items: flex-end; justify-content: space-between; gap: 20px; }
+.editTitleRow p { margin: 0; color: #aaa9a4; }
+
+@media (max-width: 760px) {
+  .projectsPage { padding: 34px 18px 72px; }
+  .pageHeader,
+  .projectCard,
+  .editTitleRow { align-items: stretch; flex-direction: column; }
+  .pageHeader .primaryButton { align-self: flex-start; }
+  .fieldGrid { grid-template-columns: 1fr; }
+  .cardActions { flex-wrap: wrap; }
+  .formActions { position: static; align-items: stretch; flex-direction: column; }
+  .formActions > div { display: grid; grid-template-columns: 1fr 1fr; }
+  .listToolbar { align-items: flex-start; flex-direction: column; }
+}

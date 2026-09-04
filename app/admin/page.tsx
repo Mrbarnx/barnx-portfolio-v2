@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
-import { redirect } from 'next/navigation';
+import Link from 'next/link';
 import { BookOpen, FolderKanban, Gauge, Images, LogOut, Sparkles } from 'lucide-react';
-import { createClient } from '@/lib/supabase/server';
+import { requireCmsAdmin } from '@/lib/admin/requireCmsAdmin';
 import { signOut } from './actions';
 import styles from './admin.module.css';
 
@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 };
 
 const dashboardItems = [
-  { label: 'Projects', description: 'Create, edit and publish portfolio projects.', icon: FolderKanban },
+  { label: 'Projects', description: 'Create, edit and publish portfolio projects.', icon: FolderKanban, href: '/admin/projects' },
   { label: 'Impact Stories', description: 'Prepare evidence-led stories before publishing.', icon: Gauge },
   { label: 'Studio Resources', description: 'Manage guides, prompts and reusable assets.', icon: Sparkles },
   { label: 'Learning Paths', description: 'Organize modules, lessons and downloads.', icon: BookOpen },
@@ -19,13 +19,7 @@ const dashboardItems = [
 ];
 
 export default async function AdminPage() {
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-
-  if (!user) redirect('/admin/login');
-
-  const { data: isAdmin, error } = await supabase.rpc('is_cms_admin');
-  if (error || !isAdmin) redirect('/admin/login');
+  await requireCmsAdmin();
 
   return (
     <main className={styles.dashboard}>
@@ -46,14 +40,16 @@ export default async function AdminPage() {
       </section>
 
       <section className={styles.adminGrid} aria-label="Content areas">
-        {dashboardItems.map(({ label, description, icon: Icon }) => (
-          <article className={styles.adminCard} key={label}>
+        {dashboardItems.map(({ label, description, icon: Icon, href }) => {
+          const content = <>
             <Icon aria-hidden="true" />
             <h2>{label}</h2>
             <p>{description}</p>
-            <span>Coming in the next build phase</span>
-          </article>
-        ))}
+            <span>{href ? 'Open project manager' : 'Coming in a later build phase'}</span>
+          </>;
+
+          return href ? <Link className={`${styles.adminCard} ${styles.adminCardLink}`} href={href} key={label}>{content}</Link> : <article className={styles.adminCard} key={label}>{content}</article>;
+        })}
       </section>
     </main>
   );

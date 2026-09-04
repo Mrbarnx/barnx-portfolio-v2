@@ -6,7 +6,7 @@ import { motion } from 'framer-motion';
 import { ArrowRight, Code2, Rocket, Sparkles, Zap } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import Lenis from 'lenis';
-import { projects, experience } from '@/data/content';
+import { experience, type Project } from '@/data/content';
 import { ImpactTeaser } from '@/components/ImpactTeaser';
 
 const techCards = [
@@ -42,7 +42,7 @@ function TechIcon({ card }: { card: (typeof techCards)[number] }) {
   return <Code2 aria-hidden="true" />;
 }
 
-export function HomeClient() {
+export function HomeClient({ projects }: { projects: Project[] }) {
   const about = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(0);
 
