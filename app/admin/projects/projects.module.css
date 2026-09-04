@@ -113,6 +113,15 @@
 .checkboxLabel span { display: grid; gap: 4px; }
 .checkboxLabel small { color: #7e7d78; font-weight: 500; line-height: 1.4; }
 .fieldError { color: #ff9c9c; font-size: 11px; font-weight: 600; }
+.coverPicker { display: grid; grid-template-columns: minmax(0, .8fr) minmax(280px, 1.2fr); align-items: start; gap: 22px; }
+.coverPreview,
+.coverFallback { min-height: 190px; overflow: hidden; border: 1px solid rgba(255, 255, 255, .11); border-radius: 14px; background: #111; }
+.coverPreview img { display: block; width: 100%; aspect-ratio: 16 / 7; object-fit: contain; background: #f4f4f1; }
+.coverPreview div { display: grid; padding: 12px 14px; gap: 3px; }
+.coverPreview small,
+.coverFallback small { color: #8f8e89; font-size: 11px; }
+.coverFallback { display: grid; padding: 24px; place-content: center; text-align: center; }
+.coverFallback strong { font-size: 28px; letter-spacing: -.04em; }
 .formError { padding: 14px 17px; border-radius: 12px; font-size: 13px; }
 .formActions { position: sticky; bottom: 14px; z-index: 2; display: flex; padding: 16px; align-items: center; justify-content: space-between; gap: 18px; border: 1px solid rgba(255, 255, 255, .13); border-radius: 16px; background: rgba(16, 16, 16, .92); box-shadow: 0 20px 50px rgba(0, 0, 0, .35); backdrop-filter: blur(18px); }
 .formActions p { margin: 0; color: #8f8e89; font-size: 12px; }
@@ -127,6 +136,7 @@
   .editTitleRow { align-items: stretch; flex-direction: column; }
   .pageHeader .primaryButton { align-self: flex-start; }
   .fieldGrid { grid-template-columns: 1fr; }
+  .coverPicker { grid-template-columns: 1fr; }
   .cardActions { flex-wrap: wrap; }
   .formActions { position: static; align-items: stretch; flex-direction: column; }
   .formActions > div { display: grid; grid-template-columns: 1fr 1fr; }

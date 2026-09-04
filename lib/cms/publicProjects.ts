@@ -5,8 +5,10 @@ import { unstable_noStore as noStore } from 'next/cache';
 import { createClient } from '@supabase/supabase-js';
 import { projects as fallbackProjects, type Project } from '@/data/content';
 import { getSupabaseConfig } from '@/lib/supabase/config';
+import { mediaPublicUrl } from '@/lib/admin/media';
 
 type PublicProjectRow = {
+  id: string;
   slug: string;
   title: string;
   display_title: string;
@@ -28,7 +30,7 @@ type PublicProjectRow = {
   featured: boolean;
 };
 
-const publicProjectFields = 'slug,title,display_title,category,status,short_summary,overview,visual_subtitle,tone,problem,solution,role,features,technologies,challenges,lessons,live_url,github_url,featured';
+const publicProjectFields = 'id,slug,title,display_title,category,status,short_summary,overview,visual_subtitle,tone,problem,solution,role,features,technologies,challenges,lessons,live_url,github_url,featured';
 
 const statusLabels: Record<string, string> = {
   in_development: 'In development',
@@ -37,7 +39,9 @@ const statusLabels: Record<string, string> = {
   completed: 'Completed',
 };
 
-function mapProject(row: PublicProjectRow): Project {
+type ProjectCover = { url: string; alt: string };
+
+function mapProject(row: PublicProjectRow, coverImage?: ProjectCover): Project {
   return {
     slug: row.slug,
     title: row.title,
@@ -57,7 +61,36 @@ function mapProject(row: PublicProjectRow): Project {
     lessons: row.lessons,
     live: row.live_url ?? undefined,
     github: row.github_url ?? undefined,
+    coverImage,
   };
+}
+
+async function loadProjectCovers(client: ReturnType<typeof publicClient>, projectIds: string[]) {
+  const covers = new Map<string, ProjectCover>();
+  if (!projectIds.length) return covers;
+
+  const { data: links, error: linksError } = await client
+    .from('project_media')
+    .select('project_id,media_id')
+    .eq('usage', 'cover')
+    .in('project_id', projectIds);
+  if (linksError || !links?.length) return covers;
+
+  const mediaIds = [...new Set(links.map((link) => link.media_id))];
+  const { data: assets, error: assetsError } = await client
+    .from('media_assets')
+    .select('id,storage_path,alt_text')
+    .eq('is_public', true)
+    .in('id', mediaIds);
+  if (assetsError || !assets) return covers;
+
+  const { url } = getSupabaseConfig();
+  const assetsById = new Map(assets.map((asset) => [asset.id, asset]));
+  links.forEach((link) => {
+    const asset = assetsById.get(link.media_id);
+    if (asset) covers.set(link.project_id, { url: mediaPublicUrl(url, asset.storage_path), alt: asset.alt_text });
+  });
+  return covers;
 }
 
 function publicClient() {
@@ -71,7 +104,8 @@ export const getPublishedProjects = cache(async (): Promise<Project[]> => {
   noStore();
 
   try {
-    const { data, error } = await publicClient()
+    const client = publicClient();
+    const { data, error } = await client
       .from('projects')
       .select(publicProjectFields)
       .eq('published', true)
@@ -81,7 +115,9 @@ export const getPublishedProjects = cache(async (): Promise<Project[]> => {
       .order('published_at', { ascending: false });
 
     if (error) throw error;
-    return ((data ?? []) as unknown as PublicProjectRow[]).map(mapProject);
+    const rows = (data ?? []) as unknown as PublicProjectRow[];
+    const covers = await loadProjectCovers(client, rows.map((row) => row.id));
+    return rows.map((row) => mapProject(row, covers.get(row.id)));
   } catch (error) {
     console.error('Published projects fallback activated:', error instanceof Error ? error.message : 'Unknown Supabase error');
     return fallbackProjects;
@@ -92,7 +128,8 @@ export const getPublishedProject = cache(async (slug: string): Promise<Project |
   noStore();
 
   try {
-    const { data, error } = await publicClient()
+    const client = publicClient();
+    const { data, error } = await client
       .from('projects')
       .select(publicProjectFields)
       .eq('slug', slug)
@@ -101,7 +138,10 @@ export const getPublishedProject = cache(async (slug: string): Promise<Project |
       .maybeSingle();
 
     if (error) throw error;
-    return data ? mapProject(data as unknown as PublicProjectRow) : null;
+    if (!data) return null;
+    const row = data as unknown as PublicProjectRow;
+    const covers = await loadProjectCovers(client, [row.id]);
+    return mapProject(row, covers.get(row.id));
   } catch (error) {
     console.error('Published project fallback activated:', error instanceof Error ? error.message : 'Unknown Supabase error');
     return fallbackProjects.find((project) => project.slug === slug) ?? null;

@@ -43,11 +43,15 @@ export const projectFormSchema = z.object({
   github_url: optionalUrl,
   sort_order: z.coerce.number().int().min(0).max(9999),
   featured: z.boolean(),
+  cover_media_id: z.string().trim().refine(
+    (value) => !value || z.string().uuid().safeParse(value).success,
+    'Choose a valid Media Library image.',
+  ),
 });
 
 export type ProjectFormValues = z.infer<typeof projectFormSchema>;
 
-export type ProjectRow = Omit<ProjectFormValues, 'features' | 'technologies'> & {
+export type ProjectRow = Omit<ProjectFormValues, 'features' | 'technologies' | 'cover_media_id'> & {
   id: string;
   features: string[];
   technologies: string[];
@@ -89,6 +93,7 @@ export function projectFormData(formData: FormData) {
     github_url: formData.get('github_url'),
     sort_order: formData.get('sort_order'),
     featured: formData.get('featured') === 'on',
+    cover_media_id: formData.get('cover_media_id'),
   };
 }
 

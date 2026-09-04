@@ -4,6 +4,8 @@ import { notFound } from 'next/navigation';
 import { ArrowLeft } from 'lucide-react';
 import { requireCmsAdmin } from '@/lib/admin/requireCmsAdmin';
 import type { ProjectRow } from '@/lib/admin/projects';
+import type { MediaAsset } from '@/lib/admin/media';
+import { getSupabaseConfig } from '@/lib/supabase/config';
 import { ArchiveProjectButton } from '../../ArchiveProjectButton';
 import { ProjectForm } from '../../ProjectForm';
 import styles from '../../projects.module.css';
@@ -17,9 +19,14 @@ export default async function EditProjectPage({ params, searchParams }: Props) {
   const { id } = await params;
   const { saved, restored } = await searchParams;
   const { supabase } = await requireCmsAdmin();
-  const { data, error } = await supabase.from('projects').select('*').eq('id', id).maybeSingle();
+  const [{ data, error }, { data: mediaAssets }, { data: cover }] = await Promise.all([
+    supabase.from('projects').select('*').eq('id', id).maybeSingle(),
+    supabase.from('media_assets').select('*').eq('is_public', true).order('created_at', { ascending: false }),
+    supabase.from('project_media').select('media_id').eq('project_id', id).eq('usage', 'cover').maybeSingle(),
+  ]);
   if (error || !data) notFound();
   const project = data as ProjectRow;
+  const { url } = getSupabaseConfig();
 
   return (
     <main className={styles.projectsPage}>
@@ -31,7 +38,7 @@ export default async function EditProjectPage({ params, searchParams }: Props) {
       {saved ? <p className={styles.notice} role="status">Saved successfully as {saved === 'published' ? 'published' : 'a draft'}.</p> : null}
       {restored === 'true' ? <p className={styles.notice} role="status">Project restored as a draft. Review it, then use Save &amp; publish when ready.</p> : null}
       {restored === 'failed' ? <p className={styles.errorNotice} role="alert">The project could not be restored.</p> : null}
-      <ProjectForm project={project} />
+      <ProjectForm project={project} mediaAssets={(mediaAssets ?? []) as MediaAsset[]} currentCoverId={cover?.media_id} supabaseUrl={url} />
     </main>
   );
 }
