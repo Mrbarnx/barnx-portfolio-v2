@@ -33,58 +33,104 @@ function revalidatePublicProjects(slug?: string, previousSlug?: string) {
 }
 
 function toPayload(values: ReturnType<typeof projectFormSchema.parse>, userId?: string) {
-  const { cover_media_id: _coverMediaId, ...projectValues } = values;
+  const {
+    cover_media_id: _coverMediaId,
+    gallery_media_ids: _galleryMediaIds,
+    video_poster_media_id: _videoPosterMediaId,
+    private_video_url: _privateVideoUrl,
+    ...projectValues
+  } = values;
   return {
     ...projectValues,
     features: splitList(values.features),
     technologies: splitList(values.technologies),
     live_url: values.live_url || null,
     github_url: values.github_url || null,
+    demo_video_url: ['public', 'unlisted'].includes(values.demo_visibility) ? values.demo_video_url : null,
     ...(userId ? { created_by: userId } : {}),
   };
 }
 
-async function syncProjectCover(
+type MediaSelection = { mediaId: string; usage: 'cover' | 'screenshot' | 'video'; sortOrder: number };
+
+async function syncProjectMedia(
   supabase: Awaited<ReturnType<typeof requireCmsAdmin>>['supabase'],
   projectId: string,
-  coverMediaId: string,
+  selections: MediaSelection[],
 ) {
-  if (coverMediaId) {
-    const { data: asset, error: assetError } = await supabase
+  const mediaIds = [...new Set(selections.map((selection) => selection.mediaId).filter(Boolean))];
+  if (mediaIds.length) {
+    const { data: assets, error: assetError } = await supabase
       .from('media_assets')
       .select('id')
-      .eq('id', coverMediaId)
       .eq('is_public', true)
-      .maybeSingle();
-    if (assetError || !asset) return 'The selected cover image is unavailable.';
+      .in('id', mediaIds);
+    if (assetError || (assets?.length ?? 0) !== mediaIds.length) return 'One or more selected images are unavailable.';
   }
 
-  if (coverMediaId) {
-    const { error: insertError } = await supabase.from('project_media').upsert({
-      project_id: projectId,
-      media_id: coverMediaId,
-      usage: 'cover',
-      sort_order: 0,
-    }, { onConflict: 'project_id,media_id,usage' });
-    if (insertError) return 'The selected cover image could not be attached.';
+  const { data: existing, error: existingError } = await supabase
+    .from('project_media')
+    .select('media_id,usage')
+    .eq('project_id', projectId)
+    .in('usage', ['cover', 'screenshot', 'video']);
+  if (existingError) return 'The current project media could not be read.';
 
-    const { error: deleteOtherError } = await supabase
-      .from('project_media')
-      .delete()
-      .eq('project_id', projectId)
-      .eq('usage', 'cover')
-      .neq('media_id', coverMediaId);
-    if (deleteOtherError) return 'The previous cover image could not be removed.';
-  } else {
+  if (selections.length) {
+    const { error: upsertError } = await supabase.from('project_media').upsert(
+      selections.map((selection) => ({
+        project_id: projectId,
+        media_id: selection.mediaId,
+        usage: selection.usage,
+        sort_order: selection.sortOrder,
+      })),
+      { onConflict: 'project_id,media_id,usage' },
+    );
+    if (upsertError) return 'The selected project media could not be attached.';
+  }
+
+  const wanted = new Set(selections.map((selection) => `${selection.usage}:${selection.mediaId}`));
+  for (const link of existing ?? []) {
+    if (wanted.has(`${link.usage}:${link.media_id}`)) continue;
     const { error: deleteError } = await supabase
       .from('project_media')
       .delete()
       .eq('project_id', projectId)
-      .eq('usage', 'cover');
-    if (deleteError) return 'The previous cover image could not be removed.';
+      .eq('media_id', link.media_id)
+      .eq('usage', link.usage);
+    if (deleteError) return 'An old project media link could not be removed.';
   }
 
   return null;
+}
+
+async function syncPrivateDemo(
+  supabase: Awaited<ReturnType<typeof requireCmsAdmin>>['supabase'],
+  projectId: string,
+  visibility: string,
+  videoUrl: string,
+  userId: string,
+) {
+  if (visibility === 'private' && videoUrl) {
+    const { error } = await supabase.from('project_private_demos').upsert({
+      project_id: projectId,
+      video_url: videoUrl,
+      updated_by: userId,
+    });
+    return error ? 'the private demo link could not be saved.' : null;
+  }
+
+  const { error } = await supabase.from('project_private_demos').delete().eq('project_id', projectId);
+  return error ? 'the previous private demo link could not be removed.' : null;
+}
+
+function mediaSelections(values: ReturnType<typeof projectFormSchema.parse>): MediaSelection[] {
+  return [
+    ...(values.cover_media_id ? [{ mediaId: values.cover_media_id, usage: 'cover' as const, sortOrder: 0 }] : []),
+    ...values.gallery_media_ids.map((mediaId, index) => ({ mediaId, usage: 'screenshot' as const, sortOrder: index })),
+    ...(['public', 'unlisted'].includes(values.demo_visibility) && values.video_poster_media_id
+      ? [{ mediaId: values.video_poster_media_id, usage: 'video' as const, sortOrder: 0 }]
+      : []),
+  ];
 }
 
 export async function createProject(
@@ -104,8 +150,10 @@ export async function createProject(
     .single();
 
   if (error) return { error: databaseMessage(error.message), fieldErrors: {} };
-  const coverError = await syncProjectCover(supabase, project.id, parsed.data.cover_media_id);
-  if (coverError) return { error: `Project saved, but ${coverError}`, fieldErrors: {} };
+  const mediaError = await syncProjectMedia(supabase, project.id, mediaSelections(parsed.data));
+  if (mediaError) return { error: `Project saved, but ${mediaError}`, fieldErrors: {} };
+  const privateDemoError = await syncPrivateDemo(supabase, project.id, parsed.data.demo_visibility, parsed.data.private_video_url, user.id);
+  if (privateDemoError) return { error: `Project saved, but ${privateDemoError}`, fieldErrors: {} };
 
   revalidatePath('/admin');
   revalidatePath('/admin/projects');
@@ -122,7 +170,7 @@ export async function updateProject(
   const invalid = validationState(parsed);
   if (invalid || !parsed.success) return invalid!;
 
-  const { supabase } = await requireCmsAdmin();
+  const { supabase, user } = await requireCmsAdmin();
   const { data: current } = await supabase.from('projects').select('slug').eq('id', id).maybeSingle();
   const published = formData.get('intent') === 'publish' && parsed.data.status !== 'archived';
   const { error } = await supabase
@@ -131,8 +179,10 @@ export async function updateProject(
     .eq('id', id);
 
   if (error) return { error: databaseMessage(error.message), fieldErrors: {} };
-  const coverError = await syncProjectCover(supabase, id, parsed.data.cover_media_id);
-  if (coverError) return { error: `Project content saved, but ${coverError}`, fieldErrors: {} };
+  const mediaError = await syncProjectMedia(supabase, id, mediaSelections(parsed.data));
+  if (mediaError) return { error: `Project content saved, but ${mediaError}`, fieldErrors: {} };
+  const privateDemoError = await syncPrivateDemo(supabase, id, parsed.data.demo_visibility, parsed.data.private_video_url, user.id);
+  if (privateDemoError) return { error: `Project content saved, but ${privateDemoError}`, fieldErrors: {} };
 
   revalidatePath('/admin');
   revalidatePath('/admin/projects');

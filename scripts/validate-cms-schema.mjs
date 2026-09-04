@@ -16,6 +16,11 @@ const mediaStoragePath = new URL(
   import.meta.url,
 );
 const mediaStorageSql = readFileSync(mediaStoragePath, 'utf8');
+const projectMediaPath = new URL(
+  '../supabase/migrations/202609040002_project_media_viewer.sql',
+  import.meta.url,
+);
+const projectMediaSql = readFileSync(projectMediaPath, 'utf8');
 
 const tables = [
   'cms_admin_users',
@@ -98,4 +103,16 @@ assert.doesNotMatch(
   'Anonymous users must never receive Storage mutation privileges.',
 );
 
-console.log(`CMS schema, API permissions and media storage validation passed for ${tables.length} tables.`);
+assert.match(projectMediaSql, /^-- Barnx CMS project galleries and privacy-safe external video demos/m);
+assert.match(projectMediaSql, /demo_visibility in \('none', 'public', 'unlisted', 'private'\)/);
+assert.match(projectMediaSql, /create table public\.project_private_demos/);
+assert.match(projectMediaSql, /alter table public\.project_private_demos enable row level security;/);
+assert.match(projectMediaSql, /revoke all on table public\.project_private_demos from anon;/);
+assert.match(projectMediaSql, /public\.is_cms_admin\(\)/);
+assert.doesNotMatch(
+  projectMediaSql,
+  /grant\s+(select|insert|update|delete|all)[\s\S]{0,100}\bto anon\b/i,
+  'Anonymous users must never receive access to private project demo links.',
+);
+
+console.log(`CMS schema, API permissions, media storage and private demo validation passed for ${tables.length} foundation tables.`);
