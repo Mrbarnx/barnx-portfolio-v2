@@ -1,10 +1,8 @@
-import fs from 'node:fs';
-import path from 'node:path';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { PromptActions } from '@/components/PromptActions';
 import { getPublishedPrompt } from '@/lib/cms/publicStudio';
-import { promptLibrary } from '@/data/prompts';
+import { readPromptSource } from '@/lib/cms/promptFiles';
 import styles from '../prompts.module.css';
 
 export const dynamic = 'force-dynamic';
@@ -14,8 +12,7 @@ export default async function PromptDetail({params}:{params:Promise<{slug:string
   const prompt=await getPublishedPrompt(slug);
   if(!prompt)notFound();
 
-  const fallback=promptLibrary.find(item=>item.slug===slug);
-  const promptText=prompt.promptText || (fallback ? fs.readFileSync(path.join(process.cwd(),fallback.sourceFile),'utf8') : prompt.description);
+  const promptText=prompt.promptText || readPromptSource(slug) || prompt.description;
 
   return <main className="page resourceDetail">
     <Link className="back" href="/barnx-studio/prompts">← AI Prompt Library</Link>

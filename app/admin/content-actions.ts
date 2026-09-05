@@ -4,10 +4,10 @@ import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { z } from 'zod';
 import { requireCmsAdmin } from '@/lib/admin/requireCmsAdmin';
-import fs from 'node:fs';
-import path from 'node:path';
 import { resources as fileResources } from '@/data/content';
 import { promptLibrary as filePrompts } from '@/data/prompts';
+import { studioCategories as fileStudioCategories } from '@/data/studio';
+import { readPromptSource } from '@/lib/cms/promptFiles';
 
 const slug = z.string().trim().min(2).regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/);
 const url = z.string().trim().refine((value) => !value || z.string().url().safeParse(value).success);
@@ -18,12 +18,12 @@ const checked = (data: FormData, key: string) => data.get(key) === 'on';
 const publishedAt = (published: boolean) => published ? new Date().toISOString() : null;
 
 export async function saveStudioResource(data: FormData) {
-  const schema = z.object({ id: z.string(), title: text(), slug, resource_type: z.enum(['guide','component','workflow','prompt_library','template','blueprint','visual_asset','other']), icon: z.string(), short_summary: text(10), description: text(10), best_for: z.string(), download_path: z.string(), external_url: url, sort_order: z.coerce.number().int().min(0) });
+  const schema = z.object({ id: z.string(), title: text(), slug, resource_type: z.enum(['guide','component','workflow','prompt_library','template','blueprint','visual_asset','other']), category_id: z.string(), icon: z.string(), short_summary: text(10), description: text(10), best_for: z.string(), download_path: z.string(), external_url: url, sort_order: z.coerce.number().int().min(0) });
   const parsed = schema.safeParse(Object.fromEntries(data));
   if (!parsed.success) redirect(`/admin/studio?error=resource`);
   const { supabase, user } = await requireCmsAdmin();
   const publish = data.get('intent') === 'publish';
-  const payload = { ...parsed.data, id: undefined, includes: lines(data.get('includes')), technologies: lines(data.get('technologies')), is_free: checked(data,'is_free'), featured: checked(data,'featured'), published: publish, published_at: publishedAt(publish), download_path: nullable(data.get('download_path')), external_url: nullable(data.get('external_url')) };
+  const payload = { ...parsed.data, id: undefined, category_id: parsed.data.category_id || null, includes: lines(data.get('includes')), technologies: lines(data.get('technologies')), is_free: checked(data,'is_free'), featured: checked(data,'featured'), published: publish, published_at: publishedAt(publish), download_path: nullable(data.get('download_path')), external_url: nullable(data.get('external_url')) };
   const query = parsed.data.id ? supabase.from('studio_resources').update(payload).eq('id', parsed.data.id) : supabase.from('studio_resources').insert({ ...payload, created_by: user.id });
   const { data: saved, error } = await query.select('id').single();
   if (error) redirect(`/admin/studio?error=resource-save`);
@@ -131,12 +131,54 @@ export async function importCurrentPrompts() {
     number_label: item.number, slug: item.slug, title: item.title, category: item.category,
     short_summary: item.short, description: item.description, best_for: item.bestFor,
     tools: item.tools, tutorial_steps: item.tutorial, download_path: item.download,
-    source_path: item.sourceFile, prompt_text: fs.readFileSync(path.join(process.cwd(), item.sourceFile), 'utf8'),
+    source_path: item.sourceFile, prompt_text: readPromptSource(item.slug),
     featured: index === 0, published: true, published_at: new Date().toISOString(),
     sort_order: index, created_by: user.id,
   }));
+  if (rows.some((item) => !item.prompt_text)) redirect('/admin/studio?import=prompt-files');
   if (!rows.length) redirect('/admin/studio?import=unchanged');
   const { error } = await supabase.from('prompt_resources').insert(rows);
   revalidatePath('/admin/studio'); revalidatePath('/barnx-studio/prompts');
   redirect(`/admin/studio?import=${error ? 'failed' : 'prompts'}`);
+}
+
+export async function saveStudioCategory(data: FormData) {
+  const parsed = z.object({ id: z.string(), slug, title: text(), label: text(), description: text(10), icon: z.string(), action_label: text(), href: z.string(), access_type: z.enum(['free','premium','mixed']), sort_order: z.coerce.number().int().min(0) }).safeParse(Object.fromEntries(data));
+  if (!parsed.success) redirect('/admin/studio?error=category');
+  const { supabase, user } = await requireCmsAdmin();
+  const payload = { ...parsed.data, id: undefined, href: nullable(data.get('href')), published: data.get('intent') === 'publish' };
+  const query = parsed.data.id ? supabase.from('studio_categories').update(payload).eq('id', parsed.data.id) : supabase.from('studio_categories').insert({ ...payload, created_by: user.id });
+  const { data: saved, error } = await query.select('id').single();
+  if (error) redirect('/admin/studio?error=category-save');
+  revalidatePath('/admin/studio'); revalidatePath('/barnx-studio');
+  redirect(`/admin/studio/categories/${saved.id}?saved=${payload.published ? 'published' : 'draft'}`);
+}
+
+export async function importCurrentStudioCategories() {
+  const { supabase, user } = await requireCmsAdmin();
+  const { data: existing, error: readError } = await supabase.from('studio_categories').select('slug');
+  if (readError) redirect('/admin/studio?import=category-migration');
+  const existingSlugs = new Set((existing ?? []).map((item) => item.slug));
+  const missing = fileStudioCategories.filter((item) => !existingSlugs.has(item.slug)).map((item, index) => ({
+    slug: item.slug, title: item.title, label: item.meta.split(' · ')[0], description: item.short,
+    icon: item.icon, action_label: item.action, href: item.href, access_type: item.access,
+    published: true, sort_order: index, created_by: user.id,
+  }));
+  if (missing.length) {
+    const { error } = await supabase.from('studio_categories').insert(missing);
+    if (error) redirect('/admin/studio?import=failed');
+  }
+  const { data: categories } = await supabase.from('studio_categories').select('id,slug');
+  const bySlug = new Map((categories ?? []).map((item) => [item.slug, item.id]));
+  const assignments: Record<string, string> = {
+    'frontend-release-checklist': 'open-source-assets', 'react-async-button': 'open-source-assets',
+    'vue-resource-card': 'open-source-assets', 'n8n-lead-follow-up': 'automation-blueprints',
+    'prompt-library': 'prompt-library', 'saas-starter-system': 'saas-starter-system',
+  };
+  await Promise.all(Object.entries(assignments).map(([resourceSlug, categorySlug]) => {
+    const categoryId = bySlug.get(categorySlug);
+    return categoryId ? supabase.from('studio_resources').update({ category_id: categoryId }).eq('slug', resourceSlug) : Promise.resolve();
+  }));
+  revalidatePath('/admin/studio'); revalidatePath('/barnx-studio');
+  redirect(`/admin/studio?import=${missing.length ? 'categories' : 'unchanged'}`);
 }
