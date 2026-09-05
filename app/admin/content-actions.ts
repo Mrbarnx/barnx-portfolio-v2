@@ -22,7 +22,7 @@ export async function saveStudioResource(data: FormData) {
   const parsed = schema.safeParse(Object.fromEntries(data));
   if (!parsed.success) redirect(`/admin/studio?error=resource`);
   const { supabase, user } = await requireCmsAdmin();
-  const publish = data.get('intent') === 'publish';
+  const publish = checked(data, 'published');
   const payload = { ...parsed.data, id: undefined, category_id: parsed.data.category_id || null, includes: lines(data.get('includes')), technologies: lines(data.get('technologies')), is_free: checked(data,'is_free'), featured: checked(data,'featured'), published: publish, published_at: publishedAt(publish), download_path: nullable(data.get('download_path')), external_url: nullable(data.get('external_url')) };
   const query = parsed.data.id ? supabase.from('studio_resources').update(payload).eq('id', parsed.data.id) : supabase.from('studio_resources').insert({ ...payload, created_by: user.id });
   const { data: saved, error } = await query.select('id').single();
@@ -35,7 +35,7 @@ export async function savePromptResource(data: FormData) {
   const schema = z.object({ id: z.string(), number_label: z.string(), title: text(), slug, category: text(), short_summary: text(10), description: text(10), best_for: z.string(), download_path: z.string(), source_path: z.string(), prompt_text: text(10), sort_order: z.coerce.number().int().min(0) });
   const parsed = schema.safeParse(Object.fromEntries(data));
   if (!parsed.success) redirect('/admin/studio?error=prompt');
-  const { supabase, user } = await requireCmsAdmin(); const publish = data.get('intent') === 'publish';
+  const { supabase, user } = await requireCmsAdmin(); const publish = checked(data, 'published');
   const payload = { ...parsed.data, id: undefined, tools: lines(data.get('tools')), tutorial_steps: lines(data.get('tutorial_steps')), featured: checked(data,'featured'), published: publish, published_at: publishedAt(publish), download_path: nullable(data.get('download_path')), source_path: nullable(data.get('source_path')) };
   const query = parsed.data.id ? supabase.from('prompt_resources').update(payload).eq('id', parsed.data.id) : supabase.from('prompt_resources').insert({ ...payload, created_by: user.id });
   const { data: saved, error } = await query.select('id').single();
@@ -146,7 +146,7 @@ export async function saveStudioCategory(data: FormData) {
   const parsed = z.object({ id: z.string(), slug, title: text(), label: text(), description: text(10), icon: z.string(), action_label: text(), href: z.string(), access_type: z.enum(['free','premium','mixed']), sort_order: z.coerce.number().int().min(0) }).safeParse(Object.fromEntries(data));
   if (!parsed.success) redirect('/admin/studio?error=category');
   const { supabase, user } = await requireCmsAdmin();
-  const payload = { ...parsed.data, id: undefined, href: nullable(data.get('href')), published: data.get('intent') === 'publish' };
+  const payload = { ...parsed.data, id: undefined, href: nullable(data.get('href')), published: checked(data, 'published') };
   const query = parsed.data.id ? supabase.from('studio_categories').update(payload).eq('id', parsed.data.id) : supabase.from('studio_categories').insert({ ...payload, created_by: user.id });
   const { data: saved, error } = await query.select('id').single();
   if (error) redirect('/admin/studio?error=category-save');
