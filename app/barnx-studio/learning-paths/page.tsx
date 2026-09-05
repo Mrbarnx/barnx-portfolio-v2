@@ -1,8 +1,11 @@
 import Link from 'next/link';
+import { getPublishedLearningPaths } from '@/lib/cms/publicStudio';
 
 export const metadata={title:'Learning Paths | Barnx Studio'};
 
-export default function LearningPathsPage(){return <main className="page resourceDetail">
+export const dynamic = 'force-dynamic';
+
+export default async function LearningPathsPage(){const paths=await getPublishedLearningPaths();return <main className="page resourceDetail">
   <Link className="back" href="/barnx-studio">← Barnx Studio</Link>
   <section className="resourceHero">
     <div className="resourceIcon huge">↗</div>
@@ -17,6 +20,10 @@ export default function LearningPathsPage(){return <main className="page resourc
         <div className="resourceIcon">D</div>
         <div><span>DevOps Fundamentals · BEGINNER</span><h3>Docker Fundamentals</h3><p>A simple 3-week hands-on roadmap from containers and images to Docker Compose, PostgreSQL and a real practice project.</p><em>Open learning path →</em></div>
       </Link>
+      {paths.filter(path=>path.slug!=='docker-fundamentals').map(path=><Link href={`/barnx-studio/learning-paths/${path.slug}`} className="resourceCard" key={path.id}>
+        <div className="resourceIcon">↗</div>
+        <div><span>{path.difficulty || 'Learning path'} · {path.estimatedDuration || 'Self-paced'}</span><h3>{path.title}</h3><p>{path.summary}</p><em>Open learning path →</em></div>
+      </Link>)}
     </div>
   </section>
   <section className="nextCase"><p>More learning paths will be added as I learn and apply new skills.</p><Link href="/barnx-studio">Browse Barnx Studio →</Link></section>

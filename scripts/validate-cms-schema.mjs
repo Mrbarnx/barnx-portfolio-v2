@@ -21,6 +21,12 @@ const projectMediaPath = new URL(
   import.meta.url,
 );
 const projectMediaSql = readFileSync(projectMediaPath, 'utf8');
+const studioContentPath = new URL('../supabase/migrations/202609040003_studio_prompt_content.sql', import.meta.url);
+const studioContentSql = readFileSync(studioContentPath, 'utf8');
+const analyticsPath = new URL('../supabase/migrations/202609040004_cms_analytics.sql', import.meta.url);
+const analyticsSql = readFileSync(analyticsPath, 'utf8');
+const studioCategoriesPath = new URL('../supabase/migrations/202609050001_studio_categories.sql', import.meta.url);
+const studioCategoriesSql = readFileSync(studioCategoriesPath, 'utf8');
 
 const tables = [
   'cms_admin_users',
@@ -115,4 +121,27 @@ assert.doesNotMatch(
   'Anonymous users must never receive access to private project demo links.',
 );
 
-console.log(`CMS schema, API permissions, media storage and private demo validation passed for ${tables.length} foundation tables.`);
+assert.match(studioContentSql, /^-- Barnx Studio CMS prompt content/m);
+assert.match(studioContentSql, /add column if not exists prompt_text/);
+assert.match(analyticsSql, /^-- Barnx CMS privacy-conscious first-party analytics/m);
+assert.match(analyticsSql, /create table if not exists public\.analytics_events/);
+assert.match(analyticsSql, /alter table public\.analytics_events enable row level security/);
+assert.match(analyticsSql, /create or replace function public\.record_analytics_event/);
+assert.match(analyticsSql, /security definer/);
+assert.match(analyticsSql, /public\.is_cms_admin\(\)/);
+assert.doesNotMatch(analyticsSql, /\b(ip|ip_address|email|full_name)\b/i, 'Analytics must not store direct personal identifiers.');
+
+assert.match(studioCategoriesSql, /^-- Barnx Studio editable categories/m);
+assert.match(studioCategoriesSql, /create table if not exists public\.studio_categories/);
+assert.match(studioCategoriesSql, /studio_resources add column if not exists category_id/);
+assert.match(studioCategoriesSql, /alter table public\.studio_categories enable row level security/);
+assert.match(studioCategoriesSql, /Published Studio categories are publicly readable/);
+assert.match(studioCategoriesSql, /CMS admins can manage Studio categories/);
+assert.match(studioCategoriesSql, /public\.is_cms_admin\(\)/);
+assert.doesNotMatch(
+  studioCategoriesSql,
+  /grant\s+(insert|update|delete|all)[\s\S]{0,120}\bto anon\b/i,
+  'Anonymous users must never receive Studio category mutation privileges.',
+);
+
+console.log(`CMS schema, API permissions, media storage, private demos, Studio categories and phases 6-9 validation passed for ${tables.length} foundation tables.`);

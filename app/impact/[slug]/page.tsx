@@ -1,15 +1,14 @@
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
-import { publicImpactStories, impactVisibilityLabels, impactWorkTypeLabels } from '@/data/impact';
+import { impactVisibilityLabels, impactWorkTypeLabels } from '@/data/impact';
+import { getPublishedImpactStory } from '@/lib/cms/publicImpact';
 import styles from '../impact.module.css';
 
-export function generateStaticParams() {
-  return publicImpactStories.map((story) => ({ slug: story.slug }));
-}
+export const dynamic = 'force-dynamic';
 
 export default async function ImpactStoryPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const story = publicImpactStories.find((item) => item.slug === slug);
+  const story = await getPublishedImpactStory(slug);
   if (!story) notFound();
 
   const publicEvidence = story.evidence.filter((item) => item.approvedForPublic);

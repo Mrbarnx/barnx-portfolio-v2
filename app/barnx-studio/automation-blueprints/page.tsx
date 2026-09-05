@@ -1,6 +1,22 @@
 import Link from 'next/link';
-import { resources } from '@/data/content';
+import { CategoryResourceGrid } from '../CategoryResourceGrid';
+import { getPublishedStudioResourcesForCategory } from '@/lib/cms/publicStudio';
 
-export const metadata={title:'Automation Blueprints | Barnx Studio'};
+export const metadata = { title: 'Automation Blueprints | Barnx Studio' };
+export const dynamic = 'force-dynamic';
 
-export default function AutomationBlueprintsPage(){const blueprints=resources.filter(resource=>resource.slug==='n8n-lead-follow-up');return <main className="page resourceDetail"><Link className="back" href="/barnx-studio">← Barnx Studio</Link><section className="resourceHero"><div className="resourceIcon huge">⚡</div><span className="eyebrow">AUTOMATION BLUEPRINTS · FREE</span><h1>Practical workflows you can learn from and adapt.</h1><p>Simple automation blueprints with clear structure, use cases and implementation notes.</p></section><section className="studioLibrary"><div className="sectionHead"><div><span className="eyebrow">BLUEPRINTS</span><h2>Start with a working structure.</h2></div></div><div className="resourceGrid">{blueprints.map(resource=><Link href={`/barnx-studio/${resource.slug}`} className="resourceCard" key={resource.slug}><div className="resourceIcon">{resource.icon}</div><div><span>{resource.type} · FREE</span><h3>{resource.title}</h3><p>{resource.short}</p><em>View blueprint →</em></div></Link>)}</div></section><section className="nextCase"><p>More automation blueprints will be added as the library grows.</p><Link href="/barnx-studio">Barnx Studio →</Link></section></main>}
+export default async function AutomationBlueprintsPage() {
+  const blueprints = await getPublishedStudioResourcesForCategory('automation-blueprints', ['n8n-lead-follow-up']);
+
+  return <main className="page resourceDetail">
+    <Link className="back" href="/barnx-studio">← Barnx Studio</Link>
+    <section className="resourceHero">
+      <div className="resourceIcon huge">⚡</div>
+      <span className="eyebrow">AUTOMATION BLUEPRINTS · FREE</span>
+      <h1>Practical workflows you can learn from and adapt.</h1>
+      <p>Simple automation blueprints with clear structure, use cases and implementation notes.</p>
+    </section>
+    <CategoryResourceGrid resources={blueprints} eyebrow="BLUEPRINTS" title="Start with a working structure." actionLabel="View blueprint →" />
+    <section className="nextCase"><p>More automation blueprints will be added as the library grows.</p><Link href="/barnx-studio">Barnx Studio →</Link></section>
+  </main>;
+}

@@ -4,9 +4,9 @@ import Link from 'next/link';
 import { useMemo, useState } from 'react';
 import { ArrowRight } from 'lucide-react';
 import {
-  publicImpactStories,
   impactVisibilityLabels,
   impactWorkTypeLabels,
+  type ImpactStory,
   type ImpactWorkType,
 } from '@/data/impact';
 import styles from './impact.module.css';
@@ -20,11 +20,11 @@ const filters: Array<{ label: string; value: 'all' | ImpactWorkType }> = [
   { label: 'Public Builds', value: 'public_build' },
 ];
 
-export function ImpactArchive() {
+export function ImpactArchive({ initialStories }: { initialStories: ImpactStory[] }) {
   const [filter, setFilter] = useState<'all' | ImpactWorkType>('all');
   const stories = useMemo(
-    () => (filter === 'all' ? publicImpactStories : publicImpactStories.filter((story) => story.workType === filter)),
-    [filter],
+    () => (filter === 'all' ? initialStories : initialStories.filter((story) => story.workType === filter)),
+    [filter, initialStories],
   );
 
   return (
